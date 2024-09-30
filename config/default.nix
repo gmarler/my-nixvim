@@ -15,6 +15,8 @@
     ./plugins/utils/whichkey.nix
     ./plugins/utils/persistence.nix
 
+    ./plugins/statusline/lualine.nix
+
     ./plugins/telescope/telescope.nix
 
     ./ui/web-devicons.nix
