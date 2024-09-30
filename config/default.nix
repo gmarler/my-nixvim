@@ -9,6 +9,14 @@
     ./plugins/git/diffview.nix
     #./plugins/git/neogit.nix
 
+    ./languages/nvim-lint.nix
+    ./languages/typescript-tools-nvim.nix
+    ./languages/treesitter/treesitter.nix
+    ./languages/treesitter/treesitter-context.nix
+    ./languages/treesitter/treesitter-textobjects.nix
+    ./languages/treesitter/ts-autotag.nix
+    ./languages/treesitter/ts-context-commentstring.nix
+
     ./plugins/lsp/conform.nix
     ./plugins/lsp/fidget.nix
     ./plugins/lsp/lsp.nix
