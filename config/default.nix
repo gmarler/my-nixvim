@@ -26,6 +26,7 @@
     ./plugins/lsp/lspsaga.nix
     ./plugins/lsp/trouble.nix
 
+    ./plugins/utils/markdown-preview.nix
     ./plugins/utils/mini.nix
     ./plugins/utils/whichkey.nix
     ./plugins/utils/persistence.nix
