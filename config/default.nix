@@ -11,6 +11,8 @@
 
     ./plugins/lsp/conform.nix
     ./plugins/lsp/fidget.nix
+    ./plugins/lsp/lsp.nix
+    ./plugins/lsp/lspsaga.nix
     ./plugins/lsp/trouble.nix
 
     ./plugins/utils/mini.nix
