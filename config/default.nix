@@ -5,6 +5,9 @@
     ./bufferline.nix
     ./settings.nix
 
+    ./plugins/colorschemes/catppuccin.nix
+    ./plugins/colorschemes/tokyonight.nix
+
     ./plugins/git/gitsigns.nix
     ./plugins/git/diffview.nix
     #./plugins/git/neogit.nix
@@ -31,6 +34,7 @@
 
     ./plugins/telescope/telescope.nix
 
+    ./ui/noice.nix
     ./ui/nvim-notify.nix
     ./ui/web-devicons.nix
   ];

@@ -48,6 +48,8 @@
       # n: When formatting text, recognize numbered lists
       # t: Auto-wrap text using "textwidth"
       formatoptions = "jqlnt"; # tcqj
+      # Which font do I want to use?
+      guifont = "FiraCode\ Nerd\ Font\ Mono:h14";
       # When a buffer is abandoned, it remains loaded, and the undo history is kept
       #hidden = trueh;
       # Previous searches are NOT continuously highlighted
