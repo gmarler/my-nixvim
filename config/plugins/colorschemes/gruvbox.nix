@@ -1,7 +1,7 @@
 {
   colorschemes = {
     gruvbox = {
-      enable = true;
+      enable = false;
     };
   };
 }

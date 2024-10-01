@@ -11,7 +11,7 @@
 
     ./plugins/git/gitsigns.nix
     ./plugins/git/diffview.nix
-    #./plugins/git/neogit.nix
+    ./plugins/git/neogit.nix
 
     ./languages/nvim-lint.nix
     ./languages/typescript-tools-nvim.nix

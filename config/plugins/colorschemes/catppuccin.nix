@@ -1,13 +1,13 @@
 {
   colorschemes = {
     catppuccin = {
-      enable = false;
+      enable = true;
       settings = {
         background = {
           light = "macchiato";
           dark = "mocha";
         };
-        flavour = "frappe"; # "latte", "mocha", "frappe", "macchiato" or raw lua code
+        flavour = "mocha"; # "latte", "mocha", "frappe", "macchiato" or raw lua code
         disable_bold = false;
         disable_italic = false;
         disable_underline = false;
@@ -15,19 +15,20 @@
         term_colors = true;
         integrations = {
           cmp = true;
-          noice = true;
-          notify = true;
-          neotree = true;
-          harpoon = true;
+          diffview = true;
+          fidget = true;
           gitsigns = true;
-          which_key = true;
+          harpoon = true;
           illuminate = {
             enabled = true;
           };
+          indent_blankline.enabled = true;
+          lsp_trouble = true;
+          markdown = true;
+          mason = true;
           treesitter = true;
           treesitter_context = true;
           telescope.enabled = true;
-          indent_blankline.enabled = true;
           mini.enabled = true;
           native_lsp = {
             enabled = true;
@@ -41,6 +42,11 @@
               warnings = ["underline"];
             };
           };
+          neogit = true;
+          neotree = true;
+          noice = true;
+          notify = true;
+          which_key = true;
         };
       };
     };
