@@ -5,6 +5,7 @@
     ./bufferline.nix
     ./settings.nix
 
+    ./plugins/colorschemes/gruvbox.nix
     ./plugins/colorschemes/catppuccin.nix
     ./plugins/colorschemes/tokyonight.nix
 
