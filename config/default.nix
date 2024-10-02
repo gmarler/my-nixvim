@@ -32,6 +32,8 @@
     ./plugins/lsp/lspsaga.nix
     ./plugins/lsp/trouble.nix
 
+    ./plugins/none-ls/none-ls.nix
+
     ./plugins/utils/harpoon.nix
     ./plugins/utils/markdown-preview.nix
     ./plugins/utils/mini.nix
@@ -42,6 +44,8 @@
     ./plugins/utils/plenary.nix
     ./plugins/utils/undotree.nix
     ./plugins/utils/whichkey.nix
+
+    ./plugins/snippets/luasnip.nix
 
     ./plugins/statusline/lualine.nix
 
