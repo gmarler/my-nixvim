@@ -20,7 +20,7 @@
       };
     };
 
-    # If you'd prefer Telesceop not to enter a normal-like mode when hitting
+    # If you'd prefer Telescope not to enter a normal-like mode when hitting
     # <Esc> (and instead exiting), you can map <Esc> to do so via:
     settings = {
       pickers = { colorscheme.enable_preview = true; };

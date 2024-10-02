@@ -27,16 +27,22 @@
     ./plugins/lsp/lspsaga.nix
     ./plugins/lsp/trouble.nix
 
+    ./plugins/utils/harpoon.nix
     ./plugins/utils/markdown-preview.nix
     ./plugins/utils/mini.nix
-    ./plugins/utils/whichkey.nix
+    ./plugins/utils/nvim-autopairs.nix
+    ./plugins/utils/nvim-surround.nix
     ./plugins/utils/persistence.nix
+    ./plugins/utils/plenary.nix
+    ./plugins/utils/undotree.nix
+    ./plugins/utils/whichkey.nix
 
     ./plugins/statusline/lualine.nix
 
     ./plugins/telescope/telescope.nix
 
     ./ui/noice.nix
+    ./ui/nui.nix
     ./ui/nvim-notify.nix
     ./ui/web-devicons.nix
   ];
