@@ -9,7 +9,7 @@
         separator = ""; # ➜
       };
       spec = [
-        # General Mappings
+        # General Mapping Headings
         {
           __unkeyed-1 = "<leader>b";
           mode = "n"; # This looks incomplete
@@ -29,6 +29,11 @@
           __unkeyed-1 = "<leader>g";
           mode = [ "n" "v" ];
           group = "+Git";
+        }
+        {
+          __unkeyed-1 = "<leader>h";
+          mode = "n"; # This looks incomplete
+          group = "+Help";
         }
       ];
     };
