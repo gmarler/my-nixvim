@@ -16,7 +16,7 @@
     {
       mode = "n";
       key = "<leader>qq";
-      action = "<cmd>quitall<esc>";
+      action = "<cmd>quitall<cr><esc>";
       options = {
         silent = true;
         desc = "Quit All";
