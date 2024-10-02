@@ -31,6 +31,7 @@
     ./plugins/utils/markdown-preview.nix
     ./plugins/utils/mini.nix
     ./plugins/utils/nvim-autopairs.nix
+    ./plugins/utils/nvim-colorizer.nix
     ./plugins/utils/nvim-surround.nix
     ./plugins/utils/persistence.nix
     ./plugins/utils/plenary.nix
