@@ -11,6 +11,11 @@
       spec = [
         # General Mappings
         {
+          __unkeyed-1 = "<leader>b";
+          mode = "n"; # This looks incomplete
+          group = "+Buffer-Related";
+        }
+        {
           __unkeyed-1 = "<leader>d";
           mode = "n"; # This looks incomplete
           group = "+Debug/DAP";
