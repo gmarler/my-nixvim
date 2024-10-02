@@ -9,6 +9,9 @@
     ./plugins/colorschemes/catppuccin.nix
     ./plugins/colorschemes/tokyonight.nix
 
+    ./plugins/completion/cmp.nix
+    ./plugins/completion/lspkind.nix
+
     ./plugins/dap/dap.nix
 
     ./plugins/git/gitsigns.nix
