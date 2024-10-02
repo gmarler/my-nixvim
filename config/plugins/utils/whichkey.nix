@@ -11,6 +11,11 @@
       spec = [
         # General Mappings
         {
+          __unkeyed-1 = "<leader>d";
+          mode = "n"; # This looks incomplete
+          group = "+Debug/DAP";
+        }
+        {
           __unkeyed-1 = "<leader>f";
           mode = "n"; # This looks incomplete
           group = "+Find/File";
