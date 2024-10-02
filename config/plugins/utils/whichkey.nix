@@ -35,6 +35,11 @@
           mode = "n"; # This looks incomplete
           group = "+Help";
         }
+        {
+          __unkeyed-1 = "<leader>q";
+          mode = "n"; # This looks incomplete
+          group = "+Quit/Session";
+        }
       ];
     };
   };
