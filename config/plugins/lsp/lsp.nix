@@ -32,7 +32,8 @@
           enable = true;
         };
         ts-ls = {
-          enable = false;
+          enable = true;
+          autostart = true;
           filetypes = [
             "javascript"
             "javascriptreact"
@@ -50,6 +51,7 @@
                   includeInlayParameterNameHintsWhenArgumentMatchesName = true;
                   includeInlayPropertyDeclarationTypeHints = true;
                   includeInlayVariableTypeHints = true;
+                  includeInlayVariableTypeHintsWhenTypeMatchesName = true;
                 };
               };
               typescript = {
@@ -61,6 +63,7 @@
                   includeInlayParameterNameHintsWhenArgumentMatchesName = true;
                   includeInlayPropertyDeclarationTypeHints = true;
                   includeInlayVariableTypeHints = true;
+                  includeInlayVariableTypeHintsWhenTypeMatchesName = true;
                 };
               };
             };

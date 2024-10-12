@@ -1,5 +1,9 @@
 {
   globals.mapleader = " ";
+  globals.maplocalleader = " ";
+
+  # Set to true if you have a Nerd Font installed and selected in the terminal
+  globals.have_nerd_font = true;
 
   keymaps = [
     {

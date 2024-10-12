@@ -48,7 +48,7 @@
     ./plugins/snippets/luasnip.nix
 
     ./plugins/statusline/lualine.nix
-    ./plugins/statusline/staline.nix
+    #./plugins/statusline/staline.nix
 
     ./plugins/telescope/telescope.nix
 

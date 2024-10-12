@@ -1,6 +1,9 @@
 {
+  # Possible alternatives:
+  # https://github.com/elythh/nixvim/blob/main/config/plug/statusline/lualine.nix
+  # https://github.com/dc-tec/nixvim/blob/main/config/plugins/ui/lualine.nix
   plugins.lualine = {
-    enable = false;
+    enable = true;
     settings = {
 
       alwaysDivideMiddle = true;

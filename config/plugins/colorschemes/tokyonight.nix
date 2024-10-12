@@ -1,9 +1,9 @@
 {
   colorschemes = {
     tokyonight = {
-      enable = false;
+      enable = true;
       settings = {
-        style = "moon";
+        style = "night";
         transparent = false;
       };
     };
