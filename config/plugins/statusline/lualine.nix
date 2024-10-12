@@ -23,7 +23,7 @@
         lualine_a = [ "mode" ];
         lualine_b = [
           {
-            name = "branch";
+            __unkeyed-1 = "branch";
             icon = "";
           }
           "diff"
