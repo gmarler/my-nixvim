@@ -1,6 +1,6 @@
 {
   plugins.typescript-tools = {
-    enable = true;
+    enable = false;
     onAttach = ''
       function(client, bufnr)
         client.server_capabilities.documentFormattingProvider = false
