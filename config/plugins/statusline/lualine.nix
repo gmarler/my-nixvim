@@ -30,9 +30,14 @@
           "diagnostics"
         ];
         lualine_c = [ "filename" ];
-        lualine_x = [ "filetype" ];
-        lualine_y = [ "progress" ];
-        lualine_z = [ ''" " .. os.date("%R")'' ];
+        lualine_x = [
+          { __unkeyed = "encoding"; }
+          { __unkeyed = "fileformat"; }
+          { __unkeyed = "filetype"; }
+          { __unkeyed = "progress"; }
+        ];
+        lualine_y = [ ''" " .. os.date("%R")'' ];
+        lualine_z = [ "location" ];
       };
     };
   };
