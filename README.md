@@ -15,3 +15,11 @@ To test your configuration simply run the following command
 ```
 nix run .
 ```
+
+## Config changes needed
+
+- Format any language upon file save
+
+## Inspirational Config Implementations:
+
+- https://github.com/khaneliman/khanelivim

@@ -6,12 +6,18 @@
       breakindent = true;
       # ALWAYS use the clipboard for ALL operations (instead of interacting with
       # the "+" and/or "*" registers explicitly)
-      clipboard = "unnamedplus"; # Access system clipboard
+      clipboard = "unnamedplus"; # Use the system clipboard
       # Hide the command-line - we'll be using something else to display the
       # messages that would normally appear there (TBD)
       cmdheight = 0;
+      # Columns to highlight
+      colorcolumn = "100";
       # Options for Insert mode completion
-      completeopt = "menuone,noselect";
+      completeopt = [
+        "menu"
+        "menuone"
+        "noselect"
+      ];
       # Show text with "conceal" syntax attribute anyway
       conceallevel = 0;
       confirm = true;
@@ -20,6 +26,8 @@
       cursorline = true;
       # Expand TABs to SPACEs
       expandtab = true;
+      # File-content encoding for the current buffer
+      fileencoding = "utf-8";
       # Characters to fill special roles in the statuslines, special lines and
       # vertical separators in any buffer
       # - eob:       End lines at the end of a buffer
@@ -27,11 +35,23 @@
       # - foldsep:   open fold middle marker
       # - foldclose: Show a closed fold
       fillchars = {
+        horiz = "━";
+        horizup = "┻";
+        horizdown = "┳";
+        vert = "┃";
+        vertleft = "┫";
+        vertright = "┣";
+        verthoriz = "╋";
+
         eob = " ";
+        diff = "╱";
+
         fold = " ";
         foldopen = "";
         foldsep = " ";
         foldclose = "";
+
+        msgsep = "‾";
       };
       # Use 1 fixed column to show a fold
       foldcolumn = "1"; # '0' is not bad
@@ -52,23 +72,33 @@
       guifont = "FiraCode\ Nerd\ Font\ Mono:h14";
       # When a buffer is abandoned, it remains loaded, and the undo history is kept
       #hidden = trueh;
+      history = 100;
       # Previous searches are NOT continuously highlighted
       hlsearch = false;
-      # Ignore case in search patterns
+      # Ignore case in search patterns - match both upper and lower case patterns
       ignorecase = true;
       # Show the effects of a command incrementally in the buffer
       inccommand = "nosplit";
+      # Incremental search: show match for partly typed search command
+      incsearch = true;
+      infercase = true;
       # Do NOT insert two spaces afer a ".", "?", or "!" with a join command
       joinspaces = false;
       # Always and ONLY the last window will have a status line
       laststatus = 3;
+      # Faster scrolling if enabled, breaks noice 
+      lazyredraw = false;
+      linebreak = true;
       # Show tabs, trailing spaces, and non-breakable spaces specially
       # HOW these are shown is configurable via 'listchars'
       list = true;
       # Enable mouse support for 'a'll previous modes
       mouse = "a";
+      # Mouse right-click extends the current selection
+      mousemodel = "extend";
       # Print line number before every line
       number = true;
+      preserveindent = true;
       # Enable 10% pseudo transparency for the pop-up window
       pumblend = 10;
       # Max number of items to show in the popup menu
@@ -76,6 +106,8 @@
       # Don't show line numbers relative to the cursor's position
       # TODO: It may be beneficial to learn to enable this over time
       relativenumber = false;
+      # Disable "x more/fewer lines" messages
+      report = 9001;
       # Max number of lines kept beyond the visible screen
       scrollback = 100000;
       # Min number of screen lines to keep above/below the cursor.
@@ -99,8 +131,11 @@
       #shortmess:append { W = true, I = true, c = true, C = true }
       # Don't show partial command in the last line of the screen
       showcmd = false;
+      # When closing a brackent, briefly flash the matching one
+      showmatch = true;
       # Don't show mode message on last line
       showmode = false;
+      showtabline = 2;
       # Minimal # of screen colums to keep to the left/right if 'nowrap' is set
       sidescrolloff = 8;
       # Always draw the signcolumn
@@ -116,21 +151,29 @@
       splitkeep = "screen";
       # Puts new window to the right of the current one for vsplit
       splitright = true;
+      # Motions like "G" also move to the first chars
+      startofline = true;
+      # Max column for syntax highlight
+      synmaxcol = 240;
       # Number of spaces each <Tab> represents
       tabstop = 2;
       # Enable 24-bit RGB color in the TUI, if possible
       termguicolors = true;
       # Time (ms) to wait for a mapped sequence to complete
-      timeoutlen = 300;
+      timeoutlen = 500;
       # Set the title of the window
       title = true;
-      # Save undo history to an undo file
+      # Automatically Save/Restore undo history to/from an undo file
       undofile = true;
       # write swap file to disk if no activity in this many ms
-      updatetime = 200;
+      updatetime = 100;
+      virtualedit = "block";
       # Complete til longest common string, if that fails, complete the next full
       # match, and possibly start the wildmenu if enabled.
       wildmode = "longest:full,full";
+      # Prevent text from wrapping
+      wrap = false;
+      writebackup = false;
     };
 
     extraConfigLua = ''
