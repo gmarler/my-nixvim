@@ -10,7 +10,7 @@
         clangd = {
           enable = true;
         };
-        lua-ls = {
+        lua_ls = {
           enable = true;
           extraOptions = {
             settings = {
@@ -28,10 +28,10 @@
             };
           };
         };
-        nil-ls = {
+        nil_ls = {
           enable = true;
         };
-        ts-ls = {
+        ts_ls = {
           enable = true;
           autostart = true;
           filetypes = [
@@ -75,11 +75,11 @@
         pyright = {
           enable = true;
         };
-        ruff-lsp = {
+        ruff = {
           enable = true;
         };
 
-        rust-analyzer = {
+        rust_analyzer = {
           enable = true;
           installCargo = true;
           installRustc = true;
