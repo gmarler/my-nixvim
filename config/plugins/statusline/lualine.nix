@@ -67,7 +67,7 @@
               end
             '';
             icon = "";
-            color.fg = "#ffffff";
+            #color.fg = "#ffffff";
           }
           { __unkeyed = "encoding"; }
           { __unkeyed = "fileformat"; }
