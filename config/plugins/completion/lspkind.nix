@@ -1,9 +1,9 @@
 {
   plugins.lspkind = {
     enable = true;
-    symbolMap = {
-    };
-    extraOptions = {
+    settings = {
+      symbol_map = {
+      };
       maxwidth = 50;
       ellipsis_char = "...";
     };
