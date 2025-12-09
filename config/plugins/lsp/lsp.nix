@@ -81,8 +81,11 @@
 
         rust_analyzer = {
           enable = true;
-          installCargo = true;
-          installRustc = true;
+          # Disable automatic installation of cargo and rustc by Nixvim LSP plugin
+          # NOTE: This means that both cargo and rustc will need to be available in
+          #       the dev environment where nixvim is used
+          installCargo = false;
+          installRustc = false;
           settings = {
             checkOnSave = true;
             check = {
