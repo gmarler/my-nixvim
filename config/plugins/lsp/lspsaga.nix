@@ -73,12 +73,36 @@
   };
   plugins.which-key.settings.spec = [
     {
+      __unkeyed-1 = "<leader>lc";
+      mode = [
+        "n"
+        "v"
+      ];
+      # Grouping of keymaps starting with <leader>lc
+      group = "+Call Hierarchy";
+    }
+    {
+      __unkeyed-1 = "<leader>lci";
+      __unkeyed-2 = "<cmd>Lspsaga incoming_calls<CR>";
+      desc = "Call Hierarchy Incoming Calls";
+    }
+    {
+      __unkeyed-1 = "<leader>lco";
+      __unkeyed-2 = "<cmd>Lspsaga outgoing_calls<CR>";
+      desc = "Call Hierarchy Outgoing Calls";
+    }
+    {
       __unkeyed-1 = "<leader>ld";
       __unkeyed-2 = "<cmd>Lspsaga finder def<CR>";
-      desc = "Goto Definition";
+      desc = "Show Definition";
     }
     {
       __unkeyed-1 = "<leader>lD";
+      __unkeyed-2 = "<cmd>Lspsaga goto_definition<CR>";
+      desc = "Goto Definition";
+    }
+    {
+      __unkeyed-1 = "<leader>lr";
       __unkeyed-2 = "<cmd>Lspsaga finder ref<CR>";
       desc = "Show References";
     }
@@ -103,21 +127,6 @@
       __unkeyed-2 = "<cmd>Lspsaga finder imp<CR>";
       desc = "Implementation";
     }
-    {
-      __unkeyed-1 = "<leader>lr";
-      __unkeyed-2 = "<cmd>Lspsaga rename<CR>";
-      desc = "Rename";
-    }
-    {
-      __unkeyed-1 = "<leader>lt";
-      __unkeyed-2 = "<cmd>Lspsaga peek_type_definition<CR>";
-      desc = "Type Definition";
-    }
-    {
-      __unkeyed-1 = "<leader>lO";
-      __unkeyed-2 = "<cmd>Lspsaga outline<CR>";
-      desc = "Outline";
-    }
     # May be better to jump between diagnostics as below
     {
       __unkeyed-1 = "<leader>ll";
@@ -125,8 +134,28 @@
       mode = "n";
       desc = "Display Line Diagnostics";
     }
+    {
+      __unkeyed-1 = "<leader>lO";
+      __unkeyed-2 = "<cmd>Lspsaga outline<CR>";
+      desc = "Outline";
+    }
+    {
+      __unkeyed-1 = "<leader>lR";
+      __unkeyed-2 = "<cmd>Lspsaga rename<CR>";
+      desc = "Rename";
+    }
+    {
+      __unkeyed-1 = "<leader>lt";
+      __unkeyed-2 = "<cmd>Lspsaga peek_type_definition<CR>";
+      desc = "Peek at Type Definition";
+    }
+    {
+      __unkeyed-1 = "<leader>lT";
+      __unkeyed-2 = "<cmd>Lspsaga goto_type_definition<CR>";
+      desc = "Go to Type Definition";
+    }
 
-    # Outside the LSP submenu
+    # Outside the LSP group submenu
     {
       __unkeyed-1 = "[d";
       __unkeyed-2 = "<cmd>Lspsaga diagnostic_jump_next<CR>";
@@ -139,7 +168,6 @@
       mode = "n";
       desc = "Previous Diagnostic";
     }
-
   ];
   keymaps = [
     {
