@@ -40,7 +40,7 @@
         virtualText = true;
       };
       implement = {
-        enable = false;
+        enable = true;
       };
       rename = {
         autoSave = false;
