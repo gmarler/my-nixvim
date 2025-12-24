@@ -27,13 +27,26 @@
         }
         {
           __unkeyed-1 = "<leader>g";
-          mode = [ "n" "v" ];
+          mode = [
+            "n"
+            "v"
+          ];
           group = "+Git";
         }
         {
           __unkeyed-1 = "<leader>h";
           mode = "n"; # This looks incomplete
           group = "+Help";
+        }
+        {
+          __unkeyed-1 = "<leader>l";
+          mode = [
+            "n"
+            "v"
+          ];
+          # For remaining mappings for this group, look in config/plugins/lsp/lspsaga.nix
+          group = "+LSP";
+          icon = "  ";
         }
         {
           __unkeyed-1 = "<leader>q";

@@ -71,122 +71,83 @@
       };
     };
   };
-  keymaps = [
+  plugins.which-key.settings.spec = [
     {
-      mode = "n";
-      key = "gd";
-      action = "<cmd>Lspsaga finder def<CR>";
-      options = {
-        desc = "Goto Definition";
-        silent = true;
-      };
+      __unkeyed-1 = "<leader>ld";
+      __unkeyed-2 = "<cmd>Lspsaga finder def<CR>";
+      desc = "Goto Definition";
     }
     {
-      mode = "n";
-      key = "gr";
-      action = "<cmd>Lspsaga finder ref<CR>";
-      options = {
-        desc = "Goto References";
-        silent = true;
-      };
+      __unkeyed-1 = "<leader>lD";
+      __unkeyed-2 = "<cmd>Lspsaga finder ref<CR>";
+      desc = "Show References";
     }
-
+    # Already done via lsp-conform config for now
     # {
-    #   mode = "n";
-    #   key = "gD";
-    #   action = "<cmd>Lspsaga show_line_diagnostics<CR>";
-    #   options = {
-    #     desc = "Goto Declaration";
-    #     silent = true;
-    #   };
+    #   __unkeyed-1 = "<leader>lf";
+    #   __unkeyed-2 = "<cmd>Format<CR>";
+    #   desc = "Format the current buffer";
     # }
-
     {
+      __unkeyed-1 = "<leader>lh";
+      __unkeyed-2 = "<cmd>Lspsaga hover_doc<CR>";
+      desc = "LSP Hover";
+    }
+    # There really isn't a need for this in lspsaga, it gets a hover already
+    # {
+    #   __unkeyed-1 = "<leader>lH";
+    #   desc = "Diagnostic Hover";
+    # }
+    {
+      __unkeyed-1 = "<leader>li";
+      __unkeyed-2 = "<cmd>Lspsaga finder imp<CR>";
+      desc = "Implementation";
+    }
+    {
+      __unkeyed-1 = "<leader>lr";
+      __unkeyed-2 = "<cmd>Lspsaga rename<CR>";
+      desc = "Rename";
+    }
+    {
+      __unkeyed-1 = "<leader>lt";
+      __unkeyed-2 = "<cmd>Lspsaga peek_type_definition<CR>";
+      desc = "Type Definition";
+    }
+    {
+      __unkeyed-1 = "<leader>lO";
+      __unkeyed-2 = "<cmd>Lspsaga outline<CR>";
+      desc = "Outline";
+    }
+    # May be better to jump between diagnostics as below
+    {
+      __unkeyed-1 = "<leader>ll";
+      __unkeyed-2 = "<cmd>Lspsaga show_line_diagnostics<CR>";
       mode = "n";
-      key = "gI";
-      action = "<cmd>Lspsaga finder imp<CR>";
-      options = {
-        desc = "Goto Implementation";
-        silent = true;
-      };
+      desc = "Display Line Diagnostics";
     }
 
+    # Outside the LSP submenu
     {
+      __unkeyed-1 = "[d";
+      __unkeyed-2 = "<cmd>Lspsaga diagnostic_jump_next<CR>";
       mode = "n";
-      key = "gT";
-      action = "<cmd>Lspsaga peek_type_definition<CR>";
-      options = {
-        desc = "Type Definition";
-        silent = true;
-      };
+      desc = "Next Diagnostic";
+    }
+    {
+      __unkeyed-1 = "]d";
+      __unkeyed-2 = "<cmd>Lspsaga diagnostic_jump_prev<CR>";
+      mode = "n";
+      desc = "Previous Diagnostic";
     }
 
-    {
-      mode = "n";
-      key = "K";
-      action = "<cmd>Lspsaga hover_doc<CR>";
-      options = {
-        desc = "Hover";
-        silent = true;
-      };
-    }
-
-    {
-      mode = "n";
-      key = "<leader>cw";
-      action = "<cmd>Lspsaga outline<CR>";
-      options = {
-        desc = "Outline";
-        silent = true;
-      };
-    }
-
-    {
-      mode = "n";
-      key = "<leader>cr";
-      action = "<cmd>Lspsaga rename<CR>";
-      options = {
-        desc = "Rename";
-        silent = true;
-      };
-    }
-
+  ];
+  keymaps = [
     {
       mode = "n";
       key = "<leader>ca";
       action = "<cmd>Lspsaga code_action<CR>";
       options = {
         desc = "Code Action";
-        silent = true;
-      };
-    }
-
-    {
-      mode = "n";
-      key = "<leader>cd";
-      action = "<cmd>Lspsaga show_line_diagnostics<CR>";
-      options = {
-        desc = "Line Diagnostics";
-        silent = true;
-      };
-    }
-
-    {
-      mode = "n";
-      key = "[d";
-      action = "<cmd>Lspsaga diagnostic_jump_next<CR>";
-      options = {
-        desc = "Next Diagnostic";
-        silent = true;
-      };
-    }
-
-    {
-      mode = "n";
-      key = "]d";
-      action = "<cmd>Lspsaga diagnostic_jump_prev<CR>";
-      options = {
-        desc = "Previous Diagnostic";
         silent = true;
       };
     }
