@@ -1,6 +1,6 @@
 { config, lib, ... }:
 {
-  plugins.mini-sessions = lib.mkIf (lib.elem "mini-sessions" config.khanelivim.utilities.sessions) {
+  plugins.mini-sessions = lib.mkIf (lib.elem "mini-sessions" config.gmarlervim.utilities.sessions) {
     enable = true;
     settings = {
       autoread = false; # Don't automatically read session on startup

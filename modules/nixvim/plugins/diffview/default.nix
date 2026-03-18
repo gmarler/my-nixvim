@@ -4,7 +4,7 @@
     diffview = {
       # diffview.nvim documentation
       # See: https://github.com/sindrets/diffview.nvim
-      enable = config.khanelivim.git.diffViewer == "diffview";
+      enable = config.gmarlervim.git.diffViewer == "diffview";
 
       lazyLoad = {
         settings = {
@@ -65,7 +65,7 @@
         };
       }
     ]
-    ++ lib.optionals (config.khanelivim.git.diffViewer == "diffview") [
+    ++ lib.optionals (config.gmarlervim.git.diffViewer == "diffview") [
       # Primary diff shortcut when diffview is the chosen diff viewer
       {
         mode = "n";

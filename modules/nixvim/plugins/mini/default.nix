@@ -31,8 +31,8 @@
   # See: https://github.com/echasnovski/mini.nvim
   plugins = {
     mini-ai = {
-      enable = lib.elem "mini-ai" config.khanelivim.editor.textObjects;
-      settings = lib.mkIf (lib.elem "treesitter-textobjects" config.khanelivim.editor.textObjects) {
+      enable = lib.elem "mini-ai" config.gmarlervim.editor.textObjects;
+      settings = lib.mkIf (lib.elem "treesitter-textobjects" config.gmarlervim.editor.textObjects) {
         custom_textobjects = {
           f = {
             __raw = "require('mini.ai').gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' })";
@@ -50,7 +50,7 @@
 
     mini-bracketed = {
       enable = true;
-      settings = lib.mkIf (lib.elem "treesitter-textobjects" config.khanelivim.editor.textObjects) {
+      settings = lib.mkIf (lib.elem "treesitter-textobjects" config.gmarlervim.editor.textObjects) {
         file.suffix = "";
         comment.suffix = "";
       };
@@ -61,11 +61,11 @@
       mockDevIcons = true;
     };
 
-    mini-snippets = lib.mkIf (config.khanelivim.editor.snippet == "mini-snippets") {
+    mini-snippets = lib.mkIf (config.gmarlervim.editor.snippet == "mini-snippets") {
       enable = true;
       settings = {
         mappings = {
-          # Avoid conflicts with khanelivim's global insert-mode <C-j>/<C-k>/<C-h>/<C-l> movement maps.
+          # Avoid conflicts with gmarlervim's global insert-mode <C-j>/<C-k>/<C-h>/<C-l> movement maps.
           expand = "<C-g><C-j>";
           jump_next = "<C-g><C-l>";
           jump_prev = "<C-g><C-h>";

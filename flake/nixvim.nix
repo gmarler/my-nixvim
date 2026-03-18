@@ -33,7 +33,7 @@ let
         {
           nixpkgs.pkgs = lib.mkDefault sharedNixpkgs;
           nixpkgs.config = lib.mkForce { };
-          khanelivim.profile = profile;
+          gmarlervim.profile = profile;
         }
       ];
     };
@@ -65,9 +65,9 @@ in
     {
       nixvimConfigurations = {
         # Recommended default profile
-        khanelivim = defaultConfig;
+        gmarlervim = defaultConfig;
       };
 
-      checks.khanelivim = defaultConfig.config.build.test;
+      checks.gmarlervim = defaultConfig.config.build.test;
     };
 }

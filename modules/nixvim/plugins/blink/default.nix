@@ -13,7 +13,7 @@
   plugins.blink-cmp = {
     # blink-cmp documentation
     # See: https://cmp.saghen.dev/
-    enable = config.khanelivim.completion.tool == "blink";
+    enable = config.gmarlervim.completion.tool == "blink";
 
     lazyLoad.settings.event = [
       "InsertEnter"
@@ -253,7 +253,7 @@
       };
 
       signature = {
-        enabled = config.khanelivim.ui.signatureHelp == "blink";
+        enabled = config.gmarlervim.ui.signatureHelp == "blink";
         window.border = "rounded";
       };
 

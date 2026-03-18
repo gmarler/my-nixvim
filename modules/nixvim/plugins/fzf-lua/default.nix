@@ -14,7 +14,7 @@
     fzf-lua = {
       # fzf-lua documentation
       # See: https://github.com/ibhagwan/fzf-lua
-      enable = config.khanelivim.picker.tool == "fzf";
+      enable = config.gmarlervim.picker.tool == "fzf";
       profile = "telescope";
 
       lazyLoad.settings.cmd = [
@@ -35,7 +35,7 @@
     };
   };
 
-  keymaps = lib.mkIf (config.khanelivim.picker.tool == "fzf") [
+  keymaps = lib.mkIf (config.gmarlervim.picker.tool == "fzf") [
     {
       mode = "n";
       key = "<leader>f'";

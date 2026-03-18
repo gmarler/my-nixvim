@@ -4,7 +4,7 @@
   ...
 }:
 let
-  zenEnabled = config.khanelivim.ui.zenMode == "snacks";
+  zenEnabled = config.gmarlervim.ui.zenMode == "snacks";
 in
 {
   plugins = {

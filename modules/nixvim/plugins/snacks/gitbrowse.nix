@@ -7,12 +7,12 @@
   plugins = {
     snacks = {
       settings = {
-        gitbrowse.enabled = lib.elem "snacks-gitbrowse" config.khanelivim.git.integrations;
+        gitbrowse.enabled = lib.elem "snacks-gitbrowse" config.gmarlervim.git.integrations;
       };
     };
   };
 
-  keymaps = lib.mkIf (lib.elem "snacks-gitbrowse" config.khanelivim.git.integrations) [
+  keymaps = lib.mkIf (lib.elem "snacks-gitbrowse" config.gmarlervim.git.integrations) [
     {
       mode = "n";
       key = "<leader>go";

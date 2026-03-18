@@ -1,6 +1,6 @@
 { config, lib, ... }:
 {
-  extraConfigLuaPre = lib.optionalString (lib.elem "mini-hipatterns" config.khanelivim.text.patterns) ''
+  extraConfigLuaPre = lib.optionalString (lib.elem "mini-hipatterns" config.gmarlervim.text.patterns) ''
     local function in_comment(pattern)
       return function(buf_id)
         local cs = vim.bo[buf_id].commentstring
@@ -20,7 +20,7 @@
     end
   '';
 
-  plugins.mini-hipatterns = lib.mkIf (lib.elem "mini-hipatterns" config.khanelivim.text.patterns) {
+  plugins.mini-hipatterns = lib.mkIf (lib.elem "mini-hipatterns" config.gmarlervim.text.patterns) {
     enable = true;
     settings = {
       highlighters = {

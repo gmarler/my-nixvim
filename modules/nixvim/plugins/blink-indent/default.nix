@@ -3,7 +3,7 @@
   plugins.blink-indent = {
     # blink-indent documentation
     # See: https://github.com/saghen/blink.indent
-    enable = config.khanelivim.ui.indentGuides == "blink-indent";
+    enable = config.gmarlervim.ui.indentGuides == "blink-indent";
 
     lazyLoad.settings = {
       event = [

@@ -4,7 +4,7 @@
     yazi = {
       # yazi.nvim documentation
       # See: https://github.com/mikavilpas/yazi.nvim
-      enable = config.khanelivim.editor.fileManager == "yazi";
+      enable = config.gmarlervim.editor.fileManager == "yazi";
 
       lazyLoad = {
         settings = {
@@ -15,7 +15,7 @@
       };
     };
 
-    which-key.settings.spec = lib.optionals (config.khanelivim.editor.fileManager == "yazi") [
+    which-key.settings.spec = lib.optionals (config.gmarlervim.editor.fileManager == "yazi") [
       {
         __unkeyed-1 = "<leader>e";
         icon = "󰪶";
@@ -27,7 +27,7 @@
     ];
   };
 
-  keymaps = lib.optionals (config.khanelivim.editor.fileManager == "yazi") [
+  keymaps = lib.optionals (config.gmarlervim.editor.fileManager == "yazi") [
     {
       mode = "n";
       key = "<leader>e";

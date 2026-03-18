@@ -10,11 +10,11 @@ let
     map (plugin: {
       name = "loaded_${plugin}";
       value = 1;
-    }) config.khanelivim.performance.disabledPlugins
+    }) config.gmarlervim.performance.disabledPlugins
   );
 in
 {
-  performance = lib.mkIf config.khanelivim.performance.optimizeEnable {
+  performance = lib.mkIf config.gmarlervim.performance.optimizeEnable {
     byteCompileLua = {
       enable = true;
       configs = true;
@@ -40,5 +40,5 @@ in
   };
 
   # Disable built-in plugins via globals
-  globals = lib.mkIf config.khanelivim.performance.optimizeEnable disabledPluginGlobals;
+  globals = lib.mkIf config.gmarlervim.performance.optimizeEnable disabledPluginGlobals;
 }

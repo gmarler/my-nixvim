@@ -8,7 +8,7 @@
   # nil documentation
   # See: https://github.com/oxalica/nil
   lsp.servers.nil_ls = {
-    enable = config.khanelivim.lsp.nix == "nil-ls";
+    enable = config.gmarlervim.lsp.nix == "nil-ls";
 
     config.settings = {
       formatting = {

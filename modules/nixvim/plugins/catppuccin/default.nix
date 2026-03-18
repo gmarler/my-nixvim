@@ -1,6 +1,6 @@
 { config, lib, ... }:
 {
-  plugins = lib.mkIf (config.khanelivim.ui.theme == "catppuccin") {
+  plugins = lib.mkIf (config.gmarlervim.ui.theme == "catppuccin") {
     bufferline.settings = {
       # NOTE: fixes colorscheme with transparent_background
       # and better contrast selected tabs
@@ -65,7 +65,7 @@
   colorschemes.catppuccin = {
     # Catppuccin documentation
     # See: https://github.com/catppuccin/nvim
-    enable = config.khanelivim.ui.theme == "catppuccin";
+    enable = config.gmarlervim.ui.theme == "catppuccin";
 
     lazyLoad.enable = config.plugins.lz-n.enable;
 

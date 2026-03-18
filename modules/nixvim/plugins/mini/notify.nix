@@ -1,6 +1,6 @@
 { config, lib, ... }:
 {
-  plugins.mini-move = lib.mkIf (config.khanelivim.editor.movement == "mini-move") {
+  plugins.mini-move = lib.mkIf (config.gmarlervim.editor.movement == "mini-move") {
     enable = true;
     settings = {
       mappings = {

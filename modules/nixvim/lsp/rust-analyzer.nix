@@ -6,7 +6,7 @@
   # rust-analyzer documentation
   # See: https://rust-analyzer.github.io/
   lsp.servers.rust_analyzer = {
-    enable = config.khanelivim.lsp.rust == "rust-analyzer";
+    enable = config.gmarlervim.lsp.rust == "rust-analyzer";
     # TODO: handle ourselves
     # installCargo = true;
     # installRustc = true;

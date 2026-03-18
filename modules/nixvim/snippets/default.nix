@@ -1,6 +1,6 @@
 { config, lib, ... }:
 {
-  extraFiles = lib.mkIf (config.khanelivim.editor.snippet != null) (
+  extraFiles = lib.mkIf (config.gmarlervim.editor.snippet != null) (
     let
       snippetsDir = ./snippets;
 

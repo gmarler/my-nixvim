@@ -4,7 +4,7 @@
   ...
 }:
 {
-  extraConfigLuaPre = lib.mkIf (config.khanelivim.ui.bufferDelete == "snacks") ''
+  extraConfigLuaPre = lib.mkIf (config.gmarlervim.ui.bufferDelete == "snacks") ''
     -- Disable built-in diagnostic keymaps that conflict with <C-W> closing a buffer
     vim.keymap.del('n', '<C-W>d')
     vim.keymap.del('n', '<C-W><C-D>')
@@ -13,12 +13,12 @@
   plugins = {
     snacks = {
       settings = {
-        bufdelete.enabled = config.khanelivim.ui.bufferDelete == "snacks";
+        bufdelete.enabled = config.gmarlervim.ui.bufferDelete == "snacks";
       };
     };
   };
 
-  keymaps = lib.mkIf (config.khanelivim.ui.bufferDelete == "snacks") [
+  keymaps = lib.mkIf (config.gmarlervim.ui.bufferDelete == "snacks") [
     {
       mode = "n";
       key = "<C-w>";

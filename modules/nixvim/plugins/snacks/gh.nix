@@ -4,7 +4,7 @@
   ...
 }:
 let
-  isEnabled = lib.elem "snacks-gh" config.khanelivim.git.integrations;
+  isEnabled = lib.elem "snacks-gh" config.gmarlervim.git.integrations;
 in
 {
   plugins = {

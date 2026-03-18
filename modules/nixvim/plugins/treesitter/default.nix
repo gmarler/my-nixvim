@@ -21,13 +21,13 @@
       indent.enable = true;
 
       grammarPackages =
-        if config.khanelivim.performance.treesitter.whitelistMode then
+        if config.gmarlervim.performance.treesitter.whitelistMode then
           lib.filter (
-            g: lib.elem g.pname config.khanelivim.performance.treesitter.includedGrammars
+            g: lib.elem g.pname config.gmarlervim.performance.treesitter.includedGrammars
           ) config.plugins.treesitter.package.allGrammars
         else
           lib.filter (
-            g: !(lib.elem g.pname config.khanelivim.performance.treesitter.excludedGrammars)
+            g: !(lib.elem g.pname config.gmarlervim.performance.treesitter.excludedGrammars)
           ) config.plugins.treesitter.package.allGrammars;
       nixvimInjections = true;
     };

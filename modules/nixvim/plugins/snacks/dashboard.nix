@@ -3,7 +3,7 @@
   plugins = {
     snacks = {
       settings = {
-        dashboard = lib.mkIf (config.khanelivim.dashboard.tool == "snacks") {
+        dashboard = lib.mkIf (config.gmarlervim.dashboard.tool == "snacks") {
           sections = [
             {
               header = ''

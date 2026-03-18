@@ -8,7 +8,7 @@
   # clangd documentation
   # See: https://clangd.llvm.org/
   lsp.servers.clangd = {
-    enable = config.khanelivim.lsp.cpp == "clangd";
+    enable = config.gmarlervim.lsp.cpp == "clangd";
 
     config = {
       settings.init_options = {

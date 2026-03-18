@@ -8,7 +8,7 @@
     snacks = {
       settings = {
         words = {
-          enabled = config.khanelivim.ui.referenceHighlighting == "snacks-words";
+          enabled = config.gmarlervim.ui.referenceHighlighting == "snacks-words";
 
           debounce = 100;
 

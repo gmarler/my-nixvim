@@ -1,6 +1,6 @@
 { config, lib, ... }:
 {
-  plugins.mini-clue = lib.mkIf (config.khanelivim.ui.keybindingHelp == "mini-clue") {
+  plugins.mini-clue = lib.mkIf (config.gmarlervim.ui.keybindingHelp == "mini-clue") {
     enable = true;
     settings = {
       triggers = [

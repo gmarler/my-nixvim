@@ -355,7 +355,7 @@ in
                 };
               };
             }
-            // (lib.optionalAttrs (config.khanelivim.git.diffViewer == "none") {
+            // (lib.optionalAttrs (config.gmarlervim.git.diffViewer == "none") {
               "<leader>gD" = {
                 action.__raw = ''
                   function()

@@ -4,7 +4,7 @@
     gitsigns = {
       # gitsigns documentation
       # See: https://github.com/lewis6991/gitsigns.nvim
-      enable = lib.elem "gitsigns" config.khanelivim.git.integrations;
+      enable = lib.elem "gitsigns" config.gmarlervim.git.integrations;
 
       lazyLoad.settings.event = [
         "BufReadPost"
@@ -259,7 +259,7 @@
         };
       }
     ]
-    ++ lib.optionals (config.khanelivim.git.diffViewer == "gitsigns") [
+    ++ lib.optionals (config.gmarlervim.git.diffViewer == "gitsigns") [
       # Primary diff shortcut when gitsigns is the chosen diff viewer
       {
         mode = "n";

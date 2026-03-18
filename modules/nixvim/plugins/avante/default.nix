@@ -8,7 +8,7 @@
     avante = {
       # avante.nvim documentation
       # See: https://github.com/yetone/avante.nvim
-      enable = builtins.elem "avante" config.khanelivim.ai.plugins;
+      enable = builtins.elem "avante" config.gmarlervim.ai.plugins;
 
       lazyLoad.settings.event = [ "DeferredUIEnter" ];
 

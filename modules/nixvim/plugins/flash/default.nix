@@ -4,7 +4,7 @@
     flash = {
       # flash.nvim documentation
       # See: https://github.com/folke/flash.nvim
-      enable = config.khanelivim.editor.motion == "flash";
+      enable = config.gmarlervim.editor.motion == "flash";
 
       lazyLoad.settings.event = "DeferredUIEnter";
 

@@ -29,7 +29,7 @@
     dap = {
       # nvim-dap documentation
       # See: https://github.com/mfussenegger/nvim-dap
-      enable = lib.elem "dap" config.khanelivim.debugging.adapters;
+      enable = lib.elem "dap" config.gmarlervim.debugging.adapters;
 
       lazyLoad.settings = {
         # NOTE: Couldn't get lazy loading to work any other way...

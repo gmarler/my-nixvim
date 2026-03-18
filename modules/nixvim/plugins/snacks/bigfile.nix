@@ -8,7 +8,7 @@
     snacks = {
       settings = {
         bigfile = {
-          enabled = lib.elem "snacks" config.khanelivim.performance.optimizer;
+          enabled = lib.elem "snacks" config.gmarlervim.performance.optimizer;
 
           size = 1024 * 1024; # 1MB
           setup.__raw = ''

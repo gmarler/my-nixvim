@@ -5,7 +5,7 @@
       # noice.nvim documentation
       # See: https://github.com/folke/noice.nvim
       enable =
-        config.khanelivim.ui.commandline == "noice" || config.khanelivim.ui.notifications == "noice";
+        config.gmarlervim.ui.commandline == "noice" || config.gmarlervim.ui.notifications == "noice";
 
       lazyLoad.settings.event = "DeferredUIEnter";
 
@@ -58,7 +58,7 @@
               pattern = "^:%s*he?l?p?%s+";
               icon = "󰋖";
             };
-            inc_rename = lib.mkIf (config.khanelivim.ui.renamePopup == "snacks") {
+            inc_rename = lib.mkIf (config.gmarlervim.ui.renamePopup == "snacks") {
               pattern = "^:%s*IncRename%s+";
               icon = "";
               opts = {
@@ -69,7 +69,7 @@
           };
         };
 
-        messages = lib.mkIf (config.khanelivim.ui.notifications == "noice") {
+        messages = lib.mkIf (config.gmarlervim.ui.notifications == "noice") {
           view = "notify";
           view_error = "notify";
           view_warn = "notify";
@@ -82,8 +82,8 @@
             "cmp.entry.get_documentation" = true;
           };
 
-          progress.enabled = config.khanelivim.ui.notifications == "noice";
-          signature.enabled = config.khanelivim.ui.signatureHelp == "noice";
+          progress.enabled = config.gmarlervim.ui.notifications == "noice";
+          signature.enabled = config.gmarlervim.ui.signatureHelp == "noice";
         };
 
         popupmenu.backend = "nui";
@@ -94,7 +94,7 @@
           bottom_search = false;
           command_palette = true;
           long_message_to_split = true;
-          inc_rename = config.khanelivim.ui.renamePopup == "noice";
+          inc_rename = config.gmarlervim.ui.renamePopup == "noice";
           lsp_doc_border = true;
         };
 
@@ -165,7 +165,7 @@
             };
           }
           # Hide IncRename cmdline as it's handled by Snacks
-          (lib.mkIf (config.khanelivim.ui.renamePopup == "snacks") {
+          (lib.mkIf (config.gmarlervim.ui.renamePopup == "snacks") {
             filter = {
               event = "cmdline";
               find = "^:IncRename";
@@ -203,7 +203,7 @@
             };
           };
 
-          notify = lib.mkIf (config.khanelivim.ui.notifications == "noice") {
+          notify = lib.mkIf (config.gmarlervim.ui.notifications == "noice") {
             border = {
               style = "rounded";
             };
@@ -227,14 +227,14 @@
   };
 
   keymaps =
-    lib.optionals (config.plugins.noice.enable && config.khanelivim.ui.notifications == "noice") [
+    lib.optionals (config.plugins.noice.enable && config.gmarlervim.ui.notifications == "noice") [
       {
         mode = "n";
         key = "<leader>fn";
         action =
-          if config.khanelivim.picker.tool == "snacks" then
+          if config.gmarlervim.picker.tool == "snacks" then
             "<cmd>Noice snacks<CR>"
-          else if config.khanelivim.picker.tool == "fzf" then
+          else if config.gmarlervim.picker.tool == "fzf" then
             "<cmd>Noice fzf<CR>"
           else
             "<cmd>Noice<CR>"; # Fallback to basic Noice command

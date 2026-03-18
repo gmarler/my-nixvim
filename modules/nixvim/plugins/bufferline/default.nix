@@ -5,13 +5,13 @@
       mouse = {
         right = "'vertical sbuffer %d'";
         close =
-          if config.khanelivim.ui.bufferDelete == "mini-bufremove" then
+          if config.gmarlervim.ui.bufferDelete == "mini-bufremove" then
             /* Lua */ ''
               function(bufnum)
                 require("mini.bufremove").delete(bufnum)
               end
             ''
-          else if config.khanelivim.ui.bufferDelete == "snacks" then
+          else if config.gmarlervim.ui.bufferDelete == "snacks" then
             /* Lua */ ''
               function(bufnum)
                 require("snacks").bufdelete.delete(bufnum)
@@ -28,7 +28,7 @@
     {
       # bufferline.nvim documentation
       # See: https://github.com/akinsho/bufferline.nvim
-      enable = config.khanelivim.ui.bufferline == "bufferline";
+      enable = config.gmarlervim.ui.bufferline == "bufferline";
 
       lazyLoad.settings.event = "DeferredUIEnter";
 

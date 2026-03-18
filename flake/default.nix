@@ -48,6 +48,6 @@
         };
       };
 
-      packages.default = config.nixvimConfigurations.khanelivim.config.build.package;
+      packages.default = config.nixvimConfigurations.gmarlervim.config.build.package;
     };
 }

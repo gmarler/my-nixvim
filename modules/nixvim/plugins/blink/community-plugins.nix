@@ -21,17 +21,17 @@ in
       inherit (config.plugins.avante) enable;
     };
     blink-cmp-dictionary = mkBlinkPlugin {
-      enable = config.khanelivim.completion.wordProvider == "dictionary";
+      enable = config.gmarlervim.completion.wordProvider == "dictionary";
     };
     blink-cmp-git = mkBlinkPlugin { };
     blink-cmp-spell = mkBlinkPlugin { };
     blink-cmp-words = mkBlinkPlugin {
-      enable = config.khanelivim.completion.wordProvider == "words";
+      enable = config.gmarlervim.completion.wordProvider == "words";
     };
     blink-copilot = mkBlinkPlugin {
       enable =
-        builtins.elem "copilot" config.khanelivim.ai.plugins
-        && config.khanelivim.completion.tool == "blink";
+        builtins.elem "copilot" config.gmarlervim.ai.plugins
+        && config.gmarlervim.completion.tool == "blink";
     };
     blink-emoji = mkBlinkPlugin { };
     blink-ripgrep = mkBlinkPlugin { };

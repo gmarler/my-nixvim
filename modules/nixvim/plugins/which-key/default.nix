@@ -4,7 +4,7 @@
   ...
 }:
 {
-  plugins.which-key = lib.mkIf (config.khanelivim.ui.keybindingHelp == "which-key") {
+  plugins.which-key = lib.mkIf (config.gmarlervim.ui.keybindingHelp == "which-key") {
     # which-key.nvim documentation
     # See: https://github.com/folke/which-key.nvim
     enable = true;
@@ -171,7 +171,7 @@
           icon = "";
         }
       ]
-      ++ lib.optionals (config.khanelivim.git.diffViewer != "none") [
+      ++ lib.optionals (config.gmarlervim.git.diffViewer != "none") [
         {
           __unkeyed-1 = "<leader>gd";
           group = "Diff";

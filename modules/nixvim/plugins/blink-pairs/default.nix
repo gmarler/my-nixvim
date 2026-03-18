@@ -3,7 +3,7 @@
   plugins.blink-pairs = {
     # blink-pairs documentation
     # See: https://github.com/saghen/blink.pairs
-    enable = config.khanelivim.editor.autopairs == "blink-pairs";
+    enable = config.gmarlervim.editor.autopairs == "blink-pairs";
 
     lazyLoad.settings = {
       event = [

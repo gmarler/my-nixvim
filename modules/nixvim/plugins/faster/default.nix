@@ -13,7 +13,7 @@
     faster = {
       # faster.nvim documentation
       # See: https://github.com/pteroctopus/faster.nvim
-      enable = lib.elem "faster" config.khanelivim.performance.optimizer;
+      enable = lib.elem "faster" config.gmarlervim.performance.optimizer;
 
       lazyLoad.settings = {
         event = [

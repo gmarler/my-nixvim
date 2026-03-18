@@ -8,8 +8,8 @@
     # codediff.nvim documentation
     # See: https://github.com/esmuellert/codediff.nvim
     enable =
-      config.khanelivim.git.diffViewer == "codediff"
-      || builtins.elem "codediff" config.khanelivim.git.integrations;
+      config.gmarlervim.git.diffViewer == "codediff"
+      || builtins.elem "codediff" config.gmarlervim.git.integrations;
 
     lazyLoad.settings = {
       cmd = "CodeDiff";
@@ -82,7 +82,7 @@
         };
       }
     ]
-    ++ lib.optionals (config.khanelivim.git.diffViewer == "codediff") [
+    ++ lib.optionals (config.gmarlervim.git.diffViewer == "codediff") [
       {
         mode = "n";
         key = "<leader>gD";

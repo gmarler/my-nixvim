@@ -7,12 +7,12 @@
   plugins = {
     snacks = {
       settings = {
-        lazygit.enabled = lib.elem "snacks-lazygit" config.khanelivim.git.integrations;
+        lazygit.enabled = lib.elem "snacks-lazygit" config.gmarlervim.git.integrations;
       };
     };
   };
 
-  keymaps = lib.mkIf (lib.elem "snacks-lazygit" config.khanelivim.git.integrations) [
+  keymaps = lib.mkIf (lib.elem "snacks-lazygit" config.gmarlervim.git.integrations) [
     {
       mode = "n";
       key = "<leader>gg";

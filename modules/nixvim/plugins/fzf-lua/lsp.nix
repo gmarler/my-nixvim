@@ -1,6 +1,6 @@
 { lib, config, ... }:
 {
-  keymaps = lib.mkIf (config.khanelivim.picker.tool == "fzf" && config.plugins.lsp.enable) [
+  keymaps = lib.mkIf (config.gmarlervim.picker.tool == "fzf" && config.plugins.lsp.enable) [
     {
       mode = "n";
       key = "<leader>fd";

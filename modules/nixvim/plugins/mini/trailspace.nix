@@ -1,6 +1,6 @@
 { config, lib, ... }:
 {
-  plugins.mini-trailspace = lib.mkIf (config.khanelivim.text.whitespace == "mini-trailspace") {
+  plugins.mini-trailspace = lib.mkIf (config.gmarlervim.text.whitespace == "mini-trailspace") {
     enable = true;
   };
 

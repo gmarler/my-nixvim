@@ -3,7 +3,7 @@
   plugins.helpview = {
     # helpview.nvim documentation
     # See: https://github.com/OXY2DEV/helpview.nvim
-    enable = lib.elem "helpview" config.khanelivim.documentation.viewers;
+    enable = lib.elem "helpview" config.gmarlervim.documentation.viewers;
 
     lazyLoad.settings.ft = "help";
 

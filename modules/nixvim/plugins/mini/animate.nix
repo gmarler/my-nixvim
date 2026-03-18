@@ -1,6 +1,6 @@
 { config, lib, ... }:
 {
-  plugins.mini-animate = lib.mkIf (config.khanelivim.ui.animations == "mini-animate") {
+  plugins.mini-animate = lib.mkIf (config.gmarlervim.ui.animations == "mini-animate") {
     enable = true;
     settings = {
       cursor = {

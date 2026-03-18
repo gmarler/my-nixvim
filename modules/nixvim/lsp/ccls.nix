@@ -6,7 +6,7 @@
       # See: https://github.com/MaskRay/ccls
       servers = {
         ccls = {
-          enable = config.khanelivim.lsp.cpp == "ccls";
+          enable = config.gmarlervim.lsp.cpp == "ccls";
 
           initOptions.compilationDatabaseDirectory = "build";
         };

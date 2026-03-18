@@ -55,12 +55,12 @@
       cmake.enable = true;
       copilot.enable = !config.plugins.copilot-lua.enable;
       cssls.enable = true;
-      dockerls.enable = lib.elem "dockerls" config.khanelivim.lsp.docker;
-      docker_language_server.enable = lib.elem "docker-language-server" config.khanelivim.lsp.docker;
+      dockerls.enable = lib.elem "dockerls" config.gmarlervim.lsp.docker;
+      docker_language_server.enable = lib.elem "docker-language-server" config.gmarlervim.lsp.docker;
       # FIXME: [lspconfig] Unable to find ESLint library.
       # eslint.enable = true;
-      emmylua_ls.enable = config.khanelivim.lsp.lua == "emmylua-ls";
-      lua_ls.enable = config.khanelivim.lsp.lua == "lua-ls";
+      emmylua_ls.enable = config.gmarlervim.lsp.lua == "emmylua-ls";
+      lua_ls.enable = config.gmarlervim.lsp.lua == "lua-ls";
       fish_lsp.enable = true;
       fsautocomplete.enable = true;
       fsharp_language_server = {
@@ -75,18 +75,18 @@
       gopls.enable = true;
       html.enable = true;
       hyprls.enable = true;
-      java_language_server.enable = config.khanelivim.lsp.java == "java-language-server";
+      java_language_server.enable = config.gmarlervim.lsp.java == "java-language-server";
       jsonls.enable = true;
       kulala_ls.enable = true;
       marksman.enable = true;
       # FIXME: broken darwin
       nushell.enable = pkgs.stdenv.hostPlatform.isLinux;
-      pyright.enable = config.khanelivim.lsp.python.typeChecker == "pyright";
-      pylsp.enable = config.khanelivim.lsp.python.typeChecker == "pylsp";
-      basedpyright.enable = config.khanelivim.lsp.python.typeChecker == "basedpyright";
+      pyright.enable = config.gmarlervim.lsp.python.typeChecker == "pyright";
+      pylsp.enable = config.gmarlervim.lsp.python.typeChecker == "pylsp";
+      basedpyright.enable = config.gmarlervim.lsp.python.typeChecker == "basedpyright";
       qmlls.enable = true;
-      ruff.enable = lib.elem "ruff" config.khanelivim.lsp.python.linters;
-      roslyn_ls.enable = config.khanelivim.lsp.csharp == "roslyn_ls";
+      ruff.enable = lib.elem "ruff" config.gmarlervim.lsp.python.linters;
+      roslyn_ls.enable = config.gmarlervim.lsp.csharp == "roslyn_ls";
       sqls.enable = true;
       statix.enable = true;
       stylelint_lsp.enable = true;
@@ -104,8 +104,8 @@
         ];
       };
       taplo.enable = true;
-      ts_ls.enable = config.khanelivim.lsp.typescript == "ts_ls";
-      tsgo.enable = config.khanelivim.lsp.typescript == "tsgo";
+      ts_ls.enable = config.gmarlervim.lsp.typescript == "ts_ls";
+      tsgo.enable = config.gmarlervim.lsp.typescript == "tsgo";
       yamlls.enable = true;
     };
   };
@@ -215,7 +215,7 @@
   plugins = {
     lsp-format.enable = !config.plugins.conform-nvim.enable && config.plugins.lsp.enable;
     lsp-signature.enable =
-      config.plugins.lsp.enable && config.khanelivim.ui.signatureHelp == "lsp-signature";
+      config.plugins.lsp.enable && config.gmarlervim.ui.signatureHelp == "lsp-signature";
 
     which-key.settings.spec = [
       {

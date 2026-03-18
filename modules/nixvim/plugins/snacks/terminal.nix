@@ -3,12 +3,12 @@
   plugins = {
     snacks = {
       settings = {
-        terminal.enabled = lib.elem "snacks" config.khanelivim.ui.terminal;
+        terminal.enabled = lib.elem "snacks" config.gmarlervim.ui.terminal;
       };
     };
   };
 
-  keymaps = lib.mkIf (lib.elem "snacks" config.khanelivim.ui.terminal) [
+  keymaps = lib.mkIf (lib.elem "snacks" config.gmarlervim.ui.terminal) [
     {
       mode = "n";
       key = "<C-/>";

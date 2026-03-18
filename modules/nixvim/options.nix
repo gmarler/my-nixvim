@@ -15,9 +15,9 @@ in
     register = "unnamedplus";
   };
 
-  colorscheme = config.khanelivim.ui.theme;
-  colorschemes.catppuccin.enable = config.khanelivim.ui.theme == "catppuccin";
-  colorschemes.nord.enable = config.khanelivim.ui.theme == "nord";
+  colorscheme = config.gmarlervim.ui.theme;
+  colorschemes.catppuccin.enable = config.gmarlervim.ui.theme == "catppuccin";
+  colorschemes.nord.enable = config.gmarlervim.ui.theme == "nord";
   luaLoader.enable = true;
 
   globals = {
@@ -136,7 +136,7 @@ in
       "menuone"
       "noselect"
     ]
-    ++ lib.optionals (config.khanelivim.completion.tool != "blink") [
+    ++ lib.optionals (config.gmarlervim.completion.tool != "blink") [
       "popup"
     ]; # Native completion options
 

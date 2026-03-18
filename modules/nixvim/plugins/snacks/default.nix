@@ -33,19 +33,19 @@
       enable = true;
 
       settings = {
-        indent.enabled = config.khanelivim.ui.indentGuides == "snacks";
+        indent.enabled = config.gmarlervim.ui.indentGuides == "snacks";
         input.enabled = true;
         scroll.enabled = true;
         statuscolumn = {
-          enabled = config.khanelivim.ui.statusColumn == "snacks";
+          enabled = config.gmarlervim.ui.statusColumn == "snacks";
 
           folds = {
             open = true;
-            git_hl = lib.elem "gitsigns" config.khanelivim.git.integrations;
+            git_hl = lib.elem "gitsigns" config.gmarlervim.git.integrations;
           };
         };
         quickfile.enabled = true;
-        styles = lib.mkIf (config.khanelivim.ui.renamePopup == "snacks") {
+        styles = lib.mkIf (config.gmarlervim.ui.renamePopup == "snacks") {
           input = {
             relative = "cursor";
             row = -4;

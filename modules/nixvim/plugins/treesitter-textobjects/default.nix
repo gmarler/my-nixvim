@@ -8,7 +8,7 @@ in
   plugins.treesitter-textobjects = {
     # nvim-treesitter-textobjects documentation
     # See: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-    enable = lib.elem "treesitter-textobjects" config.khanelivim.editor.textObjects;
+    enable = lib.elem "treesitter-textobjects" config.gmarlervim.editor.textObjects;
 
     settings = {
       # Disable 'select' if mini-ai is enabled to avoid conflict on 'a'/'i' keys

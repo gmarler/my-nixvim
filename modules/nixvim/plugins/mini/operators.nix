@@ -1,6 +1,6 @@
 { config, lib, ... }:
 {
-  plugins.mini-operators = lib.mkIf (lib.elem "mini-operators" config.khanelivim.text.operators) {
+  plugins.mini-operators = lib.mkIf (lib.elem "mini-operators" config.gmarlervim.text.operators) {
     enable = true;
     settings = {
       # Exchange text regions

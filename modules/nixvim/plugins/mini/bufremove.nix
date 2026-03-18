@@ -1,6 +1,6 @@
 { lib, config, ... }:
 let
-  bufremoveEnabled = config.khanelivim.ui.bufferDelete == "mini-bufremove";
+  bufremoveEnabled = config.gmarlervim.ui.bufferDelete == "mini-bufremove";
 in
 {
   extraConfigLuaPre = lib.mkIf bufremoveEnabled ''
@@ -10,7 +10,7 @@ in
   '';
 
   plugins = {
-    mini-bufremove.enable = config.khanelivim.ui.bufferDelete == "mini-bufremove";
+    mini-bufremove.enable = config.gmarlervim.ui.bufferDelete == "mini-bufremove";
   };
 
   keymaps = lib.mkIf bufremoveEnabled [

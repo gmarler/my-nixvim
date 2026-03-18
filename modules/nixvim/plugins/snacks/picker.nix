@@ -14,7 +14,7 @@
 
   plugins = {
     snacks = {
-      settings = lib.mkIf (config.khanelivim.picker.tool == "snacks") {
+      settings = lib.mkIf (config.gmarlervim.picker.tool == "snacks") {
         picker = {
           sources = {
             noice = lib.mkIf config.plugins.noice.enable {

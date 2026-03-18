@@ -1,7 +1,7 @@
 { config, ... }:
 {
   plugins.fidget = {
-    enable = config.khanelivim.ui.notifications == "snacks";
+    enable = config.gmarlervim.ui.notifications == "snacks";
     settings = {
       progress = {
         poll_rate = 0;

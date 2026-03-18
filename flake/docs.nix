@@ -13,8 +13,8 @@
         profile = "standard";
       };
 
-      khanelivimOptions = pkgs.nixosOptionsDoc {
-        options = lib.filterAttrs (name: _: name == "khanelivim") optionsEval.options;
+      gmarlervimOptions = pkgs.nixosOptionsDoc {
+        options = lib.filterAttrs (name: _: name == "gmarlervim") optionsEval.options;
         warningsAreErrors = false;
       };
 
@@ -29,7 +29,7 @@
       profiles = builtins.attrNames profileDescriptions;
 
       mkProfileConfig =
-        profile: (inputs.self.lib.mkNixvimConfig { inherit system profile; }).config.khanelivim;
+        profile: (inputs.self.lib.mkNixvimConfig { inherit system profile; }).config.gmarlervim;
 
       profileMatrix = lib.genAttrs profiles (
         profile:
@@ -83,14 +83,14 @@
         }
       );
 
-      profileMatrixJson = pkgs.writeText "khanelivim-profile-matrix.json" (
+      profileMatrixJson = pkgs.writeText "gmarlervim-profile-matrix.json" (
         builtins.toJSON {
           inherit profileDescriptions profileMatrix;
         }
       );
 
       opener = if pkgs.stdenv.isDarwin then "open" else "xdg-open";
-      openDocs = pkgs.writeShellScript "open-khanelivim-docs" ''
+      openDocs = pkgs.writeShellScript "open-gmarlervim-docs" ''
         path="${config.packages.docs-html}/index.html"
         if ! ${opener} "$path"; then
           echo "Failed to open docs with ${opener}. Docs are at:"
@@ -111,7 +111,7 @@
           runHook preBuild
 
           cp ${profileMatrixJson} profile-matrix.json
-          cp ${khanelivimOptions.optionsCommonMark} options.md
+          cp ${gmarlervimOptions.optionsCommonMark} options.md
           python3 scripts/split-options.py options.md options "<!-- OPTIONS:START -->" "<!-- OPTIONS:END -->"
           python3 scripts/render-profile-matrix.py profile-matrix.json profiles.md
 
@@ -131,7 +131,7 @@
       apps.docs = {
         type = "app";
         program = "${openDocs}";
-        meta.description = "Open the generated khanelivim docs in a browser";
+        meta.description = "Open the generated gmarlervim docs in a browser";
       };
 
       apps.docs-html = config.apps.docs;

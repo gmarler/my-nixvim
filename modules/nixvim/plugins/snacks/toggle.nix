@@ -61,7 +61,7 @@
             options.desc = "Toggle Animations";
           }
         ]
-        ++ lib.optionals (config.khanelivim.ui.indentGuides == "snacks") [
+        ++ lib.optionals (config.gmarlervim.ui.indentGuides == "snacks") [
           {
             mode = "n";
             key = "<leader>uei";
@@ -167,7 +167,7 @@
             options.desc = "Toggle Zoom (Maximize)";
           }
         ]
-        ++ lib.optionals (config.khanelivim.ui.zenMode == "snacks") [
+        ++ lib.optionals (config.gmarlervim.ui.zenMode == "snacks") [
           {
             mode = "n";
             key = "<leader>usZ";
