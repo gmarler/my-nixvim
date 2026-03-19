@@ -3,7 +3,7 @@
   plugins.luasnip = {
     # LuaSnip documentation
     # See: https://github.com/L3MON4D3/LuaSnip
-    enable = config.khanelivim.editor.snippet == "luasnip";
+    enable = config.gmarlervim.editor.snippet == "luasnip";
     lazyLoad.settings.event = "InsertEnter";
     settings = lib.mkIf config.plugins.blink-cmp.enable {
       snippets = {
