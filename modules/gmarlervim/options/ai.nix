@@ -17,13 +17,13 @@
         ]
       );
       default = [
-        #"claudecode"
-        #"copilot"
-        #"copilot-lsp"
-        #"codex"
-        #"gemini"
-        #"opencode"
-        #"sidekick"
+        "claudecode"
+        "copilot"
+        "copilot-lsp"
+        "codex"
+        "gemini"
+        "opencode"
+        "sidekick"
       ];
       description = ''
         List of AI plugins to enable.
