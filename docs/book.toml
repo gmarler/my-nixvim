@@ -1,11 +1,11 @@
 [book]
-authors = ["Khaneliman"]
+authors = ["gmarler"]
 language = "en"
 src = "."
-title = "Khanelivim Docs"
+title = "gmarlervim Docs"
 
 [output.html]
 default-theme = "navy"
 preferred-dark-theme = "navy"
-git-repository-url = "https://github.com/khaneliman/khanelivim"
+git-repository-url = "https://github.com/gmarler/my-nixvim"
 site-url = "/"

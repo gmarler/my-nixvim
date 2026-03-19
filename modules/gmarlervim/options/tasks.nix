@@ -1,6 +1,6 @@
 { lib, ... }:
 {
-  options.khanelivim.tasks = {
+  options.gmarlervim.tasks = {
     tool = lib.mkOption {
       type = lib.types.nullOr (
         lib.types.enum [

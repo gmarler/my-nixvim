@@ -1,6 +1,6 @@
 { lib, ... }:
 {
-  options.khanelivim.loading = {
+  options.gmarlervim.loading = {
     strategy = lib.mkOption {
       type = lib.types.enum [
         "lazy"

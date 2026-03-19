@@ -120,7 +120,7 @@ def main():
     lines = [
         "# Profile Matrix",
         "",
-        "This page is generated from evaluated `khanelivim.profile` configs via `mkNixvimConfig`.",
+        "This page is generated from evaluated `gmarlervim.profile` configs via `mkNixvimConfig`.",
         "",
         "`full` currently reflects the raw component defaults from the option modules.",
         "`debug` follows the full/default surface and adds debug-focused overrides.",

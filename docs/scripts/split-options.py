@@ -39,7 +39,7 @@ def titleize(value: str) -> str:
 
 
 def display_option_name(option_name: str, group: str) -> str:
-    prefix = f"khanelivim.{group}"
+    prefix = f"gmarlervim.{group}"
     return (
         option_name[len(prefix) + 1 :]
         if option_name.startswith(prefix + ".")
@@ -61,7 +61,7 @@ def main() -> None:
     root = pathlib.Path(".")
 
     text = input_file.read_text()
-    heading_re = re.compile(r"(?m)^(#+)\s+.*khanelivim(?:\\\.[a-zA-Z0-9_-]+)+.*$")
+    heading_re = re.compile(r"(?m)^(#+)\s+.*gmarlervim(?:\\\.[a-zA-Z0-9_-]+)+.*$")
     matches = list(heading_re.finditer(text))
 
     groups: dict[str, list[str]] = {}
@@ -71,10 +71,10 @@ def main() -> None:
         end = matches[idx + 1].start() if idx + 1 < len(matches) else len(text)
         section = text[start:end].strip()
 
-        option_match = re.search(r"khanelivim(?:\\\.[a-zA-Z0-9_-]+)+", section)
+        option_match = re.search(r"gmarlervim(?:\\\.[a-zA-Z0-9_-]+)+", section)
         option_name = option_match.group(0).replace("\\.", ".") if option_match else ""
 
-        if not option_name.startswith("khanelivim."):
+        if not option_name.startswith("gmarlervim."):
             group = "other"
             display_name = option_name
         else:

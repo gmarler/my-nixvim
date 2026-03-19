@@ -11,7 +11,7 @@ from rich.console import Console
 from rich.table import Table
 
 console = Console()
-CACHE_DIR = Path.home() / ".cache" / "khanelivim" / "profiles"
+CACHE_DIR = Path.home() / ".cache" / "gmarlervim" / "profiles"
 
 
 def get_baseline_file(event, profile="default"):
@@ -62,7 +62,7 @@ def run_command(cmd, env=None):
 def build_nvim(profile="default", package=None):
     """Build nixvim and return path to nvim binary"""
     profile_label = f" ({profile})" if profile != "default" else ""
-    console.print(f"[blue]Building khanelivim{profile_label}...[/blue]")
+    console.print(f"[blue]Building gmarlervim{profile_label}...[/blue]")
     if package:
         nixvim_path = run_command(f"nix build --no-link --print-out-paths {package}")
     else:
@@ -315,7 +315,7 @@ def print_comparison(diff):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Profile khanelivim startup performance"
+        description="Profile gmarlervim startup performance"
     )
     parser.add_argument(
         "--baseline",

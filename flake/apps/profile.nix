@@ -47,7 +47,7 @@ _: {
         {
           type = "app";
           program = lib.getExe wrapped;
-          meta.description = "Profile khanelivim startup performance";
+          meta.description = "Profile gmarlervim startup performance";
         };
     };
 }

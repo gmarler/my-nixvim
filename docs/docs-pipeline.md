@@ -4,10 +4,10 @@ This site is built directly from the flake and the profile evaluation logic.
 
 ## Pipeline Steps
 
-1. Evaluate the `khanelivim.*` option tree with `mkNixvimConfig`.
-2. Generate markdown for the `khanelivim` options reference.
-3. Split the options reference into pages by the level below `khanelivim`.
-4. Evaluate each `khanelivim.profile` with `mkNixvimConfig`.
+1. Evaluate the `gmarlervim.*` option tree with `mkNixvimConfig`.
+2. Generate markdown for the `gmarlervim` options reference.
+3. Split the options reference into pages by the level below `gmarlervim`.
+4. Evaluate each `gmarlervim.profile` with `mkNixvimConfig`.
 5. Serialize the curated profile data to JSON.
 6. Render the JSON into `profiles.md`.
 7. Build an mdBook site as `docs-html`.
@@ -21,7 +21,7 @@ nix run .#docs
 
 ## Notes
 
-- The option reference covers the `khanelivim.*` surface. It does not attempt to
+- The option reference covers the `gmarlervim.*` surface. It does not attempt to
   duplicate the entire upstream `plugins.*` universe from Nixvim.
 - The profile matrix is intentionally curated. It documents the workflow surface
   you actually care about instead of dumping every option.
