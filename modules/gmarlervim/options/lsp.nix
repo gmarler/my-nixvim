@@ -113,7 +113,8 @@
           "ts_ls"
         ]
       );
-      default = "typescript-tools";
+      #default = "typescript-tools";
+      default = "ts_ls";
       description = "Which TypeScript/JavaScript LSP integration to use.";
     };
     # keep-sorted end
