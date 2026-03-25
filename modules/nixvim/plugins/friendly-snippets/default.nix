@@ -23,8 +23,8 @@ in
 
           local map = {
             html = { "${frameworksRoot}/angular/html.json" },
-            typescript = { "${frameworksRoot}/angular/typescript.json", "${frameworksRoot}/remix-ts.json" },
-            typescriptreact = { "${frameworksRoot}/angular/typescript.json", "${frameworksRoot}/remix-ts.json" },
+            #typescript = { "${frameworksRoot}/angular/typescript.json", "${frameworksRoot}/remix-ts.json" },
+            #typescriptreact = { "${frameworksRoot}/angular/typescript.json", "${frameworksRoot}/remix-ts.json" },
             cs = { "${frameworksRoot}/unity.json" },
             cpp = { "${frameworksRoot}/unreal.json" },
           }
@@ -49,8 +49,8 @@ in
     require("luasnip.loaders.from_vscode").lazy_load()
 
     local ls = require("luasnip")
-    ls.filetype_extend("typescript", { "angular", "remix-ts" })
-    ls.filetype_extend("typescriptreact", { "angular", "remix-ts" })
+    #ls.filetype_extend("typescript", { "angular", "remix-ts" })
+    #ls.filetype_extend("typescriptreact", { "angular", "remix-ts" })
     ls.filetype_extend("html", { "angular" })
     ls.filetype_extend("cs", { "unity" })
     ls.filetype_extend("cpp", { "unreal" })
