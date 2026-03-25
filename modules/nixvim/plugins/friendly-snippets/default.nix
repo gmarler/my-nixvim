@@ -23,8 +23,8 @@ in
 
           local map = {
             html = { "${frameworksRoot}/angular/html.json" },
-            #typescript = { "${frameworksRoot}/angular/typescript.json", "${frameworksRoot}/remix-ts.json" },
-            #typescriptreact = { "${frameworksRoot}/angular/typescript.json", "${frameworksRoot}/remix-ts.json" },
+            -- typescript = { "${frameworksRoot}/angular/typescript.json", "${frameworksRoot}/remix-ts.json" },
+            -- typescriptreact = { "${frameworksRoot}/angular/typescript.json", "${frameworksRoot}/remix-ts.json" },
             cs = { "${frameworksRoot}/unity.json" },
             cpp = { "${frameworksRoot}/unreal.json" },
           }
