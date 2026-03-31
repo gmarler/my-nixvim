@@ -19,7 +19,7 @@
       ];
     in
     {
-      enable = lib.elem "markview" config.khanelivim.text.markdownRendering;
+      enable = lib.elem "markview" config.gmarlervim.text.markdownRendering;
 
       lazyLoad.settings = {
         ft = filetypes;
@@ -28,7 +28,7 @@
 
       settings = {
         # Fancy comment rendering which can conflict with todo-comments
-        comment.enable = lib.elem "markview" config.khanelivim.text.patterns;
+        comment.enable = lib.elem "markview" config.gmarlervim.text.patterns;
 
         preview = {
           inherit filetypes;
