@@ -25,14 +25,14 @@
     in
     {
       devShells.default = pkgs.mkShell {
-        name = "Khanelivim development shell";
+        name = "gmarlervim development shell";
         meta.description = "Shell environment for modifying this Nix configuration";
         inherit packages;
 
         shellHook = ''
           ${config.pre-commit.installationScript}
 
-          echo "🚀 Khanelivim development shell"
+          echo "🚀 gmarlervim development shell"
           echo ""
           echo "🔧 Available commands:"
           echo "  new-plugin <name> <type> - Generate new plugin template"
