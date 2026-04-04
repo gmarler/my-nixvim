@@ -5,10 +5,6 @@
   ...
 }:
 {
-  extraFiles = {
-    "lua/gmarlervim/web_tools.lua".source = ../../lua/gmarlervim/web_tools.lua;
-  };
-
   plugins = {
     conform-nvim = {
       # conform-nvim documentation
@@ -282,6 +278,8 @@
           else
             table.insert(lines, "Formatter owner: none")
           end
+
+          table.insert(lines, "Diagnostics owner: " .. (details.diagnostics_owner or "none"))
 
           vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO, { title = "Web Tooling" })
         end
