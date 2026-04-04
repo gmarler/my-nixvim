@@ -1,5 +1,6 @@
 {
   extraFiles = {
+    "lua/gmarlervim/tooling_info.lua".source = ./lua/gmarlervim/tooling_info.lua;
     "lua/gmarlervim/web_tools.lua".source = ./lua/gmarlervim/web_tools.lua;
   };
 

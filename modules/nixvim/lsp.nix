@@ -238,6 +238,18 @@
     }
   ];
 
+  keymaps = [
+    {
+      key = "<leader>lT";
+      mode = "n";
+      action = "<cmd>ToolingInfo<CR>";
+      options = {
+        silent = true;
+        desc = "Tooling info";
+      };
+    }
+  ];
+
   keymapsOnEvents.LspAttach = [
     (lib.mkIf (!config.plugins.conform-nvim.enable) {
       action.__raw = "vim.lsp.buf.format";
