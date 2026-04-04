@@ -5,7 +5,7 @@
   ...
 }:
 {
-  autoGroups = lib.mkIf (config.khanelivim.lsp.csharp == "roslyn") {
+  autoGroups = lib.mkIf (config.gmarlervim.lsp.csharp == "roslyn") {
     roslyn_group = { };
   };
   plugins = {
