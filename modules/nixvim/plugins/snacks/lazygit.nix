@@ -4,7 +4,7 @@
   ...
 }:
 let
-  isEnabled = lib.elem "snacks-lazygit" config.gmarlervim.git.integration;
+  isEnabled = lib.elem "snacks-lazygit" config.gmarlervim.git.integrations;
 in
 {
   dependencies.lazygit.enable = lib.mkDefault isEnabled;
