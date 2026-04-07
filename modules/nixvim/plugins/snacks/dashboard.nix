@@ -1,9 +1,15 @@
 { config, lib, ... }:
+let
+  isEnabled = config.gmarlervim.dashboard.tool == "snacks";
+in
 {
+  __depPackages.colorscript.default = "dwt1-shell-color-scripts";
+  dependencies.colorscript.enable = lib.mkDefault isEnabled;
+
   plugins = {
     snacks = {
       settings = {
-        dashboard = lib.mkIf (config.gmarlervim.dashboard.tool == "snacks") {
+        dashboard = lib.mkIf isEnabled {
           sections = [
             {
               header = ''
