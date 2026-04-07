@@ -3,16 +3,21 @@
   lib,
   ...
 }:
+let
+  isEnabled = lib.elem "snacks-lazygit" config.gmarlervim.git.integration;
+in
 {
+  dependencies.lazygit.enable = lib.mkDefault isEnabled;
+
   plugins = {
     snacks = {
       settings = {
-        lazygit.enabled = lib.elem "snacks-lazygit" config.gmarlervim.git.integrations;
+        lazygit.enabled = isEnabled;
       };
     };
   };
 
-  keymaps = lib.mkIf (lib.elem "snacks-lazygit" config.gmarlervim.git.integrations) [
+  keymaps = lib.mkIf isEnabled [
     {
       mode = "n";
       key = "<leader>gg";
