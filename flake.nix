@@ -26,17 +26,18 @@
     };
   };
 
-  # nixConfig = {
-  #   extra-substituters = [
-  #     "https://khanelivim.cachix.org"
-  #     "https://nix-community.cachix.org"
-  #   ];
-  #   extra-trusted-public-keys = [
-  #     # TODO: Add personal key for cachix.org-1 here
-  #     "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-  #   ];
-  #   allow-import-from-derivation = false;
-  # };
+  nixConfig = {
+    extra-substituters = [
+      "https://gmarlervim.cachix.org"
+      "https://nix-community.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      # TODO: Add personal key for cachix.org-1 here
+      "gmarlervim.cachix.org-1:M+pEfeONxkan1CtVsAUuEgL3HXafzxuYddvPdAXWwtI="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+    allow-import-from-derivation = false;
+  };
 
   outputs =
     inputs:
