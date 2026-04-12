@@ -44,7 +44,7 @@
     };
 
     chatEnable = lib.mkEnableOption "AI chat functionality" // {
-      default = false;
+      default = true;
     };
   };
 }
