@@ -1,0 +1,17 @@
+[default.extend-words]
+# Neovim plugin names
+noice = "noice"
+Noice = "Noice"
+# Nixvim directives
+Parm = "Parm"
+annote = "annote"
+# Keymaps
+fo = "fo"
+aso = "aso"
+ues = "ues"
+ue = "ue"
+ges = "ges"
+aas = "aas"
+# Vim commands
+enew = "enew"
+iput = "iput"
