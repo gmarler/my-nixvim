@@ -115,6 +115,8 @@ in
     formatlistpat = "^\\s*[0-9\\-\\+\\*]\\+[\\.)]*\\s\\+";
     linebreak = true;
     wrap = false;
+    # Do NOT insert two spaces after a ".", "?", or "!" with a join command
+    joinspaces = false;
 
     # Folding
     foldlevel = 10; # Keep most folds open, but preserve structure
