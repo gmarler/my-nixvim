@@ -22,7 +22,7 @@ jobs:
         uses: cachix/cachix-action@v17
         with:
           name: gmarlervim
-          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       - name: Build
         run: |
           nix build --accept-flake-config
