@@ -10,7 +10,7 @@ jobs:
         with:
           install_url: https://nixos.org/nix/install
           extra_nix_config: |
-            auto-optimise-store: true
+            auto-optimise-store = true
             access-tokens = github.com=${{ secrets.GMARLERVIM_TOKEN }}
             experimental-features = nix-command flakes
       - run: nix build .#checks.x86_64-linux.treefmt
