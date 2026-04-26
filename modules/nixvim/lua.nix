@@ -1,5 +1,21 @@
 {
   extraFiles = {
+    "ftplugin/teal.vim".source = builtins.toFile "teal.vim" ''
+      " Register Teal as a known runtime filetype so vim.lsp health checks stop
+      " flagging it as unknown. Real detection still comes from vim.filetype.add().
+    '';
+    "ftplugin/yaml.docker-compose.vim".source = builtins.toFile "yaml.docker-compose.vim" ''
+      " nvim-lspconfig's yamlls config advertises this YAML subtype.
+      " Real detection still comes from vim.filetype.add().
+    '';
+    "ftplugin/yaml.gitlab.vim".source = builtins.toFile "yaml.gitlab.vim" ''
+      " nvim-lspconfig's yamlls config advertises this YAML subtype.
+      " Real detection still comes from vim.filetype.add().
+    '';
+    "ftplugin/yaml.helm-values.vim".source = builtins.toFile "yaml.helm-values.vim" ''
+      " nvim-lspconfig's yamlls config advertises this YAML subtype.
+      " Real detection still comes from vim.filetype.add().
+    '';
     "lua/gmarlervim/tooling_info.lua".source = ./lua/gmarlervim/tooling_info.lua;
     "lua/gmarlervim/web_tools.lua".source = ./lua/gmarlervim/web_tools.lua;
   };
