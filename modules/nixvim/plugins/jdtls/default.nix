@@ -1,0 +1,234 @@
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  javaSettings = import ./java-settings.nix {
+    inherit pkgs;
+    inherit (pkgs) fetchurl;
+  };
+in
+{
+  extraPackages = lib.mkIf (config.gmarlervim.lsp.java == "nvim-jdtls") [
+    pkgs.jdk
+    pkgs.jdt-language-server
+    pkgs.lombok
+    pkgs.maven
+    pkgs.gradle
+    pkgs.unzip
+  ];
+
+  plugins = {
+    jdtls = {
+      # nvim-jdtls documentation
+      # See: https://github.com/mfussenegger/nvim-jdtls
+      enable = config.gmarlervim.lsp.java == "nvim-jdtls";
+
+      lazyLoad.settings.ft = "java";
+
+      luaConfig.pre = ''
+        _G.gmarlervim_jdtls = _G.gmarlervim_jdtls or {}
+
+        function _G.gmarlervim_jdtls.find_root()
+          local bufname = vim.api.nvim_buf_get_name(0)
+          local current = bufname ~= "" and vim.fs.dirname(bufname) or vim.uv.cwd()
+          local gradle_settings_root = nil
+          local nearest_maven_root = nil
+          local nearest_gradle_root = nil
+
+          while current and current ~= "" do
+            local has_gradle_settings =
+              vim.uv.fs_stat(current .. "/settings.gradle")
+              or vim.uv.fs_stat(current .. "/settings.gradle.kts")
+            local has_maven_root =
+              vim.uv.fs_stat(current .. "/pom.xml")
+              or vim.uv.fs_stat(current .. "/mvnw")
+            local has_gradle_root =
+              vim.uv.fs_stat(current .. "/build.gradle")
+              or vim.uv.fs_stat(current .. "/build.gradle.kts")
+              or vim.uv.fs_stat(current .. "/gradlew")
+
+            if has_gradle_settings then
+              gradle_settings_root = current
+            end
+
+            if not nearest_maven_root and has_maven_root then
+              nearest_maven_root = current
+            end
+
+            if not nearest_gradle_root and has_gradle_root then
+              nearest_gradle_root = current
+            end
+
+            if vim.uv.fs_stat(current .. "/.git") then
+              break
+            end
+
+            local parent = vim.fs.dirname(current)
+            if not parent or parent == current then
+              break
+            end
+
+            current = parent
+          end
+
+          return gradle_settings_root or nearest_maven_root or nearest_gradle_root or vim.uv.cwd()
+        end
+
+        function _G.gmarlervim_jdtls.workspace_dir(kind)
+          return vim.fn.stdpath("cache")
+            .. "/jdtls/"
+            .. vim.fn.sha256(_G.gmarlervim_jdtls.find_root())
+            .. "/"
+            .. kind
+        end
+
+        function _G.gmarlervim_jdtls.is_large_gradle_workspace(root)
+          if not root then
+            return false
+          end
+
+          local has_gradle_settings =
+            vim.uv.fs_stat(root .. "/settings.gradle")
+            or vim.uv.fs_stat(root .. "/settings.gradle.kts")
+
+          if not has_gradle_settings then
+            return false
+          end
+
+          local project_count = 0
+
+          for name, entry_type in vim.fs.dir(root) do
+            if entry_type == "directory" then
+              local path = root .. "/" .. name
+              if vim.uv.fs_stat(path .. "/build.gradle") or vim.uv.fs_stat(path .. "/build.gradle.kts") then
+                project_count = project_count + 1
+              end
+            end
+          end
+
+          return project_count >= 2
+        end
+
+        function _G.gmarlervim_jdtls.source_paths(root)
+          local patterns = {
+            root .. "/src/main/java",
+            root .. "/src/test/java",
+            root .. "/**/src/main/java",
+            root .. "/**/src/test/java",
+          }
+          local paths = {}
+
+          for _, pattern in ipairs(patterns) do
+            for _, path in ipairs(vim.fn.glob(pattern, true, true)) do
+              if vim.fn.isdirectory(path) == 1 and not vim.tbl_contains(paths, path) then
+                table.insert(paths, path)
+              end
+            end
+          end
+
+          if #paths == 0 then
+            table.insert(paths, root)
+          end
+
+          return paths
+        end
+
+        function _G.gmarlervim_jdtls.patch_client(client)
+          if client._gmarlervim_source_paths_patched then
+            return
+          end
+
+          local original_request = client.request
+          client.request = function(self, method, params, handler, bufnr)
+            local requested_setting = params
+              and params.command == "java.project.getSettings"
+              and params.arguments
+              and params.arguments[2]
+              and params.arguments[2][1]
+
+            if method == "workspace/executeCommand" and requested_setting == "org.eclipse.jdt.ls.core.sourcePaths" then
+              local response = {
+                ["org.eclipse.jdt.ls.core.sourcePaths"] = _G.gmarlervim_jdtls.source_paths(self.config.root_dir),
+              }
+
+              if handler then
+                vim.schedule(function()
+                  handler(nil, response, {
+                    bufnr = bufnr,
+                    client_id = self.id,
+                    method = method,
+                  })
+                end)
+              end
+
+              return true
+            end
+
+            return original_request(self, method, params, handler, bufnr)
+          end
+
+          client._gmarlervim_source_paths_patched = true
+        end
+      '';
+
+      settings = {
+        cmd = [
+          (lib.getExe pkgs.jdt-language-server)
+          "-data"
+          {
+            __raw = "_G.gmarlervim_jdtls.workspace_dir('data')";
+          }
+          "-configuration"
+          {
+            __raw = "_G.gmarlervim_jdtls.workspace_dir('config')";
+          }
+          "-javaagent:${pkgs.lombok}/share/java/lombok.jar"
+          "-vmargs"
+          "-Xmx4G"
+          "-XX:+UseG1GC"
+        ];
+
+        init_options = {
+          # Temporarily disabled bundles due to OSGi resolution issues in logs
+          bundles = [ ];
+          extendedClientCapabilities = {
+            progressReportProvider = true;
+            classFileContentsSupport = true;
+            generateToStringPromptSupport = true;
+            hashCodeEqualsPromptSupport = true;
+            advancedExtractInterfaceSupport = true;
+            advancedOrganizeImportsSupport = true;
+            generateConstructorsPromptSupport = true;
+            generateDelegateMethodsPromptSupport = true;
+          };
+        };
+
+        root_dir.__raw = "_G.gmarlervim_jdtls.find_root()";
+
+        capabilities = {
+          textDocument = {
+            semanticTokens = {
+              dynamicRegistration = false;
+            };
+          };
+        };
+
+        on_init.__raw = ''
+          function(client)
+            _G.gmarlervim_jdtls.patch_client(client)
+          end
+        '';
+
+        settings = lib.recursiveUpdate javaSettings {
+          java = {
+            implementationCodeLens.enabled.__raw = "not _G.gmarlervim_jdtls.is_large_gradle_workspace(_G.gmarlervim_jdtls.find_root())";
+            referencesCodeLens.enabled.__raw = "not _G.gmarlervim_jdtls.is_large_gradle_workspace(_G.gmarlervim_jdtls.find_root())";
+          };
+        };
+      };
+    };
+  };
+}
