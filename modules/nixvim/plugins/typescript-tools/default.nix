@@ -1,8 +1,16 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   typescriptToolsEnabled = config.gmarlervim.lsp.typescript == "typescript-tools";
+  tsserverPath = "${pkgs.typescript}/lib/node_modules/typescript/lib/tsserver.js";
 in
 {
+  extraPackages = lib.mkIf typescriptToolsEnabled [ pkgs.typescript ];
+
   plugins = {
     typescript-tools = {
       # typescript-tools.nvim documentation
@@ -33,8 +41,7 @@ in
           include_completions_with_insert_text = true;
           publish_diagnostic_on = "insert_leave";
           separate_diagnostic_server = true;
-          # Prefer project-local TypeScript and Yarn SDK resolution.
-          # tsserver_path = "${pkgs.typescript}/lib/node_modules/typescript/lib/tsserver.js";
+          tsserver_path = tsserverPath;
           tsserver_file_preferences = {
             # Conservative default: add the most useful hints without turning
             # every TS buffer into an annotation wall.
