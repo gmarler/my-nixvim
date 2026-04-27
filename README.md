@@ -1,75 +1,81 @@
 # Nixvim template
 
-This template gives you a good starting point for configuring nixvim standalone.
+This is a fully customized Neovim configuration, built with Nix and the powerful
+[Nixvim flake](https://github.com/nix-community/nixvim). It is meant to be
+reproducible, portable, and easy to extend without maintaining a separate Lua
+config per machine.
+
+## Key Features
+
+- **Nixvim for Declarative Configuration:** Leverage Nix expressions for a clean
+  and maintainable Neovim setup with 100+ carefully configured plugins.
+- **AI-Powered Development:** Integrated GitHub Copilot, Claude Code, Avante,
+  and Blink completion for intelligent coding assistance.
+- **Modern Plugin Architecture:** Modular plugin system with lazy loading and
+  comprehensive language support for 20+ programming languages.
+- **Advanced Navigation:** Multiple fuzzy finders (FZF-Lua, Snacks Picker) for
+  quick file and symbol searching.
+- **Comprehensive Git Integration:** Full Git workflow support with Gitsigns,
+  Diffview, Git Conflict resolution, and worktree management.
+- **Debugging & Testing:** Complete debugging setup with DAP and Neotest for
+  multiple languages.
+- **Consistent Environments:** Reproduce your Neovim setup on any system with
+  Nix installed.
+
+## Prerequisites
+
+- **Nix Package Manager:** Ensure Nix is installed on your system. Follow the
+  instructions at
+  [https://nixos.org/download.html](https://nixos.org/download.html).
 
 ## Installation
 
-** Option 1: Using `nix run` :**
+Run the default `standard` profile directly:
 
 ```bash
 nix run --extra-experimental-features 'nix-command flakes' github:gmarler/my-nixvim
 ```
 
-**Option 2: Build and run locally:**
+Build and run from a local checkout:
 
 ```bash
-git clone https://github.com/gmarler/my-nixvim.git
+git clone https://github.com/gmarler/gmarlervim.git
 cd my-nixvim
 nix run
 ```
 
-**Option 3: Home Manager Integration:**
-
-Add to your Home manager configuration:
+Install it from Home Manager via `home.packages`:
 
 ```nix
 {
-    inputs = {
-      nixpkgs.url = "github.NixOS/nixpkgs/nixos-unstable";
-      home-manager.url = "github:nix-community/home-manager";
-      my-nixvim.url = "github:gmarler/my-nixvim";
-    };
-
-    outputs = { nixpkgs, home-manager, my-nixvim, ... }: {
-      homeConfigurations.username = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.x86_64-linux;
-      modules = [
-        {
-          home.packages = [
-            # Option A: Use default configuration
-            my-nixvim.packages.x86_64-linux.default  
-
-            # Option B: Extend with customizations
-             (let
-               baseConfig = my-nixvim.nixvimConfigurations.x86_64-linux.gmarlervim;
-               extendedConfig = baseConfig.extendModules {
-                 modules = [
-                   {
-                     # Disable specific plugins
-                     plugins.yazi.enable = false;
-
-                     # Override plugin settings
-                     plugins.lualine.settings.options.theme = "gruvbox";
-
-                     # Add custom Lua configuration
-                     extraConfigLua = ''
-                         vim.opt.relativenumber = false
-                     '';
-                   }
-                 ];
-               };
-             in extendedConfig.config.build.package)
-          ];
-        }
-      ];
-    };
-  };
+  home.packages = [
+    my-nixvim.packages.${pkgs.system}.default
+  ];
 }
 ```
 
+## Docs
+
+The generated docs are the canonical reference for profiles, options, and
+workflow details.
+
+```bash
+nix build .#docs-html
+nix run .#docs
+```
+
+Start here:
+
+- `Using the Flake` for the supported ways to run, install, and customize this
+  config
+- `Selecting Profiles` for `minimal`, `basic`, `standard`, `full`, and `debug`
+- `Options Reference` for the `gmarlervim.*` module surface
+- `Profile Matrix` for the evaluated differences between profiles
+- `Language Tooling Workflows` for the runtime LSP and language-tooling model
+
 ## Profiles
 
-gmarlervim exposes profile presets through the `gmarlervim.profile` module
+my-nixvim exposes profile presets through the `gmarlervim.profile` module
 option.
 
 The important detail is that the flake's default package and `nix run` use the
