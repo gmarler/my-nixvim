@@ -1,0 +1,54 @@
+{ config, lib, ... }:
+{
+  plugins.inc-rename = {
+    # inc-rename.nvim documentation
+    # See: https://github.com/smjonas/inc-rename.nvim
+    enable = config.gmarlervim.editor.rename == "inc-rename";
+
+    lazyLoad.settings = {
+      event = [
+        "DeferredUIEnter"
+      ];
+    };
+
+    settings = {
+      cmd_name = "IncRename";
+      hl_group = "Substitute";
+      preview_empty_name = false;
+      show_message = true;
+      save_in_cmdline_history = true;
+      # NOTE: Shows at top like a regular command
+      # Enabled in noice with inline style hover
+      input_buffer_type = lib.mkIf (config.gmarlervim.ui.renamePopup == "snacks") "snacks";
+    };
+  };
+
+  keymaps = lib.optionals config.plugins.inc-rename.enable [
+    {
+      mode = "n";
+      key = "grn";
+      action.__raw = ''
+        function()
+          return ":IncRename " .. vim.fn.expand("<cword>")
+        end
+      '';
+      options = {
+        expr = true;
+        desc = "Rename Symbol";
+      };
+    }
+    {
+      mode = "n";
+      key = "gR";
+      action.__raw = ''
+        function()
+          return ":IncRename " .. vim.fn.expand("<cword>")
+        end
+      '';
+      options = {
+        expr = true;
+        desc = "Start IncRename";
+      };
+    }
+  ];
+}
