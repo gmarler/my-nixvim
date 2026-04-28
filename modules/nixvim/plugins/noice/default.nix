@@ -82,12 +82,14 @@
             "cmp.entry.get_documentation" = true;
           };
 
+          signature.enabled = config.gmarlervim.ui.signatureHelp == "noice";
+        }
+        // lib.optionalAttrs (config.gmarlervim.ui.notifications == "noice") {
           progress = {
-            enabled = config.gmarlervim.ui.notifications == "noice";
+            enabled = true;
             throttle = 1000 / 10;
             view = "lsp_progress";
           };
-          signature.enabled = config.gmarlervim.ui.signatureHelp == "noice";
         };
 
         popupmenu.backend = "nui";
