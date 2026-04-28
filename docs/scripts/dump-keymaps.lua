@@ -23,12 +23,12 @@ local sample_files = {
 }
 
 local root_files = {
-	{ path = "package.json", lines = { '{ "name": "khanelivim-keymaps" }' } },
+	{ path = "package.json", lines = { '{ "name": "gmarlervim-keymaps" }' } },
 	{ path = "tsconfig.json", lines = { "{", '  "compilerOptions": {}', "}" } },
-	{ path = "pyproject.toml", lines = { "[project]", 'name = "khanelivim-keymaps"', 'version = "0.1.0"' } },
+	{ path = "pyproject.toml", lines = { "[project]", 'name = "gmarlervim-keymaps"', 'version = "0.1.0"' } },
 	{
 		path = "Cargo.toml",
-		lines = { "[package]", 'name = "khanelivim-keymaps"', 'version = "0.1.0"', 'edition = "2021"' },
+		lines = { "[package]", 'name = "gmarlervim-keymaps"', 'version = "0.1.0"', 'edition = "2021"' },
 	},
 }
 
