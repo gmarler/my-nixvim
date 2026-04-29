@@ -21,7 +21,7 @@
               exit 0
             fi
 
-            cache_root="''${XDG_CACHE_HOME:-$HOME/.cache}/khanelivim"
+            cache_root="''${XDG_CACHE_HOME:-$HOME/.cache}/gmarlervim"
             mkdir -p "$cache_root"
             workdir="$(mktemp -d "$cache_root/pre-commit-${hookName}-parse.XXXXXX")"
             trap 'rm -rf "$workdir"' EXIT

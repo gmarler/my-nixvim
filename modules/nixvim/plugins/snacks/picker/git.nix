@@ -81,13 +81,13 @@
             };
           }
         ]
-        ++ lib.optionals (lib.elem "git-worktree" config.khanelivim.git.integrations) [
+        ++ lib.optionals (lib.elem "git-worktree" config.gmarlervim.git.integrations) [
           {
             mode = "n";
             key = "<leader>gfw";
             action.__raw = ''
               function()
-                require("khanelivim.snacks_git_worktree").pick_worktrees()
+                require("gmarlervim.snacks_git_worktree").pick_worktrees()
               end
             '';
             options = {
@@ -99,7 +99,7 @@
             key = "<leader>gfW";
             action.__raw = ''
               function()
-                require("khanelivim.snacks_git_worktree").create_worktree()
+                require("gmarlervim.snacks_git_worktree").create_worktree()
               end
             '';
             options = {
@@ -111,7 +111,7 @@
             key = "<leader>gfD";
             action.__raw = ''
               function()
-                require("khanelivim.snacks_git_worktree").delete_worktree()
+                require("gmarlervim.snacks_git_worktree").delete_worktree()
               end
             '';
             options = {
