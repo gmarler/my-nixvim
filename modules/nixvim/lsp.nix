@@ -263,6 +263,10 @@
 
           if not supports_codelens then return end
           if not vim.lsp.codelens.is_enabled({ bufnr = bufnr }) then return end
+          if args.event == "LspAttach" then
+            vim.lsp.codelens.enable(true, { bufnr = bufnr })
+          end
+
 
           vim.lsp.codelens.refresh({ bufnr = bufnr })
         end
