@@ -41,7 +41,9 @@
 
           folds = {
             open = true;
-            git_hl = lib.elem "gitsigns" config.gmarlervim.git.integrations;
+            git_hl =
+              lib.elem "gitsigns" config.gmarlervim.git.integrations
+              || lib.elem "jjsigns" config.gmarlervim.jj.integrations;
           };
         };
         quickfile.enabled = true;
