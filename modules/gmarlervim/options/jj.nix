@@ -1,6 +1,6 @@
 { lib, ... }:
 {
-  options.khanelivim.jj = {
+  options.gmarlervim.jj = {
     integrations = lib.mkOption {
       type = lib.types.listOf (
         lib.types.enum [

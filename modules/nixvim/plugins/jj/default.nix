@@ -11,7 +11,7 @@ in
   # TODO: Consider upstreaming this module to nixvim
   options.plugins.jj = {
     enable = lib.mkEnableOption "jj" // {
-      default = builtins.elem "jj" config.khanelivim.jj.integrations;
+      default = builtins.elem "jj" config.gmarlervim.jj.integrations;
     };
 
     package = lib.mkPackageOption pkgs.vimPlugins "jj" {
@@ -112,7 +112,7 @@ in
         callback.__raw = ''
           function(args)
             local bufnr = args.buf
-            if vim.b[bufnr].khanelivim_jj_keymaps then
+            if vim.b[bufnr].gmarlervim_jj_keymaps then
               return
             end
 
@@ -122,7 +122,7 @@ in
               return
             end
 
-            vim.b[bufnr].khanelivim_jj_keymaps = true
+            vim.b[bufnr].gmarlervim_jj_keymaps = true
 
             local opts = function(desc)
               return { buffer = bufnr, desc = desc }

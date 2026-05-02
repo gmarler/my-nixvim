@@ -225,8 +225,8 @@ in
             :flatten()
             :totable()
 
-          if _G.khanelivim_spring_boot_jdtls_bundles then
-            vim.list_extend(bundles, _G.khanelivim_spring_boot_jdtls_bundles())
+          if _G.gmarlervim_spring_boot_jdtls_bundles then
+            vim.list_extend(bundles, _G.gmarlervim_spring_boot_jdtls_bundles())
           end
 
           return bundles
