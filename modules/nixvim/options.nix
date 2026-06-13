@@ -119,7 +119,7 @@ in
     joinspaces = false;
 
     # Folding
-    foldlevel = 10; # Keep most folds open, but preserve structure
+    foldlevel = 20; # Keep most folds open, but preserve structure
     foldcolumn = "1"; # Use 1 fixed column to show a fold
     foldenable = true; # folds enabled by default
     foldmethod = "indent";
