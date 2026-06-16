@@ -1,4 +1,4 @@
-{ lib, self, ... }:
+{ lib, ... }:
 let
   inherit (builtins) readDir;
   by-name = ./plugins;
@@ -26,11 +26,4 @@ in
       # keep-sorted end
     ];
 
-  nixpkgs = {
-    overlays = lib.attrValues self.overlays;
-    config = {
-      allowAliases = false;
-      allowUnfree = true;
-    };
-  };
 }

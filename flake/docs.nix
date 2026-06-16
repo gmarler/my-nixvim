@@ -8,16 +8,8 @@
       ...
     }:
     let
-      nixvimPkgs = import inputs.nixpkgs {
-        inherit system;
-        config = {
-          allowAliases = false;
-          allowUnfree = true;
-        };
-      };
       optionsEval = inputs.self.lib.mkNixvimConfig {
-        inherit system;
-        pkgs = nixvimPkgs;
+        inherit pkgs system;
         profile = "standard";
       };
       docsNvimPackage = optionsEval.config.build.package;
@@ -43,8 +35,7 @@
           optionsEval.config.gmarlervim
         else
           (inputs.self.lib.mkNixvimConfig {
-            inherit system profile;
-            pkgs = nixvimPkgs;
+            inherit pkgs system profile;
           }).config.gmarlervim;
 
       profileMatrix = lib.genAttrs profiles (
