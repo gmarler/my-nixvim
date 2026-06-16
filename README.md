@@ -369,4 +369,4 @@ which-key. Many plugins provide additional context-specific keybindings. See
 
 ## Inspirational Config Implementations:
 
-- https://github.com/khaneliman/khanelivim
+- https://github.com/khaneliman/gmarlervim

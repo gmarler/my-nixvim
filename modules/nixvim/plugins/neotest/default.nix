@@ -11,7 +11,7 @@ let
   neotestSubprocessRuntimePatch = /* Lua */ ''
     local subprocess = require("neotest.lib").subprocess
 
-    if not subprocess._khanelivim_runtime_patch then
+    if not subprocess._gmarlervim_runtime_patch then
       local add_paths_to_rtp = subprocess.add_paths_to_rtp
 
       subprocess.add_paths_to_rtp = function(paths)
@@ -37,7 +37,7 @@ let
         return add_paths_to_rtp(filtered)
       end
 
-      subprocess._khanelivim_runtime_patch = true
+      subprocess._gmarlervim_runtime_patch = true
       end
   '';
   neotestSubprocessRuntimePatchFn = /* Lua */ ''
