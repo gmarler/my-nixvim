@@ -137,7 +137,6 @@
             pass_filenames = true;
             entry = "${lib.getExe pkgs.bash} -c 'for file in \"$@\"; do ${lib.getExe pkgs.statix} check \"$file\"; done' --";
           };
-          treefmt.enable = true;
           # Weird - demands a treefmt config or won't pass git hook
           #treefmt = {
           #  enable = true;
