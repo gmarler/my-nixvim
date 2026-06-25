@@ -219,7 +219,7 @@
     };
 
     notify = {
-      enable = true;
+      enable = config.gmarlervim.ui.notifications == "noice";
       lazyLoad.settings.event = "DeferredUIEnter";
     };
   };
