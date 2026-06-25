@@ -145,6 +145,7 @@
             enable = true;
             excludes = [ "^generated/" ];
             package = pkgs.typos;
+            settings.config = fromTOML (builtins.readFile ../../_typos.toml);
           };
           # keep-sorted end
         };
