@@ -9,6 +9,7 @@
       vim.opt.completetimeout = 100
       vim.opt.diffopt:append("inline:word")
     end
+
     if vim.fn.has("nvim-0.13") == 1 then
       vim.opt.shortmess:append("u")
       vim.opt.scrolloffpad = 1
@@ -28,6 +29,14 @@
       if vim.fn.has("nvim-0.12") == 1 then
         vim.opt.autocomplete = true
         vim.opt.completeopt:append({ "popup", "nearest" })
+      end
+    ''}
+
+    ${lib.optionalString (config.gmarlervim.ui.commandline == "ui2") ''
+      if vim.fn.has("nvim-0.12") == 1 then
+        pcall(function()
+          require("vim._core.ui2").enable()
+        end)
       end
     ''}
   '';
