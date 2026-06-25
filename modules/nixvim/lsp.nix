@@ -147,6 +147,8 @@
         ];
       };
       taplo.enable = true;
+      # Find commit where this line was introduced and uncomment
+      # teal_ls.enable = true;
       ts_ls.enable = config.gmarlervim.lsp.typescript == "ts_ls";
       tsgo.enable = config.gmarlervim.lsp.typescript == "tsgo";
       yamlls.enable = true;
@@ -176,6 +178,9 @@
             if has_lsp_folding then
               vim.wo.foldmethod = "expr"
               vim.wo.foldexpr = "v:lua.vim.lsp.foldexpr()"
+              if vim.lsp.foldtext then
+                vim.wo.foldtext = "v:lua.vim.lsp.foldtext()"
+              end
             else
               vim.wo.foldmethod = "expr"
               vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
