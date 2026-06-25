@@ -140,7 +140,6 @@
           # Weird - demands a treefmt config or won't pass git hook
           #treefmt = {
           #  enable = true;
-          #  package = pkgs.treefmt;
           #};
           typos = {
             enable = true;
