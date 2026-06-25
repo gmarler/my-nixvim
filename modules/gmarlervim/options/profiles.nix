@@ -183,7 +183,9 @@ in
       - minimal: Native-lean base with LSP, treesitter, blink, and minimal UI
       - basic: Lean daily driver with yazi, snacks picker, flash, gitsigns, and lualine
       - standard: Recommended developer default with AI, git, debugging, search, and core UI
-      - full: Everything enabled, including optional and overlapping workflows
+      - full: gmarler's maximal daily configuration. Applies no overrides at
+        all; every gmarlervim option keeps its declared default, which is the
+        everything-enabled setup the other profiles trim down from.
       - debug: Full profile with performance optimizations disabled and debug logging enabled
     '';
   };
