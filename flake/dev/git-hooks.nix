@@ -138,9 +138,9 @@
             entry = "${lib.getExe pkgs.bash} -c 'for file in \"$@\"; do ${lib.getExe pkgs.statix} check \"$file\"; done' --";
           };
           # Weird - demands a treefmt config or won't pass git hook
-          #treefmt = {
-          #  enable = true;
-          #};
+          treefmt = {
+            enable = true;
+          };
           typos = {
             enable = true;
             excludes = [ "^generated/" ];
