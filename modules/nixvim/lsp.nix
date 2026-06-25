@@ -147,8 +147,7 @@
         ];
       };
       taplo.enable = true;
-      # Find commit where this line was introduced and uncomment
-      # teal_ls.enable = true;
+      teal_ls.enable = true;
       ts_ls.enable = config.gmarlervim.lsp.typescript == "ts_ls";
       tsgo.enable = config.gmarlervim.lsp.typescript == "tsgo";
       yamlls.enable = true;
