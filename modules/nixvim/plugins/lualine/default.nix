@@ -78,7 +78,6 @@ in
 
     lazyLoad.settings = {
       event = [
-        "VimEnter"
         "BufReadPost"
         "BufNewFile"
       ];
