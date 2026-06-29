@@ -267,9 +267,6 @@ in
             __unkeyed-1 = "filetype";
             cond.__raw = statusMetadataCond "filetype";
           }
-          "encoding"
-          "fileformat"
-          "filetype"
         ];
 
         lualine_y = [
@@ -291,10 +288,7 @@ in
         ];
 
         lualine_z = [
-          {
-            __unkeyed-1 = "location";
-            inherit cond;
-          }
+          "location"
         ];
       };
 
