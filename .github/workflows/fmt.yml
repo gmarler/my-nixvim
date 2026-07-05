@@ -1,5 +1,7 @@
 name: Formatting Check
 on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
 jobs:
   checks:
     name: Check expressions
@@ -11,6 +13,6 @@ jobs:
           install_url: https://nixos.org/nix/install
           extra_nix_config: |
             auto-optimise-store = true
-            access-tokens = github.com=${{ secrets.GMARLERVIM_TOKEN }}
+            access-tokens = github.com=${{ github.token }}
             experimental-features = nix-command flakes
       - run: nix build .#checks.x86_64-linux.treefmt

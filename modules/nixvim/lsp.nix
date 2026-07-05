@@ -21,6 +21,10 @@
     # keep-sorted end
   ];
 
+  extraPackages = lib.mkIf (config.gmarlervim.lsp.typescript == "tsgo") [
+    pkgs.typescript-go
+  ];
+
   lsp = {
     inlayHints.enable = true;
 
@@ -120,6 +124,10 @@
       stylelint_lsp = {
         enable = true;
         config = {
+          cmd = [
+            (lib.getExe pkgs.stylelint-lsp)
+            "--stdio"
+          ];
           # Rely on upstream stylelint root detection, but avoid attaching when
           # no stylelint workspace exists.
           workspace_required = true;
@@ -139,6 +147,7 @@
         ];
       };
       taplo.enable = true;
+      teal_ls.enable = true;
       ts_ls.enable = config.gmarlervim.lsp.typescript == "ts_ls";
       tsgo.enable = config.gmarlervim.lsp.typescript == "tsgo";
       yamlls.enable = true;
@@ -168,6 +177,9 @@
             if has_lsp_folding then
               vim.wo.foldmethod = "expr"
               vim.wo.foldexpr = "v:lua.vim.lsp.foldexpr()"
+              if vim.lsp.foldtext then
+                vim.wo.foldtext = "v:lua.vim.lsp.foldtext()"
+              end
             else
               vim.wo.foldmethod = "expr"
               vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
@@ -187,7 +199,7 @@
           local filetype = vim.bo[args.buf].filetype
 
           if client.name == "eslint" and diagnostics_owner == "biome" then
-            client:stop(true)
+            vim.lsp.buf_detach_client(args.buf, client.id)
             return
           end
 
@@ -292,27 +304,13 @@
         desc = "Tooling info";
       };
     }
-  ];
-
-  keymapsOnEvents.LspAttach = [
-    (lib.mkIf (!config.plugins.conform-nvim.enable) {
-      action.__raw = "vim.lsp.buf.format";
-      mode = "v";
-      key = "<leader>lf";
-      options = {
-        silent = true;
-        buffer = false;
-        desc = "Format selection";
-      };
-    })
-    # Diagnostic keymaps
     {
       key = "<leader>lH";
       mode = "n";
       action = lib.nixvim.mkRaw "vim.diagnostic.open_float";
       options = {
         silent = true;
-        desc = "Lsp diagnostic open_float";
+        desc = "Diagnostic open_float";
       };
     }
     {
@@ -343,46 +341,6 @@
       options = {
         silent = true;
         desc = "Next diagnostic";
-      };
-    }
-    {
-      key = "<leader>lI";
-      mode = "n";
-      action = "<cmd>checkhealth vim.lsp<CR>";
-      options = {
-        silent = true;
-        desc = "LSP info";
-      };
-    }
-    {
-      key = "<leader>lQ";
-      mode = "n";
-      action = lib.nixvim.mkRaw ''
-        function()
-          local supports_workspace_diagnostics = vim.iter(vim.lsp.get_clients({ bufnr = 0 })):any(function(client)
-            return client:supports_method("workspace/diagnostic")
-          end)
-
-          if not supports_workspace_diagnostics then
-            vim.notify("No attached LSP supports workspace diagnostics", vim.log.levels.INFO)
-            return
-          end
-
-          vim.lsp.buf.workspace_diagnostics()
-        end
-      '';
-      options = {
-        silent = true;
-        desc = "Workspace diagnostics";
-      };
-    }
-    {
-      key = "<leader>lX";
-      mode = "n";
-      action = "<cmd>lsp restart<CR>";
-      options = {
-        silent = true;
-        desc = "Restart LSP";
       };
     }
     {
@@ -485,6 +443,59 @@
         desc = "Buffer errors list";
       };
     }
+  ];
+
+  keymapsOnEvents.LspAttach = [
+    (lib.mkIf (!config.plugins.conform-nvim.enable) {
+      action.__raw = "vim.lsp.buf.format";
+      mode = "v";
+      key = "<leader>lf";
+      options = {
+        silent = true;
+        buffer = false;
+        desc = "Format selection";
+      };
+    })
+    {
+      key = "<leader>lI";
+      mode = "n";
+      action = "<cmd>checkhealth vim.lsp<CR>";
+      options = {
+        silent = true;
+        desc = "LSP info";
+      };
+    }
+    {
+      key = "<leader>lQ";
+      mode = "n";
+      action = lib.nixvim.mkRaw ''
+        function()
+          local supports_workspace_diagnostics = vim.iter(vim.lsp.get_clients({ bufnr = 0 })):any(function(client)
+            return client:supports_method("workspace/diagnostic")
+          end)
+
+          if not supports_workspace_diagnostics then
+            vim.notify("No attached LSP supports workspace diagnostics", vim.log.levels.INFO)
+            return
+          end
+
+          vim.lsp.buf.workspace_diagnostics()
+        end
+      '';
+      options = {
+        silent = true;
+        desc = "Workspace diagnostics";
+      };
+    }
+    {
+      key = "<leader>lX";
+      mode = "n";
+      action = "<cmd>lsp restart<CR>";
+      options = {
+        silent = true;
+        desc = "Restart LSP";
+      };
+    }
     {
       key = "<leader>lx";
       mode = "n";
@@ -565,37 +576,90 @@
           };
         }
       ]
-  ++
-    lib.optionals
-      (
-        (
-          !config.plugins.snacks.enable
-          || (config.plugins.snacks.enable && !lib.hasAttr "picker" config.plugins.snacks.settings)
-        )
-        && !config.plugins.fzf-lua.enable
-        && !config.plugins.glance.enable
-      )
-      [
-        # Definition and type_definition keymaps (conditionally)
-        {
-          key = "<leader>ld";
-          mode = "n";
-          action = lib.nixvim.mkRaw "vim.lsp.buf.definition";
-          options = {
-            silent = true;
-            desc = "Lsp buf definition";
-          };
-        }
-        {
-          key = "<leader>lt";
-          mode = "n";
-          action = lib.nixvim.mkRaw "vim.lsp.buf.type_definition";
-          options = {
-            silent = true;
-            desc = "Lsp buf type_definition";
-          };
-        }
-      ];
+  ++ lib.optionals (config.gmarlervim.lsp.navigation == "native") [
+    {
+      key = "gd";
+      mode = "n";
+      action = lib.nixvim.mkRaw "vim.lsp.buf.definition";
+      options = {
+        silent = true;
+        desc = "Goto definition";
+      };
+    }
+    {
+      key = "gD";
+      mode = "n";
+      action = lib.nixvim.mkRaw "vim.lsp.buf.declaration";
+      options = {
+        silent = true;
+        desc = "Goto declaration";
+      };
+    }
+    {
+      key = "grr";
+      mode = "n";
+      action = lib.nixvim.mkRaw "vim.lsp.buf.references";
+      options = {
+        silent = true;
+        nowait = true;
+        desc = "Goto references";
+      };
+    }
+    {
+      key = "gri";
+      mode = "n";
+      action = lib.nixvim.mkRaw "vim.lsp.buf.implementation";
+      options = {
+        silent = true;
+        desc = "Goto implementation";
+      };
+    }
+    {
+      key = "gy";
+      mode = "n";
+      action = lib.nixvim.mkRaw "vim.lsp.buf.type_definition";
+      options = {
+        silent = true;
+        desc = "Goto type definition";
+      };
+    }
+    {
+      key = "<leader>ld";
+      mode = "n";
+      action = lib.nixvim.mkRaw "vim.lsp.buf.definition";
+      options = {
+        silent = true;
+        desc = "Lsp buf definition";
+      };
+    }
+    {
+      key = "<leader>lD";
+      mode = "n";
+      action = lib.nixvim.mkRaw "vim.lsp.buf.references";
+      options = {
+        silent = true;
+        desc = "Lsp buf references";
+      };
+    }
+    {
+      key = "<leader>li";
+      mode = "n";
+      action = lib.nixvim.mkRaw "vim.lsp.buf.implementation";
+      options = {
+        silent = true;
+        desc = "Lsp buf implementation";
+      };
+    }
+    {
+      key = "<leader>lt";
+      mode = "n";
+      action = lib.nixvim.mkRaw "vim.lsp.buf.type_definition";
+      options = {
+        silent = true;
+        desc = "Lsp buf type definition";
+      };
+    }
+  ];
 
   plugins = {
     lsp-format.enable = !config.plugins.conform-nvim.enable && config.plugins.lsp.enable;

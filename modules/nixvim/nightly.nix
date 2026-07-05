@@ -1,0 +1,136 @@
+{ config, lib, ... }:
+{
+  extraConfigLua = ''
+    if vim.fn.has("nvim-0.12") == 1 then
+      vim.opt.completeitemalign = "abbr,kind,menu"
+      vim.opt.jumpoptions = "stack"
+      vim.opt.pumborder = "single"
+      vim.opt.pummaxwidth = 100
+      vim.opt.completetimeout = 100
+      vim.opt.diffopt:append("inline:word")
+    end
+
+    if vim.fn.has("nvim-0.13") == 1 then
+      vim.opt.shortmess:append("u")
+      vim.opt.scrolloffpad = 1
+    end
+
+    if vim.hl and vim.hl.hl_op then
+      local group = vim.api.nvim_create_augroup("gmarlervim_nightly_highlight", { clear = true })
+      vim.api.nvim_create_autocmd({ "TextYankPost", "TextPutPost" }, {
+        group = group,
+        callback = function()
+          vim.hl.hl_op({ higroup = "Visual", timeout = 180 })
+        end,
+      })
+    end
+
+    ${lib.optionalString (config.gmarlervim.completion.tool == "native") ''
+      if vim.fn.has("nvim-0.12") == 1 then
+        vim.opt.autocomplete = true
+        vim.opt.completeopt:append({ "popup", "nearest" })
+      end
+    ''}
+
+    ${lib.optionalString (config.gmarlervim.ui.commandline == "ui2") ''
+      if vim.fn.has("nvim-0.12") == 1 then
+        pcall(function()
+          require("vim._core.ui2").enable()
+        end)
+      end
+    ''}
+  '';
+
+  autoCmd = lib.optionals (config.gmarlervim.completion.tool == "native") [
+    {
+      event = "LspAttach";
+      callback.__raw = ''
+        function(args)
+          if not vim.lsp.completion then return end
+
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if not client or not client:supports_method("textDocument/completion") then return end
+
+          vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+        end
+      '';
+    }
+  ];
+
+  keymaps = [
+    {
+      mode = "n";
+      key = "<leader>uR";
+      action.__raw = ''
+        function()
+          if vim.fn.exists(":restart") ~= 2 then
+            vim.notify(":restart requires Nvim 0.12+", vim.log.levels.WARN)
+            return
+          end
+
+          vim.cmd("restart")
+        end
+      '';
+      options.desc = "Restart Nvim";
+    }
+    {
+      mode = "n";
+      key = "<leader>ul";
+      action.__raw = ''
+        function()
+          if vim.fn.exists(":log") ~= 2 then
+            vim.notify(":log requires Nvim 0.13+", vim.log.levels.WARN)
+            return
+          end
+
+          vim.cmd("log")
+        end
+      '';
+      options.desc = "Open logs";
+    }
+  ]
+  ++ lib.optionals (config.gmarlervim.utilities.undoTree == "native") [
+    {
+      mode = "n";
+      key = "<leader>ueu";
+      action.__raw = ''
+        function()
+          pcall(vim.cmd, "packadd nvim.undotree")
+          if vim.fn.exists(":Undotree") ~= 2 then
+            vim.notify(":Undotree requires bundled nvim.undotree", vim.log.levels.WARN)
+            return
+          end
+
+          vim.cmd("Undotree")
+        end
+      '';
+      options.desc = "Undotree toggle";
+    }
+  ]
+  ++ lib.optionals (lib.elem "native-difftool" config.gmarlervim.git.integrations) [
+    {
+      mode = "n";
+      key = "<leader>gdn";
+      action.__raw = ''
+        function()
+          vim.ui.input({ prompt = "Diff left: ", completion = "file" }, function(left)
+            if not left or left == "" then return end
+
+            vim.ui.input({ prompt = "Diff right: ", completion = "file" }, function(right)
+              if not right or right == "" then return end
+
+              pcall(vim.cmd, "packadd nvim.difftool")
+              if vim.fn.exists(":DiffTool") ~= 2 then
+                vim.notify(":DiffTool requires bundled nvim.difftool", vim.log.levels.WARN)
+                return
+              end
+
+              vim.cmd("DiffTool " .. vim.fn.fnameescape(left) .. " " .. vim.fn.fnameescape(right))
+            end)
+          end)
+        end
+      '';
+      options.desc = "Native DiffTool";
+    }
+  ];
+}

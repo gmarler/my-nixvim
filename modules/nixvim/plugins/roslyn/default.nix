@@ -8,6 +8,7 @@
   autoGroups = lib.mkIf (config.gmarlervim.lsp.csharp == "roslyn") {
     roslyn_group = { };
   };
+
   plugins = {
     roslyn = {
       # roslyn.nvim documentation
@@ -89,6 +90,10 @@
             end
 
             apply_roslyn_maps(args.buf)
+            if vim.b[args.buf].gmarlervim_roslyn_lsp_attach_maps then
+              return
+            end
+            vim.b[args.buf].gmarlervim_roslyn_lsp_attach_maps = true
             vim.api.nvim_create_autocmd("LspAttach", {
               buffer = args.buf,
               callback = function(ev)
@@ -108,11 +113,11 @@
       callback = {
         __raw = ''
           function()
-            vim.api.nvim_clear_autocmds {
+            pcall(vim.api.nvim_clear_autocmds, {
               group = "noice_lsp_progress",
               event = "LspProgress",
               pattern = "*",
-            }
+            })
           end
         '';
       };

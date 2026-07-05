@@ -34,6 +34,7 @@
       type = lib.types.nullOr (
         lib.types.enum [
           "noice"
+          "ui2"
         ]
       );
       default = "noice";
@@ -66,6 +67,7 @@
     notifications = lib.mkOption {
       type = lib.types.enum [
         "mini-notify"
+        "native"
         "noice"
         "snacks"
       ];

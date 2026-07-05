@@ -46,7 +46,6 @@ let
       return false
     end
   '';
-
   tablineColors =
     {
       catppuccin = {
@@ -78,7 +77,6 @@ in
 
     lazyLoad.settings = {
       event = [
-        "VimEnter"
         "BufReadPost"
         "BufNewFile"
       ];
@@ -144,20 +142,34 @@ in
         lualine_b = [ "branch" ];
         lualine_c = [
           "filename"
-          "diff"
+          (
+            if config.plugins.gitsigns.enable then
+              {
+                __unkeyed-1 = "diff";
+                source.__raw = ''
+                  function()
+                    local gitsigns = vim.b.gitsigns_status_dict
+                    if not gitsigns then
+                      return nil
+                    end
+
+                    return {
+                      added = gitsigns.added,
+                      modified = gitsigns.changed,
+                      removed = gitsigns.removed,
+                    }
+                  end
+                '';
+              }
+            else
+              "diff"
+          )
         ];
 
         lualine_x = [
           { __raw = "Snacks.profiler.status()"; }
           {
             __unkeyed-1 = "diagnostics";
-            # TODO: figure out how this works
-            # It's triplicating number count
-            # sources = [
-            #   "nvim_lsp"
-            #   "nvim_diagnostic"
-            #   "nvim_workspace_diagnostic"
-            # ];
             diagnostics_color = {
               error = {
                 fg = "#ed8796";
@@ -177,8 +189,8 @@ in
           {
             __unkeyed-1.__raw = ''
               function()
-                local ok, lint = pcall(require, "lint")
-                if not ok then
+                local lint = package.loaded["lint"]
+                if not lint then
                   return ""
                 end
                 local running = lint.get_running()
@@ -237,19 +249,8 @@ in
           {
             __unkeyed-1.__raw = ''
               function()
-                  local msg = ""
-                  local buf_ft = vim.bo.filetype
-                  local clients = vim.lsp.get_clients()
-                  if next(clients) == nil then
-                      return msg
-                  end
-                  for _, client in ipairs(clients) do
-                      local filetypes = client.config.filetypes
-                      if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-                          return client.name
-                      end
-                  end
-                  return msg
+                  local clients = vim.lsp.get_clients({ bufnr = 0 })
+                  return clients[1] and clients[1].name or ""
               end
             '';
             icon = "";
@@ -346,10 +347,19 @@ in
           })
         ];
 
-        # TODO: Need to dynamically hide/show component so navic takes precedence on smaller width
         lualine_x = [
           {
             __unkeyed-1 = "filename";
+            cond.__raw = ''
+              function()
+                if vim.fn.winwidth(0) >= 120 then
+                  return true
+                end
+
+                local ok, navic = pcall(require, "nvim-navic")
+                return not ok or not navic.is_available()
+              end
+            '';
             newfile_status = true;
             path = 3;
             # Shorten path names to fit navic component

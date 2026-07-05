@@ -2,9 +2,15 @@
   config,
   lib,
   pkgs,
+  self,
+  system,
   ...
 }:
 {
+  extraPackages = lib.mkIf config.plugins.easy-dotnet.enable [
+    self.packages.${system}.easydotnet
+  ];
+
   autoGroups = lib.mkIf config.plugins.easy-dotnet.enable {
     easy_dotnet_group = { };
   };
@@ -25,6 +31,10 @@
             end
             local map = function(mode, key, command, desc)
               vim.keymap.set(mode, key, function()
+                if command == "debug" and vim.bo[bufnr].filetype == "fsharp" then
+                  require("dap").continue()
+                  return
+                end
                 if vim.fn.exists(":Dotnet") == 2 then
                   vim.cmd("Dotnet " .. command)
                   return
@@ -45,6 +55,10 @@
           end
 
           apply_easy_dotnet_maps(args.buf)
+          if vim.b[args.buf].gmarlervim_easy_dotnet_lsp_attach_maps then
+            return
+          end
+          vim.b[args.buf].gmarlervim_easy_dotnet_lsp_attach_maps = true
           vim.api.nvim_create_autocmd("LspAttach", {
             buffer = args.buf,
             callback = function(ev)
@@ -60,15 +74,21 @@
     easy-dotnet = {
       # easy-dotnet.nvim documentation
       # See: https://github.com/GustavEikaas/easy-dotnet.nvim
-      enable = true;
+      enable = lib.mkDefault true;
 
-      lazyLoad.settings.ft = [
-        "cs"
-        "fsharp"
-        "xml"
-      ];
+      lazyLoad.settings = {
+        before.__raw = ''
+          function()
+            require("lz.n").trigger_load("nvim-dap")
+          end
+        '';
+        ft = [
+          "cs"
+          "fsharp"
+          "xml"
+        ];
+      };
 
-      # TODO: https://github.com/GustavEikaas/easy-dotnet.nvim?tab=readme-ov-file#nvim-dap-configuration
       settings = {
         picker =
           if config.plugins.snacks.enable then
@@ -79,22 +99,25 @@
             null;
         debugger.bin_path = lib.getExe pkgs.netcoredbg;
       };
-    };
 
-    dap = lib.mkIf config.plugins.easy-dotnet.enable {
-      luaConfig.pre = ''
+      luaConfig.post = ''
+        local dap = require("dap")
         local debug_dll = nil
 
-        require("easy-dotnet.netcoredbg").register_dap_variables_viewer()
+        dap.adapters.coreclr = dap.adapters.coreclr or {
+          type = "executable",
+          command = "${lib.getExe pkgs.netcoredbg}",
+          args = { "--interpreter=vscode" },
+        }
 
-        require("dap").listeners.before['event_terminated']['easy-dotnet'] = function()
+        dap.listeners.before['event_terminated']['easy-dotnet-fsharp'] = function()
           debug_dll = nil
         end
 
         local function rebuild_project(co, path)
           local spinner = require("easy-dotnet.ui-modules.spinner").new()
           spinner:start_spinner("Building")
-          vim.fn.jobstart(string.format("dotnet build %s", path), {
+          vim.fn.jobstart({ "dotnet", "build", path }, {
             on_exit = function(_, return_code)
               if return_code == 0 then
                 spinner:stop_spinner("Built successfully")
@@ -108,54 +131,78 @@
           coroutine.yield()
         end
 
+        local function trim(value)
+          return value and value:match("^%s*(.-)%s*$") or nil
+        end
+
+        local function get_project_metadata(project_path)
+          local xml = table.concat(vim.fn.readfile(project_path), "\n")
+          local target_framework = trim(xml:match("<TargetFramework>([^<]+)</TargetFramework>"))
+          local target_frameworks = trim(xml:match("<TargetFrameworks>([^<]+)</TargetFrameworks>"))
+          if not target_framework and target_frameworks then
+            target_framework = trim(vim.split(target_frameworks, ";", { plain = true })[1])
+          end
+
+          if not target_framework or target_framework == "" then
+            error("Unable to determine TargetFramework for " .. project_path)
+          end
+
+          return {
+            assembly_name = trim(xml:match("<AssemblyName>([^<]+)</AssemblyName>")) or vim.fn.fnamemodify(project_path, ":t:r"),
+            target_framework = target_framework,
+          }
+        end
+
         local function ensure_dll()
           if debug_dll ~= nil then
             return debug_dll
           end
-          local dll = require("easy-dotnet").get_debug_dll()
+
+          local bufname = vim.api.nvim_buf_get_name(0)
+          local start_dir = bufname ~= "" and vim.fs.dirname(bufname) or vim.fn.getcwd()
+          local project_path = vim.fs.find(function(name)
+            return name:match("%.fsproj$") ~= nil
+          end, { path = start_dir, upward = true, limit = 1 })[1]
+
+          if not project_path then
+            error("No .fsproj found for current buffer")
+          end
+
+          local project_dir = vim.fs.dirname(project_path)
+          local metadata = get_project_metadata(project_path)
+          local dll = {
+            project_path = project_path,
+            project_dir = project_dir,
+            dll_path = table.concat({
+              project_dir,
+              "bin",
+              "Debug",
+              metadata.target_framework,
+              metadata.assembly_name .. ".dll",
+            }, "/"),
+          }
           debug_dll = dll
           return dll
         end
+
+        dap.configurations.fsharp = {
+          {
+            type = "coreclr",
+            name = "launch - netcoredbg",
+            request = "launch",
+            program = function()
+              local dll = ensure_dll()
+              local co = coroutine.running()
+              rebuild_project(co, dll.project_path)
+              return dll.dll_path
+            end,
+            cwd = function()
+              local dll = ensure_dll()
+              return dll.project_dir
+            end,
+          },
+        }
       '';
-
-      configurations =
-        let
-          coreclr-config = {
-            type = "coreclr";
-            name = "launch - netcoredbg";
-            request = "launch";
-            env.__raw = ''
-              function()
-                local dll = ensure_dll()
-                local vars = require("easy-dotnet").get_environment_variables(dll.project_name, dll.relative_project_path)
-                return vars or nil
-              end
-            '';
-            program.__raw = ''
-              function()
-                local dll = ensure_dll()
-                local co = coroutine.running()
-                rebuild_project(co, dll.project_path)
-                return dll.relative_dll_path
-              end
-            '';
-            cwd.__raw = ''
-              function()
-                local dll = ensure_dll()
-                return dll.relative_project_path
-              end
-            '';
-          };
-        in
-        {
-          cs = [
-            coreclr-config
-          ];
-
-          fsharp = [
-            coreclr-config
-          ];
-        };
     };
   };
 }

@@ -9,7 +9,7 @@
     ./devshell.nix
     ./git-hooks.nix
     ./parse.nix
-    #./treefmt.nix
+    ./treefmt.nix
   ];
 
   perSystem =

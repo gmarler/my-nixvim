@@ -99,6 +99,7 @@
       ];
       description = "Text objects plugins to use (complementary)";
     };
+
   };
   # keep-sorted end
 }

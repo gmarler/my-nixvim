@@ -18,8 +18,13 @@ let
         config = {
           allowedAliases = false;
           allowUnfree = true;
+          permittedInsecurePackages = [
+            # FIXME: pnpm 9 unsafe ignore for stylelint-lsp.
+            "pnpm-9.15.9"
+          ];
         };
       };
+      hasNixvimPackages = lib.hasAttr system inputs.nixvim.packages;
       nixvimPkgs = if pkgs == null then sharedNixpkgs else pkgs;
     in
     inputs.nixvim.lib.evalNixvim {
@@ -32,6 +37,7 @@ let
       modules = [
         self.nixvimModules.default
         {
+          enableMan = lib.mkDefault hasNixvimPackages;
           nixpkgs.pkgs = lib.mkDefault nixvimPkgs;
           nixpkgs.config = lib.mkForce { };
           gmarlervim.profile = profile;

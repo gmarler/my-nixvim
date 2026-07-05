@@ -19,15 +19,15 @@ in
 {
 
   # Nix injections
-  extraFiles = lib.mkIf config.plugins.treesitter.nixvimInjections {
-    "after/queries/nix/injections.scm".text = injectionQuery injectionQueryDir;
+  extraFiles = lib.mkIf config.plugins.treesitter.enable {
+    "queries/nix/injections.scm".text = injectionQuery injectionQueryDir;
   };
 
   plugins = {
     treesitter = {
       # nvim-treesitter documentation
       # See: https://github.com/nvim-treesitter/nvim-treesitter
-      enable = true;
+      enable = lib.mkDefault true;
 
       folding.enable = true;
       highlight.enable = true;
@@ -47,7 +47,7 @@ in
         lib.filter (
           if whitelistMode then grammarIsSelected else g: !grammarIsSelected g
         ) config.plugins.treesitter.package.allGrammars;
-      nixvimInjections = true;
+      nixvimInjections = lib.mkForce false;
     };
   };
 }

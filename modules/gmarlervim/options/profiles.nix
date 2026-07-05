@@ -3,6 +3,74 @@ let
   inherit (lib.attrsets) recursiveUpdate;
   cfg = config.gmarlervim;
   mkDefaultAttrs = lib.mapAttrs (_: lib.mkDefault);
+  mkProfileOverride = lib.mkOverride 900;
+  mkProfileEnable = mkProfileOverride true;
+  mkProfileDisable = mkProfileOverride false;
+  mkPluginGateAttrs =
+    enabled:
+    lib.genAttrs leanGatedPluginNames (_: {
+      enable = enabled;
+    });
+  mkPluginGateProfile =
+    enabled:
+    recursiveUpdate (mkPluginGateAttrs enabled) {
+      conform-nvim.autoInstall.enable = enabled;
+      lint.autoInstall.enable = enabled;
+    };
+
+  leanGatedPluginNames = [
+    "ccc"
+    "colorizer"
+    "conform-nvim"
+    "direnv"
+    "easy-dotnet"
+    "endec"
+    "fastaction"
+    "fff"
+    "firenvim"
+    "friendly-snippets"
+    "gitignore"
+    "hardtime"
+    "harpoon"
+    "iron"
+    "lazydev"
+    "leetcode"
+    "lensline"
+    "lint"
+    "mini-align"
+    "mini-basics"
+    "mini-bracketed"
+    "mini-fuzzy"
+    "mini-git"
+    "mini-icons"
+    "mini-map"
+    "mini-surround"
+    "multicursor"
+    "navic"
+    "neoconf"
+    "neogen"
+    "neorg"
+    "neotest"
+    "nix"
+    "nix-develop"
+    "nvim-lightbulb"
+    "package-info"
+    "patterns"
+    "precognition"
+    "refactoring"
+    "rustowl"
+    "showkeys"
+    "sleuth"
+    "smartcolumn"
+    "snacks"
+    "sqlite-lua"
+    "treesitter"
+    "treesitter-context"
+    "treesitter-modules"
+    "tuis"
+    "venv-selector"
+    "vim-suda"
+  ];
 
   minimalProfile = {
     gmarlervim = {
@@ -11,6 +79,7 @@ let
         chatEnable = false;
       };
 
+      completion.tool = lib.mkDefault "native";
       dashboard.tool = lib.mkDefault null;
       documentation.viewers = lib.mkDefault [ ];
 
@@ -20,20 +89,43 @@ let
       };
 
       git = mkDefaultAttrs {
-        integrations = [ ];
+        integrations = [ "native-difftool" ];
         diffViewer = null;
       };
 
+      integrations.accountBacked = {
+        enable = lib.mkDefault false;
+        ai.enable = lib.mkDefault false;
+        timeTracking.enable = lib.mkDefault false;
+      };
+
+      jj.integrations = lib.mkDefault [ ];
+
+      lsp = mkDefaultAttrs {
+        csharp = "roslyn_ls";
+        diagnosticsViewer = "native";
+        java = "java-language-server";
+        navigation = "native";
+        rust = "rust-analyzer";
+        typescript = "ts_ls";
+      };
+
       editor = mkDefaultAttrs {
+        autopairs = null;
         fileManager = null;
         httpClient = null;
         motion = null;
+        movement = null;
         rename = null;
         search = null;
         textObjects = [ ];
       };
 
+      performance.optimizer = lib.mkDefault [ ];
+
       picker.tool = lib.mkDefault null;
+
+      tasks.tool = lib.mkDefault null;
 
       text = mkDefaultAttrs {
         comments = [ ];
@@ -46,45 +138,52 @@ let
 
       ui = mkDefaultAttrs {
         animations = null;
+        bufferDelete = null;
         bufferline = null;
-        commandline = null;
+        commandline = "ui2";
         indentGuides = null;
         keybindingHelp = null;
-        notifications = "snacks";
+        notifications = "native";
         referenceHighlighting = null;
         renamePopup = null;
         signatureHelp = null;
         statusColumn = null;
         statusline = null;
         terminal = [ ];
+        zenMode = null;
       };
 
       utilities = mkDefaultAttrs {
         clipboard = [ ];
         screenshots = [ ];
         sessions = [ ];
+        undoTree = "native";
       };
     };
 
-    plugins = {
-      dap.enable = lib.mkDefault false;
-      dap-go.enable = lib.mkDefault false;
-      dap-python.enable = lib.mkDefault false;
-      dap-ui.enable = lib.mkDefault false;
-      dap-virtual-text.enable = lib.mkDefault false;
+    plugins = recursiveUpdate (mkPluginGateProfile mkProfileDisable) {
+      dap.enable = mkProfileDisable;
+      dap-go.enable = mkProfileDisable;
+      dap-python.enable = mkProfileDisable;
+      dap-ui.enable = mkProfileDisable;
+      dap-virtual-text.enable = mkProfileDisable;
     };
   };
 
   basicProfile = recursiveUpdate minimalProfile {
     gmarlervim = {
       editor = mkDefaultAttrs {
+        autopairs = "mini-pairs";
         fileManager = "yazi";
+        movement = "mini-move";
         motion = "flash";
         textObjects = [ "mini-ai" ];
       };
 
-      git.integrations = lib.mkDefault [ "gitsigns" ];
-      jj.integrations = lib.mkDefault [ "jjsigns" ];
+      git.integrations = lib.mkDefault [
+        "gitsigns"
+        "native-difftool"
+      ];
       picker.tool = lib.mkDefault "snacks";
 
       text.comments = lib.mkDefault [ "ts-comments" ];
@@ -92,8 +191,18 @@ let
       ui = mkDefaultAttrs {
         keybindingHelp = "which-key";
         statusline = "lualine";
-        terminal = [ "snacks" ];
       };
+
+      utilities.undoTree = lib.mkDefault "native";
+    };
+
+    plugins = {
+      mini-bracketed.enable = mkProfileEnable;
+      mini-icons.enable = mkProfileEnable;
+      mini-surround.enable = mkProfileEnable;
+      sleuth.enable = mkProfileEnable;
+      snacks.enable = mkProfileEnable;
+      treesitter.enable = mkProfileEnable;
     };
   };
 
@@ -108,6 +217,7 @@ let
         chatEnable = false;
       };
 
+      completion.tool = lib.mkDefault "blink";
       dashboard.tool = lib.mkDefault "mini-starter";
       documentation.viewers = lib.mkDefault [ "helpview" ];
 
@@ -120,8 +230,13 @@ let
       };
 
       editor = mkDefaultAttrs {
+        autopairs = "mini-pairs";
+        fileManager = "yazi";
+        motion = "flash";
+        movement = "mini-move";
         rename = "inc-rename";
         search = "grug-far";
+        textObjects = [ "mini-ai" ];
       };
 
       git = mkDefaultAttrs {
@@ -131,6 +246,7 @@ let
           "git-conflict"
           "git-worktree"
           "hunk"
+          "native-difftool"
           "octo"
           "snacks-gh"
           "snacks-gitbrowse"
@@ -138,10 +254,29 @@ let
         ];
       };
 
+      integrations.accountBacked = {
+        enable = lib.mkDefault true;
+        ai.enable = lib.mkDefault true;
+        timeTracking.enable = lib.mkDefault true;
+      };
+
       jj.integrations = [
         "jj"
         "jjsigns"
       ];
+
+      lsp = mkDefaultAttrs {
+        csharp = "roslyn";
+        diagnosticsViewer = "trouble";
+        java = "nvim-java";
+        navigation = "glance";
+        rust = "rustaceanvim";
+        typescript = "typescript-tools";
+      };
+
+      performance.optimizer = lib.mkDefault [ "faster" ];
+
+      tasks.tool = lib.mkDefault "overseer";
 
       text = mkDefaultAttrs {
         markdownRendering = [ "markview" ];
@@ -151,20 +286,31 @@ let
       };
 
       ui = mkDefaultAttrs {
+        animations = "snacks";
+        bufferDelete = "snacks";
         bufferline = "bufferline";
         commandline = "noice";
         indentGuides = "blink-indent";
+        keybindingHelp = "which-key";
         notifications = "noice";
+        referenceHighlighting = "snacks-words";
         renamePopup = "snacks";
+        signatureHelp = "blink";
         statusColumn = "snacks";
+        statusline = "lualine";
+        terminal = [ "snacks" ];
+        zenMode = "snacks";
       };
 
       utilities = mkDefaultAttrs {
         clipboard = [ "yanky" ];
         screenshots = [ "codesnap" ];
         sessions = [ "persistence" ];
+        undoTree = "native";
       };
     };
+
+    plugins = mkPluginGateProfile mkProfileEnable;
   };
 in
 {
@@ -180,11 +326,18 @@ in
     description = ''
       Configuration profile preset.
 
-      - minimal: Native-lean base with LSP, treesitter, blink, and minimal UI
-      - basic: Lean daily driver with yazi, snacks picker, flash, gitsigns, and lualine
-      - standard: Recommended developer default with AI, git, debugging, search, and core UI
-      - full: Everything enabled, including optional and overlapping workflows
-      - debug: Full profile with performance optimizations disabled and debug logging enabled
+      - minimal: rescue and smoke-test profile with native UI/LSP and the
+        smallest plugin surface.
+      - basic: comfortable remote editor with native core, treesitter, picker,
+        statusline, key hints, file, and git basics.
+      - standard: conservative daily workstation profile with current
+        workflow-rich defaults preserved.
+      - full: lab profile with every optional and overlapping workflow enabled.
+        Applies no overrides: every gmarlervim option keeps its declared
+        default, which is the everything-enabled setup the other profiles trim
+        down from.
+      - debug: incident profile with full behavior, performance optimizations
+        disabled, and debug logging enabled.
     '';
   };
 

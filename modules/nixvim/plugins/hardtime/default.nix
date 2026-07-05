@@ -9,10 +9,7 @@ in
     hardtime = {
       # hardtime.nvim documentation
       # See: https://github.com/m4xshen/hardtime.nvim
-      enable = true;
-
-      # FIXME: lazy loading broken
-      # lazyLoad.settings.cmd = [ "Hardtime" ];
+      enable = lib.mkDefault true;
 
       settings = {
         # NOTE: Default to off now.
