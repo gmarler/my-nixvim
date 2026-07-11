@@ -210,6 +210,7 @@ let
     gmarlervim = {
       ai = mkDefaultAttrs {
         plugins = [
+          "codecompanion"
           "sidekick"
           "copilot"
           "copilot-lsp"

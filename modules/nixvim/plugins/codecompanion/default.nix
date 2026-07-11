@@ -3,6 +3,21 @@
   lib,
   ...
 }:
+let
+  loc = config.gmarlervim.ai.location;
+
+  # Fallback adapter when envVar is unset or holds an unrecognized value.
+  defaultAdapter = if loc.default == "work" then loc.workAdapter else loc.homeAdapter;
+
+  # Resolved once when CodeCompanion's setup() table is built (i.e. at
+  # startup/lazy-load), so setting the envVar before launching Neovim is
+  # enough to switch location without a rebuild.
+  adapterExpr = ''
+    (os.getenv('${loc.envVar}') == 'work' and '${loc.workAdapter}')
+      or (os.getenv('${loc.envVar}') == 'home' and '${loc.homeAdapter}')
+      or '${defaultAdapter}'
+  '';
+in
 {
   plugins = {
     codecompanion = {
@@ -20,15 +35,27 @@
       };
 
       settings = {
+        adapters.http.ollama.__raw = ''
+          function()
+            return require("codecompanion.adapters").extend("ollama", {
+              schema = {
+                model = {
+                  default = os.getenv("${loc.ollamaModelEnvVar}") or "${loc.ollamaModel}",
+                },
+              },
+            })
+          end
+        '';
+
         strategies = {
           chat = {
-            adapter = "gemini_cli";
+            adapter.__raw = adapterExpr;
           };
           inline = {
-            adapter = "gemini_cli";
+            adapter.__raw = adapterExpr;
           };
           cmd = {
-            adapter = "gemini_cli";
+            adapter.__raw = adapterExpr;
           };
         };
         opts = {
