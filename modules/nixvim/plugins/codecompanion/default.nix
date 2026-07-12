@@ -42,6 +42,9 @@ in
                 model = {
                   default = os.getenv("${loc.ollamaModelEnvVar}") or "${loc.ollamaModel}",
                 },
+                num_ctx = {
+                  default = ${toString loc.ollamaNumCtx},
+                },
               },
             })
           end

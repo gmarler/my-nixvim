@@ -115,6 +115,17 @@
           NVIM_OLLAMA_MODEL=llama3.1`.
         '';
       };
+
+      ollamaNumCtx = lib.mkOption {
+        type = lib.types.ints.positive;
+        default = 65536;
+        description = ''
+          Context window size (num_ctx, in tokens) requested from the local
+          Ollama server. Larger values need proportionally more memory for
+          the KV cache and may exceed what a given model was actually
+          trained/extended for, which can degrade quality past that point.
+        '';
+      };
     };
   };
 }
