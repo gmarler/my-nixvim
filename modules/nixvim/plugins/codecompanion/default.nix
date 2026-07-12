@@ -58,6 +58,7 @@ in
             adapter.__raw = adapterExpr;
           };
         };
+        display.chat.show_settings = true;
         opts = {
           send_code = true;
         };
