@@ -204,7 +204,7 @@
       ]
       ++
         lib.optionals
-          (config.plugins.octo.enable || lib.elem "snacks-gh" config.khanelivim.git.integrations)
+          (config.plugins.octo.enable || lib.elem "snacks-gh" config.gmarlervim.git.integrations)
           [
             {
               __unkeyed-1 = "<leader>gv";
