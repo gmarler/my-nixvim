@@ -71,7 +71,7 @@
         description = ''
           Fallback location used when the envVar above is unset or holds an
           unrecognized value. Defaults to "home" so an unconfigured machine
-          falls back to the local, credential-free Ollama adapter instead of
+          falls back to the local, credential-free llama.cpp adapter instead of
           a cloud adapter that may not be authenticated.
         '';
       };
@@ -89,42 +89,29 @@
 
       homeAdapter = lib.mkOption {
         type = lib.types.str;
-        default = "ollama";
+        default = "llamacpp";
         description = ''
           CodeCompanion adapter name used at "home". Defaults to the
-          built-in "ollama" HTTP adapter, which always targets an Ollama
-          server local to the host running Neovim.
+          local llama.cpp server exposed via llama-swap using the OpenAI-compatible API.
         '';
       };
 
-      ollamaModel = lib.mkOption {
+      localModel = lib.mkOption {
         type = lib.types.str;
-        default = "qwen2.5-coder:7b";
+        default = "coder";
         description = ''
-          Default Ollama model used by the home adapter. Overridable without
-          a rebuild via the environment variable named by ollamaModelEnvVar.
+          Default llama-swap model alias. Override via localModelEnvVar.
         '';
       };
 
-      ollamaModelEnvVar = lib.mkOption {
+      localModelEnvVar = lib.mkOption {
         type = lib.types.str;
-        default = "NVIM_OLLAMA_MODEL";
-        description = ''
-          Name of the environment variable that, when set, overrides
-          ollamaModel at Neovim startup, e.g. `export
-          NVIM_OLLAMA_MODEL=llama3.1`.
-        '';
+        default = "NVIM_AI_MODEL";
       };
 
-      ollamaNumCtx = lib.mkOption {
-        type = lib.types.ints.positive;
-        default = 65536;
-        description = ''
-          Context window size (num_ctx, in tokens) requested from the local
-          Ollama server. Larger values need proportionally more memory for
-          the KV cache and may exceed what a given model was actually
-          trained/extended for, which can degrade quality past that point.
-        '';
+      localEndpoint = lib.mkOption {
+        type = lib.types.str;
+        default = "http://127.0.0.1:8080/v1";
       };
     };
   };

@@ -35,15 +35,17 @@ in
       };
 
       settings = {
-        adapters.http.ollama.__raw = ''
+        adapters.http.llamacpp.__raw = ''
           function()
-            return require("codecompanion.adapters").extend("ollama", {
+            return require("codecompanion.adapters").extend("openai_compatible", {
+              env = {
+                url = "${loc.localEndpoint}",
+                api_key = "unused",
+              },
+
               schema = {
                 model = {
-                  default = os.getenv("${loc.ollamaModelEnvVar}") or "${loc.ollamaModel}",
-                },
-                num_ctx = {
-                  default = ${toString loc.ollamaNumCtx},
+                  default = os.getenv("${loc.localModelEnvVar}") or "${loc.localModel}",
                 },
               },
             })
