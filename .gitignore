@@ -50,4 +50,7 @@ result
 **/.claude/settings.local.json
 
 # Profile data (regenerate with nix run .#profile)
-profiles/
+p
+# okf-memory: local, uncommitted curated memory
+.okf/
+.planning/rofiles/
