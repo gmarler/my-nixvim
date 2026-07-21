@@ -2,8 +2,9 @@
 # Neovim plugin names
 noice = "noice"
 Noice = "Noice"
-# Nixvim directives
+# External schema identifiers
 Parm = "Parm"
+# Nixvim directives
 annote = "annote"
 # Keymaps
 fo = "fo"
