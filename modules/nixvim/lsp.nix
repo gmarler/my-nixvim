@@ -111,8 +111,7 @@
         ];
       };
       marksman.enable = true;
-      # FIXME: broken darwin
-      nushell.enable = pkgs.stdenv.hostPlatform.isLinux;
+      nushell.enable = true;
       pyright.enable = config.gmarlervim.lsp.python.typeChecker == "pyright";
       pylsp.enable = config.gmarlervim.lsp.python.typeChecker == "pylsp";
       basedpyright.enable = config.gmarlervim.lsp.python.typeChecker == "basedpyright";
