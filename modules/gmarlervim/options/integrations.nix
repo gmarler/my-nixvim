@@ -30,10 +30,9 @@ in
 
   config = lib.mkMerge [
     (lib.mkIf (!cfg.enable || !cfg.ai.enable) {
-      gmarlervim.ai = {
-        plugins = lib.mkForce [ ];
-        chatEnable = lib.mkForce false;
-      };
+      # gmarlervim.ai.plugins drops its account-backed entries through the
+      # option's own apply function, which keeps local providers available.
+      gmarlervim.ai.chatEnable = lib.mkForce false;
     })
     (lib.mkIf (!cfg.enable || !cfg.timeTracking.enable) {
       plugins.wakatime.enable = lib.mkForce false;
