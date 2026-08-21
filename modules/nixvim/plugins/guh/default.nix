@@ -7,7 +7,7 @@
 let
   # guh.nvim requires Nvim 0.13+.
   hasNeovim013OrNewer = lib.versionAtLeast (pkgs.neovim.version or "0.0") "0.13";
-  isEnabled = lib.elem "guh" config.khanelivim.git.integrations && hasNeovim013OrNewer;
+  isEnabled = lib.elem "guh" config.gmarlervim.git.integrations && hasNeovim013OrNewer;
 in
 {
   config = lib.mkIf isEnabled {

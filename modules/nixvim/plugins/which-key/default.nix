@@ -6,7 +6,7 @@
 }:
 let
   hasGuh =
-    lib.elem "guh" config.khanelivim.git.integrations
+    lib.elem "guh" config.gmarlervim.git.integrations
     && lib.versionAtLeast (pkgs.neovim.version or "0.0") "0.13";
 in
 {
@@ -210,7 +210,7 @@ in
       ]
       ++
         lib.optionals
-          (config.plugins.octo.enable || hasGuh || lib.elem "snacks-gh" config.khanelivim.git.integrations)
+          (config.plugins.octo.enable || hasGuh || lib.elem "snacks-gh" config.gmarlervim.git.integrations)
           [
             {
               __unkeyed-1 = "<leader>gv";
