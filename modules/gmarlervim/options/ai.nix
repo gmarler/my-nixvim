@@ -11,6 +11,7 @@
           "copilot"
           "copilot-lsp"
           "gemini"
+          "minuet"
           "opencode"
           "pairup"
           "sidekick"
@@ -42,6 +43,7 @@
         - codex: OpenAI Codex integration
         - copilot: GitHub Copilot (includes chat)
         - copilot-lsp: GitHub Copilot LSP integration
+        - minuet: Local completion at the cursor, served by ollama
         - opencode: OpenCode AI assistant with snacks integration
         - pairup: Claude-driven pair programming with inline markers; needs the
           claude CLI, so it is only usable where Claude is available
