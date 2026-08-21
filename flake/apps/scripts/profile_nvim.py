@@ -451,7 +451,7 @@ def main():
     profile_path = output_dir / f"profile-{profile}-{timestamp}.json"
     with open(profile_path, "w") as f:
         json.dump(averaged, f, indent=2)
-    console.print(f"\n[green]Profile saved:[\green] {profile_path}")
+    console.print(f"\n[green]Profile saved:[/green] {profile_path}")
 
     # Handle baseline
     if args.baseline:
