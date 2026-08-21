@@ -1,24 +1,45 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
   loc = config.gmarlervim.ai.location;
 
-  # Fallback adapter when envVar is unset or holds an unrecognized value.
-  defaultAdapter = if loc.default == "work" then loc.workAdapter else loc.homeAdapter;
+  luaList = values: "{ ${lib.concatMapStringsSep ", " builtins.toJSON values} }";
 
-  # Resolved once when CodeCompanion's setup() table is built (i.e. at
-  # startup/lazy-load), so setting the envVar before launching Neovim is
-  # enough to switch location without a rebuild.
+  # Select only from the adapters allowed for the active location. The first
+  # item provides a deterministic fallback for an unset or invalid selection.
   adapterExpr = ''
-    (os.getenv('${loc.envVar}') == 'work' and '${loc.workAdapter}')
-      or (os.getenv('${loc.envVar}') == 'home' and '${loc.homeAdapter}')
-      or '${defaultAdapter}'
+    (function()
+      local profile = os.getenv(${builtins.toJSON loc.envVar})
+      if profile ~= "home" and profile ~= "work" then
+        profile = ${builtins.toJSON loc.default}
+      end
+      local adapters = profile == "work"
+        and ${luaList loc.workAdapters}
+        or ${luaList loc.homeAdapters}
+      local selected = os.getenv(${builtins.toJSON loc.adapterEnvVar})
+
+      for _, adapter in ipairs(adapters) do
+        if adapter == selected then
+          return adapter
+        end
+      end
+
+      return adapters[1]
+    end)()
   '';
 in
 {
+  assertions = [
+    {
+      assertion = builtins.elem loc.localModel loc.localModels;
+      message = "gmarlervim.ai.location.localModel must be included in localModels";
+    }
+  ];
+
   plugins = {
     codecompanion = {
       # codecompanion.nvim documentation
@@ -35,17 +56,29 @@ in
       };
 
       settings = {
+        adapters.acp.codex.__raw = ''
+          function()
+            return require("codecompanion.adapters").extend("codex", {
+              defaults = {
+                auth_method = "chatgpt",
+              },
+            })
+          end
+        '';
+
         adapters.http.llamacpp.__raw = ''
           function()
             return require("codecompanion.adapters").extend("openai_compatible", {
               env = {
-                url = "${loc.localEndpoint}",
+                url = ${builtins.toJSON loc.localEndpoint},
                 api_key = "unused",
               },
 
               schema = {
                 model = {
-                  default = os.getenv("${loc.localModelEnvVar}") or "${loc.localModel}",
+                  default = os.getenv(${builtins.toJSON loc.localModelEnvVar})
+                    or ${builtins.toJSON loc.localModel},
+                  choices = ${luaList loc.localModels},
                 },
               },
             })
@@ -63,7 +96,6 @@ in
             adapter.__raw = adapterExpr;
           };
         };
-        display.chat.show_settings = true;
         opts = {
           send_code = true;
         };
@@ -82,6 +114,8 @@ in
       }
     ];
   };
+
+  extraPackages = lib.optionals config.plugins.codecompanion.enable [ pkgs.codex-acp ];
 
   keymaps = lib.mkIf config.plugins.codecompanion.enable [
     {

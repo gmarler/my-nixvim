@@ -34,9 +34,9 @@
         Available plugins:
         - avante: Claude AI interface with inline editing
         - claudecode: Claude Code integration
-        - codecompanion: Chat/inline AI assistant; adapter is chosen at
-          runtime by gmarlervim.ai.location (Claude Code at work, local
-          Ollama at home)
+        - codecompanion: Chat/inline AI assistant; available adapters are
+          chosen at runtime from the home or work adapter list configured by
+          gmarlervim.ai.location
         - codex: OpenAI Codex integration
         - copilot: GitHub Copilot (includes chat)
         - copilot-lsp: GitHub Copilot LSP integration
@@ -76,23 +76,37 @@
         '';
       };
 
-      workAdapter = lib.mkOption {
+      adapterEnvVar = lib.mkOption {
         type = lib.types.str;
-        default = "claude_code";
+        default = "NVIM_AI_ADAPTER";
         description = ''
-          CodeCompanion adapter name used at "work". Defaults to the
-          claude_code ACP adapter, which drives the Claude Code CLI/agent
-          directly. Set to "anthropic" to use the plain HTTP adapter
-          (ANTHROPIC_API_KEY only, no ACP bridge dependency) instead.
+          Name of the environment variable used to select a CodeCompanion
+          adapter from the active location's adapter list. The first adapter
+          in the list is used when this is unset or does not name an allowed
+          adapter.
         '';
       };
 
-      homeAdapter = lib.mkOption {
-        type = lib.types.str;
-        default = "llamacpp";
+      homeAdapters = lib.mkOption {
+        type = lib.types.nonEmptyListOf lib.types.str;
+        default = [
+          "llamacpp"
+          "codex"
+        ];
         description = ''
-          CodeCompanion adapter name used at "home". Defaults to the
-          local llama.cpp server exposed via llama-swap using the OpenAI-compatible API.
+          CodeCompanion adapters allowed at home. Use "llamacpp" for the
+          local llama-swap server and "codex" for Codex ACP authenticated
+          through ChatGPT. The first entry is the default.
+        '';
+      };
+
+      workAdapters = lib.mkOption {
+        type = lib.types.nonEmptyListOf lib.types.str;
+        default = [ "claude_code" ];
+        description = ''
+          CodeCompanion adapters allowed at work. This list is independent of
+          homeAdapters so work-specific services and credentials do not appear
+          among the home choices. The first entry is the default.
         '';
       };
 
@@ -100,7 +114,20 @@
         type = lib.types.str;
         default = "coder";
         description = ''
-          Default llama-swap model alias. Override via localModelEnvVar.
+          Default llama-swap model alias. Override it at runtime via
+          localModelEnvVar. It should be one of localModels.
+        '';
+      };
+
+      localModels = lib.mkOption {
+        type = lib.types.nonEmptyListOf lib.types.str;
+        default = [
+          "coder"
+          "fast"
+        ];
+        description = ''
+          Models offered by the local llama-swap server. These defaults match
+          the aliases currently returned by its /v1/models endpoint.
         '';
       };
 
