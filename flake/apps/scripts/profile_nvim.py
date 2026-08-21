@@ -403,7 +403,7 @@ def main():
                 nvim_bin,
                 output_path,
                 event=args.event,
-                interaction=args.interactive,
+                interactive=args.interactive,
             )
 
             if success and output_path.exists():
