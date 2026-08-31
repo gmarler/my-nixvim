@@ -2,6 +2,10 @@
 # https://just.systems/
 # run `just` from this directory to see available commands
 
+# Dedicated Nix profile managed by `install`, `upgrade`, and `wipe-history`.
+# Kept separate from the default profile so `--all` only ever touches this config.
+nvim_profile := "${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/gmarlervim"
+
 # Default command when 'just' is run without arguments
 default:
   @just --list
@@ -30,6 +34,23 @@ dev:
 [group('Main')]
 run:
   nix run
+
+# Install the default package into the dedicated Nix profile
+[group('Main')]
+install:
+  nix profile install --profile "{{nvim_profile}}" .
+  @echo "Launch with: {{nvim_profile}}/bin/nvim"
+
+# Rebuild the profile from the working tree, uncommitted changes included
+[group('Main')]
+upgrade:
+  nix profile upgrade --profile "{{nvim_profile}}" --all
+  @echo "Launch with: {{nvim_profile}}/bin/nvim"
+
+# Drop old profile generations so their closures can be garbage collected
+[group('Main')]
+wipe-history:
+  nix profile wipe-history --profile "{{nvim_profile}}"
 
 # Benchmark key flake eval paths (single tree)
 [group('perf')]

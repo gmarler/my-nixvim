@@ -44,6 +44,19 @@ cd my-nixvim
 nix run
 ```
 
+Install it into a dedicated Nix profile and launch it by absolute path. This is
+the supported everyday workflow if you do not use Home Manager:
+
+```bash
+just install
+"${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/gmarlervim/bin/nvim"
+```
+
+Unlike `nix run`, a profile install creates a garbage collection root, so the
+build survives garbage collection instead of being downloaded again. Run
+`just upgrade` to rebuild it from the working tree, uncommitted changes
+included. See `Using the Flake` in the docs for the details.
+
 Install it from Home Manager via `home.packages`:
 
 ```nix
@@ -142,8 +155,15 @@ statix fix .
 # Enter development shell
 nix develop
 
-# Run Neovim
+# Run Neovim (test a change; leaves no garbage collection root)
 nix run
+
+# Install/rebuild the dedicated Nix profile (uncommitted changes included)
+just install
+just upgrade
+
+# Drop old profile generations
+just wipe-history
 ```
 
 ### LSP Servers
