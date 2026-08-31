@@ -12,6 +12,7 @@
           "copilot-lsp"
           "gemini"
           "opencode"
+          "pairup"
           "sidekick"
           "windsurf"
         ]
@@ -24,6 +25,7 @@
         "codex"
         "gemini"
         "opencode"
+        "pairup"
         "sidekick"
       ];
       description = ''
@@ -41,6 +43,8 @@
         - copilot: GitHub Copilot (includes chat)
         - copilot-lsp: GitHub Copilot LSP integration
         - opencode: OpenCode AI assistant with snacks integration
+        - pairup: Claude-driven pair programming with inline markers; needs the
+          claude CLI, so it is only usable where Claude is available
         - sidekick: Multi-provider AI suggestion system (Claude, Copilot, Gemini, Opencode)
         - windsurf: Codeium Windsurf integration
       '';
@@ -102,11 +106,18 @@
 
       workAdapters = lib.mkOption {
         type = lib.types.nonEmptyListOf lib.types.str;
-        default = [ "claude_code" ];
+        default = [
+          "claude_code"
+          "gemini_cli"
+        ];
         description = ''
-          CodeCompanion adapters allowed at work. This list is independent of
-          homeAdapters so work-specific services and credentials do not appear
-          among the home choices. The first entry is the default.
+          CodeCompanion adapters allowed at work. Use "claude_code" for Claude
+          via the claude-agent-acp bridge and "gemini_cli" for Gemini via
+          `gemini --experimental-acp`. Both drive an already-authenticated CLI
+          over ACP, so they work with enterprise sign-in and need no API key.
+          This list is independent of homeAdapters so work-specific services
+          and credentials do not appear among the home choices. The first entry
+          is the default.
         '';
       };
 

@@ -56,6 +56,25 @@ in
       };
 
       settings = {
+        # Upstream declares env.CLAUDE_CODE_OAUTH_TOKEN = "CLAUDE_CODE_OAUTH_TOKEN".
+        # When that variable is unset, get_env_vars falls through to the literal
+        # string, so handlers.auth sees a non-empty token, exports the literal
+        # into the child environment and reports the session authenticated,
+        # skipping ACP auth negotiation. Returning nil drops the key instead, so
+        # negotiation proceeds against the already-authenticated CLI. A real
+        # token, when present, still behaves as upstream.
+        adapters.acp.claude_code.__raw = ''
+          function()
+            return require("codecompanion.adapters").extend("claude_code", {
+              env = {
+                CLAUDE_CODE_OAUTH_TOKEN = function()
+                  return os.getenv("CLAUDE_CODE_OAUTH_TOKEN")
+                end,
+              },
+            })
+          end
+        '';
+
         adapters.acp.codex.__raw = ''
           function()
             return require("codecompanion.adapters").extend("codex", {
@@ -115,7 +134,14 @@ in
     ];
   };
 
-  extraPackages = lib.optionals config.plugins.codecompanion.enable [ pkgs.codex-acp ];
+  # ACP adapters spawn a CLI over stdio and inherit Neovim's environment, so an
+  # already-authenticated CLI needs no API key. claude_code drives Zed's
+  # claude-agent-acp bridge rather than the claude binary itself.
+  extraPackages = lib.optionals config.plugins.codecompanion.enable [
+    pkgs.claude-agent-acp
+    pkgs.codex-acp
+    pkgs.gemini-cli
+  ];
 
   keymaps = lib.mkIf config.plugins.codecompanion.enable [
     {

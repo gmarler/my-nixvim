@@ -210,6 +210,7 @@ let
       ai = mkDefaultAttrs {
         plugins = [
           "codecompanion"
+          "pairup"
           "sidekick"
           "copilot"
           "copilot-lsp"

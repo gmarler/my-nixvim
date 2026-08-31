@@ -164,6 +164,7 @@ in
             || config.plugins.claude-fzf-history.enable
             || config.plugins.codecompanion.enable
             || config.plugins.opencode.enable
+            || config.plugins.pairup.enable
             || config.plugins.sidekick.enable
             || config.plugins.windsurf-nvim.enable
           )
