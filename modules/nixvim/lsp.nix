@@ -2,8 +2,6 @@
   config,
   lib,
   pkgs,
-  self,
-  system,
   ...
 }:
 {
@@ -114,13 +112,6 @@
       hyprls.enable = true;
       java_language_server.enable = config.gmarlervim.lsp.java == "java-language-server";
       jsonls.enable = true;
-      kulala_ls = {
-        enable = true;
-        config.cmd = [
-          (lib.getExe self.packages.${system}.kulala-ls)
-          "--stdio"
-        ];
-      };
       marksman.enable = true;
       nushell.enable = true;
       pyright.enable = config.gmarlervim.lsp.python.typeChecker == "pyright";
