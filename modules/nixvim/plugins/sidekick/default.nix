@@ -182,6 +182,14 @@
       ];
     };
 
+    # The toggles below bind only when their CLI is on PATH, so agy has to be
+    # shipped for the Antigravity ones to exist at all. The other providers are
+    # expected to be installed outside this config. Antigravity CLI is Google's
+    # replacement for Gemini CLI, which nixpkgs has flagged for removal.
+    extraPackages = lib.optionals config.plugins.sidekick.enable [
+      pkgs.antigravity-cli
+    ];
+
     keymaps =
       (lib.optionals (!config.plugins.blink-cmp.enable && config.plugins.sidekick.enable) [
         {

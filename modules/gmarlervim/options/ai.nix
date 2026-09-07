@@ -63,7 +63,9 @@ in
         - opencode: OpenCode AI assistant with snacks integration
         - pairup: Claude-driven pair programming with inline markers; needs the
           claude CLI, so it is only usable where Claude is available
-        - sidekick: Multi-provider AI suggestion system (Claude, Copilot, Gemini, Opencode)
+        - sidekick: Multi-provider AI suggestion system (Claude, Codex, Copilot,
+          Antigravity, Opencode, PI). Each toggle binds only when its CLI is on
+          PATH; only Antigravity's is shipped by this config
         - windsurf: Codeium Windsurf integration
       '';
     };
@@ -126,16 +128,19 @@ in
         type = lib.types.nonEmptyListOf lib.types.str;
         default = [
           "claude_code"
-          "gemini_cli"
         ];
         description = ''
           CodeCompanion adapters allowed at work. Use "claude_code" for Claude
-          via the claude-agent-acp bridge and "gemini_cli" for Gemini via
-          `gemini --experimental-acp`. Both drive an already-authenticated CLI
-          over ACP, so they work with enterprise sign-in and need no API key.
+          via the claude-agent-acp bridge, which drives an already-authenticated
+          CLI over ACP, so it works with enterprise sign-in and needs no API key.
           This list is independent of homeAdapters so work-specific services
           and credentials do not appear among the home choices. The first entry
           is the default.
+
+          "gemini_cli" used to be here. nixpkgs flagged gemini-cli for removal
+          after Google replaced it with Antigravity CLI, and `agy` has no ACP
+          mode, so there is nothing to point the adapter at. Antigravity is
+          reachable through sidekick instead.
         '';
       };
 

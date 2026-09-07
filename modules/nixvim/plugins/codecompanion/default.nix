@@ -142,7 +142,6 @@ in
   extraPackages = lib.optionals config.plugins.codecompanion.enable [
     pkgs.claude-agent-acp
     pkgs.codex-acp
-    pkgs.gemini-cli
   ];
 
   keymaps = lib.mkIf config.plugins.codecompanion.enable [
