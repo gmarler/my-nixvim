@@ -53,12 +53,48 @@ That is equivalent to:
 
 ```bash
 nix profile install \
-  --profile "${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/gmarlervim" .
+  --profile "${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/gmarlervim" \
+  .#standard
 ```
 
 The dedicated profile is deliberate. It keeps `nix profile upgrade --all` scoped
 to this config, and it leaves the default profile (`~/.nix-profile`) alone,
 which matters if another tool has already claimed it.
+
+### Installing A Different Profile
+
+`install` takes the [profile](using-profiles.md) to install and defaults to
+`standard`:
+
+```bash
+just install full
+```
+
+Each profile gets its own Nix profile directory, so they never collide over
+`bin/nvim` and can be installed side by side. `standard` keeps the plain path
+and the others take a `-<profile>` suffix:
+
+```text
+${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/gmarlervim/bin/nvim
+${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/gmarlervim-full/bin/nvim
+```
+
+`upgrade` and `wipe-history` take the same argument and default the same way, so
+`just upgrade full` rebuilds only that one and leaves `standard` alone.
+
+Each profile is also a flake package, which is what keeps the installs
+upgradeable: `nix profile upgrade` can only re-resolve entries that were added
+from a flake attribute. Installing from an expression instead, the way
+`using-profiles.md` builds one ad hoc, records no flake URL, and upgrade skips
+it with `not added from a flake, so it can't be checked for upgrades`. The
+packages work by themselves too:
+
+```bash
+nix build .#minimal
+nix run .#debug
+```
+
+`.#default` and `.#standard` are the same derivation.
 
 Launch Neovim by absolute path, so `PATH` ordering never matters:
 

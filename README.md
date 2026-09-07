@@ -56,7 +56,12 @@ Unlike `nix run`, a profile install creates a garbage collection root, so the
 build survives garbage collection instead of being downloaded again. Run
 `just upgrade` to rebuild it from the working tree, uncommitted changes
 included. The flake ships `just` itself, so `nix run .#just install` works if
-you do not have it installed. See `Using the Flake` in the docs for the details.
+you do not have it installed.
+
+`install` takes the profile to install and defaults to `standard`, so
+`just install full` installs that one instead. Each profile gets its own Nix
+profile directory and they can be installed side by side. See `Using the Flake`
+in the docs for the details.
 
 Install it from Home Manager via `home.packages`:
 
@@ -103,7 +108,10 @@ In practice:
 
 - `nix run` and `nix build` use the default flake package, which currently
   evaluates the `standard` profile.
-- To select another profile, evaluate the package or config through
+- Every profile is also its own flake package, so `nix build .#full` and
+  `nix run .#minimal` select one directly. `.#default` and `.#standard` are the
+  same derivation.
+- To go further than selecting a profile, evaluate through
   `gmarlervim.lib.mkNixvimPackage` or `gmarlervim.lib.mkNixvimConfig` and pass
   `profile = "..."`.
 - Available profiles are `minimal`, `basic`, `standard`, `full`, and `debug`.
@@ -112,30 +120,21 @@ In practice:
 Build and run the `debug` profile from a local checkout:
 
 ```bash
-nix build --impure --expr '
-let
-  f = builtins.getFlake (toString ./.);
-in
-  f.lib.mkNixvimPackage {
-    system = builtins.currentSystem;
-    profile = "debug";
-  }'
+nix build .#debug
 ./result/bin/nvim
+```
+
+Install it into its own Nix profile instead, alongside any others:
+
+```bash
+just install debug
 ```
 
 Use a specific profile from Home Manager:
 
 ```nix
 {
-  home.packages = [
-    (let
-      debugConfig = gmarlervim.lib.mkNixvimConfig {
-        system = pkgs.system;
-        profile = "debug";
-      };
-    in
-      debugConfig.config.build.package)
-  ];
+  home.packages = [ gmarlervim.packages.${pkgs.system}.debug ];
 }
 ```
 
@@ -161,6 +160,7 @@ nix run
 
 # Install/rebuild the dedicated Nix profile (uncommitted changes included)
 # Prefix with `nix run .#` if just is not installed: nix run .#just install
+# All three take a profile argument and default to standard: just install full
 just install
 just upgrade
 

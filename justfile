@@ -4,7 +4,13 @@
 
 # Dedicated Nix profile managed by `install`, `upgrade`, and `wipe-history`.
 # Kept separate from the default profile so `--all` only ever touches this config.
+# The standard profile lives here; every other gmarlervim profile gets its own
+# sibling directory with a `-<profile>` suffix, so they never collide over
+# bin/nvim and can be installed side by side.
 nvim_profile := "${XDG_STATE_HOME:-$HOME/.local/state}/nix/profiles/gmarlervim"
+
+# Profile installed when a recipe is called without an argument.
+default_profile := "standard"
 
 # Default command when 'just' is run without arguments
 default:
@@ -35,22 +41,34 @@ dev:
 run:
   nix run
 
-# Install the default package into the dedicated Nix profile
+# Install a gmarlervim profile into its own dedicated Nix profile
 [group('Main')]
-install:
-  nix profile install --profile "{{nvim_profile}}" .
-  @echo "Launch with: {{nvim_profile}}/bin/nvim"
+install profile=default_profile:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  dir="{{nvim_profile}}"
+  [ "{{profile}}" = "{{default_profile}}" ] || dir="$dir-{{profile}}"
+  nix profile install --profile "$dir" ".#{{profile}}"
+  echo "Launch with: $dir/bin/nvim"
 
-# Rebuild the profile from the working tree, uncommitted changes included
+# Rebuild a profile from the working tree, uncommitted changes included
 [group('Main')]
-upgrade:
-  nix profile upgrade --profile "{{nvim_profile}}" --all
-  @echo "Launch with: {{nvim_profile}}/bin/nvim"
+upgrade profile=default_profile:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  dir="{{nvim_profile}}"
+  [ "{{profile}}" = "{{default_profile}}" ] || dir="$dir-{{profile}}"
+  nix profile upgrade --profile "$dir" --all
+  echo "Launch with: $dir/bin/nvim"
 
-# Drop old profile generations so their closures can be garbage collected
+# Drop old generations of a profile so their closures can be garbage collected
 [group('Main')]
-wipe-history:
-  nix profile wipe-history --profile "{{nvim_profile}}"
+wipe-history profile=default_profile:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  dir="{{nvim_profile}}"
+  [ "{{profile}}" = "{{default_profile}}" ] || dir="$dir-{{profile}}"
+  nix profile wipe-history --profile "$dir"
 
 # Benchmark key flake eval paths (single tree)
 [group('perf')]

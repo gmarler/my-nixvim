@@ -14,7 +14,10 @@ currently defaults to the `standard` profile.
 - Changing the option default in `modules/gmarlervim/options/profiles.nix`
   changes the module fallback, but it does not change the flake's default
   package by itself.
-- To select a different profile, build or evaluate through
+- Every profile is also its own flake package, so `nix build .#full` and
+  `nix run .#minimal` select one directly, and `just install full` installs one.
+  `.#default` and `.#standard` are the same derivation.
+- To go further than selecting a profile, build or evaluate through
   `gmarlervim.lib.mkNixvimPackage` or `gmarlervim.lib.mkNixvimConfig` and pass
   `profile = "..."`.
 
@@ -61,20 +64,29 @@ plugins are enabled?"
 Build and run the `debug` profile from a local checkout:
 
 ```bash
-nix build --impure --expr '
-let
-  f = builtins.getFlake (toString ./.);
-in
-  f.lib.mkNixvimPackage {
-    system = builtins.currentSystem;
-    profile = "debug";
-  }'
+nix build .#debug
 ./result/bin/nvim
+```
+
+To keep it around instead of leaving it in `./result`, install it into its own
+Nix profile. See [Using the Flake](using-the-flake.md) for the details:
+
+```bash
+just install debug
 ```
 
 ## Home Manager Example
 
 Use a specific profile when adding gmarlervim to `home.packages`:
+
+```nix
+{
+  home.packages = [ gmarlervim.packages.${pkgs.system}.debug ];
+}
+```
+
+The `lib` helpers are still there for when you want to extend the profile rather
+than just pick it:
 
 ```nix
 {

@@ -7,11 +7,16 @@
 let
   inputPatches = import ./input-patches.nix { inherit inputs lib; };
 
+  # Single source of truth for the profile `mkNixvimConfig` and `packages.default`
+  # fall back to. `perSystem` below reuses it to avoid evaluating that profile
+  # twice, once unnamed and once by name.
+  defaultProfile = "standard";
+
   mkNixvimConfig =
     {
       system,
       pkgs ? null,
-      profile ? "standard",
+      profile ? defaultProfile,
     }:
     let
       sharedNixpkgs = import inputs.nixpkgs {
@@ -97,12 +102,28 @@ in
     { pkgs, system, ... }:
     let
       defaultConfig = mkNixvimConfig { inherit pkgs system; };
+
+      # Read back off the option rather than repeated as a literal, so adding a
+      # profile to the enum in modules/gmarlervim/options/profiles.nix exposes a
+      # package for it without a second list to keep in sync.
+      profileNames = defaultConfig.options.gmarlervim.profile.type.functor.payload.values;
     in
     {
       nixvimConfigurations = {
         # Recommended default profile
         gmarlervim = defaultConfig;
       };
+
+      # A package per profile, so `nix profile install .#full` records a flake
+      # attribute and stays upgradeable; installing from `--impure --expr`
+      # does not, and `nix profile upgrade` skips it. `.#default` and
+      # `.#${defaultProfile}` are the same derivation.
+      packages = lib.genAttrs profileNames (
+        profile:
+        (
+          if profile == defaultProfile then defaultConfig else mkNixvimConfig { inherit pkgs system profile; }
+        ).config.build.package
+      );
 
       checks.gmarlervim = defaultConfig.config.build.test;
     };
