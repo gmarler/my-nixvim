@@ -16,7 +16,10 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
             auto-optimise-store = true
-            allow-import-from-derivation = false
+            # The nixvim input is patched via a derivation whose result is then
+            # imported, so evaluation cannot proceed with IFD disabled. See
+            # flake/input-patches.nix and patches/nixvim.
+            allow-import-from-derivation = true
             experimental-features = nix-command flakes
       - name: Setup Cachix
         uses: cachix/cachix-action@v17
