@@ -8,6 +8,7 @@
     }:
     let
       manualPackages = with pkgs; [
+        just
         nixd
         python3
         (writeShellScriptBin "new-plugin" ''
@@ -45,6 +46,7 @@
           echo "🚀 gmarlervim development shell"
           echo ""
           echo "🔧 Available commands:"
+          echo "  just --list              - List justfile recipes"
           echo "  new-plugin <name> <type> - Generate new plugin template"
           echo "  deadnix -e               - Check for unused Nix code"
           echo "  statix fix .             - Fix Nix linting issues"

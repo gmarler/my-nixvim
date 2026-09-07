@@ -3,6 +3,7 @@ _: {
     ./update.nix
     ./grammar-sizes.nix
     ./check-duplicates.nix
+    ./just.nix
     ./pack-dir.nix
     ./profile.nix
   ];
