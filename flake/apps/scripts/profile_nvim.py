@@ -121,7 +121,7 @@ def run_profile(nvim_bin, output_path, event="ui", interactive=False):
         return True
 
     # If headless didn't work, the profiler might not have
-    # triggered - try reading any Error
+    # triggered Try reading any error
     if result.returncode != 0:
         console.print(
             f"[yellow]Warning: nvim exited with code {result.returncode}[/yellow]"
@@ -182,7 +182,7 @@ def average_profiles(profiles):
         avg["by_plugin"].append(
             {
                 "name": name,
-                "time_ms": sum(data["time"]) / len(data["times"]),
+                "time_ms": sum(data["times"]) / len(data["times"]),
                 "count": int(sum(data["counts"]) / len(data["counts"])),
             }
         )
@@ -217,7 +217,7 @@ def compare_profiles(baseline, current):
         diff["delta_ms"] = curr_time - base_time
         diff["delta_percent"] = ((curr_time - base_time) / base_time) * 100
 
-    # compare by plugins
+    # Compare by plugin
     base_plugins = {p["name"]: p for p in baseline.get("by_plugin", [])}
     curr_plugins = {p["name"]: p for p in current.get("by_plugin", [])}
 
@@ -243,11 +243,11 @@ def compare_profiles(baseline, current):
         elif delta > 0.1:  # Regression threshold
             diff["regressions"].append(entry)
 
-        # Sort by absolute delta
-        diff["improvements"].sort(key=lambda x: x["delta_ms"])
-        diff["regressions"].sort(key=lambda x: x["delta_ms"], reverse=True)
+    # Sort by absolute delta
+    diff["improvements"].sort(key=lambda x: x["delta_ms"])
+    diff["regressions"].sort(key=lambda x: x["delta_ms"], reverse=True)
 
-        return diff
+    return diff
 
 
 def print_profile_summary(profile, title="Profile Summary"):
@@ -305,15 +305,15 @@ def print_comparison(diff):
                 f"([green]{entry['delta_ms']:.2f}ms[/green])"
             )
 
-            if diff["regressions"]:
-                console.print("\n[red]Top Regressions:[/red]")
-                for entry in diff["regressions"][:5]:
-                    console.print(
-                        f"  {entry['name']}: "
-                        f"{entry['baseline_ms']:.2f}ms -> "
-                        f"{entry['current_ms']:.2f}ms "
-                        f"{entry['delta_ms']:.2f}ms[/red])"
-                    )
+    if diff["regressions"]:
+        console.print("\n[red]Top Regressions:[/red]")
+        for entry in diff["regressions"][:5]:
+            console.print(
+                f"  {entry['name']}: "
+                f"{entry['baseline_ms']:.2f}ms -> "
+                f"{entry['current_ms']:.2f}ms "
+                f"([red]+{entry['delta_ms']:.2f}ms[/red])"
+            )
 
 
 def main():
@@ -340,7 +340,7 @@ def main():
         "--profile",
         choices=["default", "minimal", "basic", "standard", "debug"],
         default="default",
-        help="profile preset to build and profile (default: default)",
+        help="Profile preset to build and profile (default: default)",
     )
     parser.add_argument(
         "--package",
@@ -363,11 +363,11 @@ def main():
         "-i",
         "--interactive",
         action="store_true",
-        help="run nvim interactively in terminal (for accurate profiling)",
+        help="Run nvim interactively in terminal (for accurate profiling)",
     )
     args = parser.parse_args()
 
-    # set default iterations based on whether we're doing baseline
+    # Set default iterations based on whether we're doing baseline
     if args.iterations is None:
         args.iterations = 10 if args.baseline else 5
 
@@ -479,6 +479,7 @@ def main():
             console.print(
                 f"[yellow]No baseline found for profile "
                 f"'{profile}' event '{args.event}'. "
+                f"Run with --baseline --profile {profile} "
                 f"--event {args.event} first.[/yellow]"
             )
 

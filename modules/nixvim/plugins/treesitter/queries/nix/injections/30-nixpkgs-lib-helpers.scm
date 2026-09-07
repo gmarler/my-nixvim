@@ -1,48 +1,78 @@
-{
-  config,
-  lib,
-  ...
-}:
-let
-  injectionQueryDir = ./queries/nix/injections;
-  injectionQueryFiles =
-    path:
-    lib.filter (name: lib.hasSuffix ".scm" name) (
-      builtins.attrNames (lib.filterAttrs (_: type: type == "regular") (builtins.readDir path))
-    );
-  injectionQuery =
-    path:
-    lib.concatStringsSep "\n\n" (
-      map (name: builtins.readFile (path + "/${name}")) (injectionQueryFiles path)
-    );
-in
-{
+;; =============================================================================
+;; NIXPKGS LIB LANGUAGE HELPERS
+;; Matches helpers whose string argument is source/data for another language.
+;; =============================================================================
+((apply_expression
+  function: (select_expression
+    expression: (variable_expression name: (identifier) @_lib)
+    attrpath: (attrpath) @helper)
+  argument: [
+    (string_expression (string_fragment) @injection.content)
+    (indented_string_expression (string_fragment) @injection.content)
+  ])
+  (#eq? @_lib "lib")
+  (#eq? @helper "generators.mkLuaInline")
+  (#set! injection.language "lua"))
 
-  # Nix injections
-  extraFiles = lib.mkIf config.plugins.treesitter.nixvimInjections {
-    "after/queries/nix/injections.scm".text = injectionQuery injectionQueryDir;
-  };
+((apply_expression
+  function: (select_expression
+    expression: (variable_expression name: (identifier) @_lib)
+    attrpath: (attrpath) @helper)
+  argument: [
+    (string_expression (string_fragment) @injection.content)
+    (indented_string_expression (string_fragment) @injection.content)
+  ])
+  (#eq? @_lib "lib")
+  (#eq? @helper "mkLuaInline")
+  (#set! injection.language "lua"))
 
-  plugins = {
-    treesitter = {
-      # nvim-treesitter documentation
-      # See: https://github.com/nvim-treesitter/nvim-treesitter
-      enable = true;
+((apply_expression
+  function: (variable_expression name: (identifier) @helper)
+  argument: [
+    (string_expression (string_fragment) @injection.content)
+    (indented_string_expression (string_fragment) @injection.content)
+  ])
+  (#eq? @helper "mkLuaInline")
+  (#set! injection.language "lua"))
 
-      folding.enable = true;
-      highlight.enable = true;
-      indent.enable = true;
+((apply_expression
+  function: (select_expression
+    expression: (variable_expression name: (identifier) @_lib)
+    attrpath: (attrpath) @helper)
+  argument: [
+    (string_expression (string_fragment) @injection.content)
+    (indented_string_expression (string_fragment) @injection.content)
+  ])
+  (#eq? @_lib "lib")
+  (#eq? @helper "fromJSON")
+  (#set! injection.language "json"))
 
-      grammarPackages =
-        if config.gmarlervim.performance.treesitter.whitelistMode then
-          lib.filter (
-            g: lib.elem g.pname config.gmarlervim.performance.treesitter.includedGrammars
-          ) config.plugins.treesitter.package.allGrammars
-        else
-          lib.filter (
-            g: !(lib.elem g.pname config.gmarlervim.performance.treesitter.excludedGrammars)
-          ) config.plugins.treesitter.package.allGrammars;
-      nixvimInjections = true;
-    };
-  };
-}
+((apply_expression
+  function: (variable_expression name: (identifier) @helper)
+  argument: [
+    (string_expression (string_fragment) @injection.content)
+    (indented_string_expression (string_fragment) @injection.content)
+  ])
+  (#eq? @helper "fromJSON")
+  (#set! injection.language "json"))
+
+((apply_expression
+  function: (select_expression
+    expression: (variable_expression name: (identifier) @_lib)
+    attrpath: (attrpath) @helper)
+  argument: [
+    (string_expression (string_fragment) @injection.content)
+    (indented_string_expression (string_fragment) @injection.content)
+  ])
+  (#eq? @_lib "lib")
+  (#eq? @helper "fromTOML")
+  (#set! injection.language "toml"))
+
+((apply_expression
+  function: (variable_expression name: (identifier) @helper)
+  argument: [
+    (string_expression (string_fragment) @injection.content)
+    (indented_string_expression (string_fragment) @injection.content)
+  ])
+  (#eq? @helper "fromTOML")
+  (#set! injection.language "toml"))

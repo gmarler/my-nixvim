@@ -17,101 +17,103 @@ _: {
             import os
             from pathlib import Path
 
+
             def run_command(cmd):
-              """Run command and return output"""
-              try:
-                result = subprocess.run(
-                  cmd, shell=True, capture_output=True, text=True, check=True
-                )
-                return result.stdout.strip()
-              except subprocess.CalledProcessError as e:
-                print(f"Error running command: {cmd}")
-                print(f"Error: {e.stderr}")
-                sys.exit(1)
+                """Run command and return output"""
+                try:
+                    result = subprocess.run(
+                        cmd, shell=True, capture_output=True, text=True, check=True
+                    )
+                    return result.stdout.strip()
+                except subprocess.CalledProcessError as e:
+                    print(f"Error running command: {cmd}")
+                    print(f"Error: {e.stderr}")
+                    sys.exit(1)
 
 
             ${profileBuildCommandPython}
 
             def main():
-              # check for --path flag
-              path_only = "--path" in sys.argv
-              if path_only:
-                sys.argv.remove("--path")
+                # Check for --path flag
+                path_only = "--path" in sys.argv
+                if path_only:
+                    sys.argv.remove("--path")
 
-              profile = sys.argv[1] if len(sys.argv) > 1 else "default"
+                profile = sys.argv[1] if len(sys.argv) > 1 else "default"
 
-              if not path_only:
-                print(f"Building nixvim package for profile: {profile}...")
-
-              try:
-                nixvim_path = run_command(build_command_for_profile(profile))
-              except SystemExit:
                 if not path_only:
-                  print("Build failed.")
-                return
+                    print(f"Building nixvim package for profile: {profile}...")
 
-              if not path_only:
-                print("Extracting pack directory from nvim wrapper...")
+                try:
+                    nixvim_path = run_command(build_command_for_profile(profile))
+                except SystemExit:
+                    if not path_only:
+                        print("Build failed.")
+                    return
+
+                if not path_only:
+                    print("Extracting pack directory from nvim wrapper...")
                 nvim_wrapper = Path(nixvim_path) / "bin" / "nvim"
 
-              if not nvim_wrapper.exists():
-                if not path_only:
-                  print(f"Error: nvim wrapper not found at {nvim_wrapper}")
-                sys.exit(1)
+                if not nvim_wrapper.exists():
+                    if not path_only:
+                        print(f"Error: nvim wrapper not found at {nvim_wrapper}")
+                    sys.exit(1)
 
-              with open(nvim_wrapper, "r") as f:
-                content = f.read()
+                with open(nvim_wrapper, "r") as f:
+                    content = f.read()
 
-              match = re.search(r'packpath\^=([^"]*)', content)
-              if not match:
-                if not path_only:
-                  print("ERROR: Could not find packpath in nvim wrapper")
-                sys.exit(1)
+                match = re.search(r'packpath\^=([^"]*)', content)
+                if not match:
+                    if not path_only:
+                        print("ERROR: Could not find packpath in nvim wrapper")
+                    sys.exit(1)
 
-              pack_store_path = match.group(1)
-              pack_dir = Path(pack_store_path) / "pack" / "myNeovimPackages"
+                pack_store_path = match.group(1)
+                pack_dir = Path(pack_store_path) / "pack" / "myNeovimPackages"
 
-              if path_only:
-                print(pack_dir)
-                return
+                if path_only:
+                    print(pack_dir)
+                    return
 
-              print(f"Pack directory: {pack_dir}")
+                print(f"Pack directory: {pack_dir}")
 
-              start_dir = pack_dir / "start"
-              opt_dir = pack_dir / "opt"
+                start_dir = pack_dir / "start"
+                opt_dir = pack_dir / "opt"
 
-              if not start_dir.exists() or not opt_dir.exists():
-                print("Start/Opt directory missing. No duplicates possible.")
-                return
+                if not start_dir.exists() or not opt_dir.exists():
+                    print("Start/Opt directory missing. No duplicates possible.")
+                    return
 
-              start_plugins = set(os.listdir(start_dir))
-              opt_plugins = set(os.listdir(opt_dir))
+                start_plugins = set(os.listdir(start_dir))
+                opt_plugins = set(os.listdir(opt_dir))
 
-              duplicates = start_plugins.intersection(opt_plugins)
+                duplicates = start_plugins.intersection(opt_plugins)
 
-              print("\n" + "=" * 50)
-              if duplicates:
-                print(
-                  f"Found {len(duplicates)) duplicate plugins "
-                  f"(in both start/ and opt/):"
-                )
+                print("\n" + "=" * 50)
+                if duplicates:
+                    print(
+                        f"Found {len(duplicates)} duplicate plugins "
+                        f"(in both start/ and opt/):"
+                    )
+                    print("-" * 50)
+                    for plugin in sorted(duplicates):
+                        print(f"- {plugin}")
+                    print("-" * 50)
+                    print("These plugins are likely configured to be lazy-loaded")
+                    print("but are being pulled into 'start' by dependencies.")
+                else:
+                    print("No duplicate plugins found! 🎉")
                 print("-" * 50)
-                for plugin in sorted(duplicates):
-                  print(f"- {plugin}")
-                print("-" * 50)
-                print("These plugins are likely configured to be lazy-loaded")
-                print("but are being pulled into 'start' by dependencies.")
-              else:
-                print("No duplicate plugins found! 🎉")
-              print("-" * 50)
-              print(f"Location for manual inspection:\n{pack_dir}")
-              print("=" * 50 + "\n")
+                print(f"Location for manual inspection:\n{pack_dir}")
+                print("=" * 50 + "\n")
+
 
             if __name__ == "__main__":
-              main()
+                main()
           ''
         );
-        meta.description = "Identify plugins that exist in both start and opt directories.";
+        meta.description = "Identify plugins that exist in both start and opt directories";
       };
     };
 }
