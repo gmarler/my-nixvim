@@ -56,53 +56,55 @@ in
       };
 
       settings = {
-        # Upstream declares env.CLAUDE_CODE_OAUTH_TOKEN = "CLAUDE_CODE_OAUTH_TOKEN".
-        # When that variable is unset, get_env_vars falls through to the literal
-        # string, so handlers.auth sees a non-empty token, exports the literal
-        # into the child environment and reports the session authenticated,
-        # skipping ACP auth negotiation. Returning nil drops the key instead, so
-        # negotiation proceeds against the already-authenticated CLI. A real
-        # token, when present, still behaves as upstream.
-        adapters.acp.claude_code.__raw = ''
-          function()
-            return require("codecompanion.adapters").extend("claude_code", {
-              env = {
-                CLAUDE_CODE_OAUTH_TOKEN = function()
-                  return os.getenv("CLAUDE_CODE_OAUTH_TOKEN")
-                end,
-              },
-            })
-          end
-        '';
-
-        adapters.acp.codex.__raw = ''
-          function()
-            return require("codecompanion.adapters").extend("codex", {
-              defaults = {
-                auth_method = "chatgpt",
-              },
-            })
-          end
-        '';
-
-        adapters.http.llamacpp.__raw = ''
-          function()
-            return require("codecompanion.adapters").extend("openai_compatible", {
-              env = {
-                url = ${builtins.toJSON loc.localEndpoint},
-                api_key = "unused",
-              },
-
-              schema = {
-                model = {
-                  default = os.getenv(${builtins.toJSON loc.localModelEnvVar})
-                    or ${builtins.toJSON loc.localModel},
-                  choices = ${luaList loc.localModels},
+        adapters = {
+          # Upstream declares env.CLAUDE_CODE_OAUTH_TOKEN = "CLAUDE_CODE_OAUTH_TOKEN".
+          # When that variable is unset, get_env_vars falls through to the literal
+          # string, so handlers.auth sees a non-empty token, exports the literal
+          # into the child environment and reports the session authenticated,
+          # skipping ACP auth negotiation. Returning nil drops the key instead, so
+          # negotiation proceeds against the already-authenticated CLI. A real
+          # token, when present, still behaves as upstream.
+          acp.claude_code.__raw = ''
+            function()
+              return require("codecompanion.adapters").extend("claude_code", {
+                env = {
+                  CLAUDE_CODE_OAUTH_TOKEN = function()
+                    return os.getenv("CLAUDE_CODE_OAUTH_TOKEN")
+                  end,
                 },
-              },
-            })
-          end
-        '';
+              })
+            end
+          '';
+
+          acp.codex.__raw = ''
+            function()
+              return require("codecompanion.adapters").extend("codex", {
+                defaults = {
+                  auth_method = "chatgpt",
+                },
+              })
+            end
+          '';
+
+          http.llamacpp.__raw = ''
+            function()
+              return require("codecompanion.adapters").extend("openai_compatible", {
+                env = {
+                  url = ${builtins.toJSON loc.localEndpoint},
+                  api_key = "unused",
+                },
+
+                schema = {
+                  model = {
+                    default = os.getenv(${builtins.toJSON loc.localModelEnvVar})
+                      or ${builtins.toJSON loc.localModel},
+                    choices = ${luaList loc.localModels},
+                  },
+                },
+              })
+            end
+          '';
+        };
 
         strategies = {
           chat = {
