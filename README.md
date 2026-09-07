@@ -55,7 +55,8 @@ just install
 Unlike `nix run`, a profile install creates a garbage collection root, so the
 build survives garbage collection instead of being downloaded again. Run
 `just upgrade` to rebuild it from the working tree, uncommitted changes
-included. See `Using the Flake` in the docs for the details.
+included. The flake ships `just` itself, so `nix run .#just install` works if
+you do not have it installed. See `Using the Flake` in the docs for the details.
 
 Install it from Home Manager via `home.packages`:
 
@@ -159,6 +160,7 @@ nix develop
 nix run
 
 # Install/rebuild the dedicated Nix profile (uncommitted changes included)
+# Prefix with `nix run .#` if just is not installed: nix run .#just install
 just install
 just upgrade
 

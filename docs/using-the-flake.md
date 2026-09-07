@@ -32,6 +32,23 @@ built once and then kept.
 just install
 ```
 
+`just` does not have to be installed. The flake ships it, so the same recipe
+runs on a machine that has nothing but Nix:
+
+```bash
+nix run .#just install
+```
+
+Every recipe works this way, so `upgrade` and `wipe-history` below can be run
+the same way. Recipe names pass straight through, but flags must get past the
+wrapper first: `nix run .#just -- --list` lists every recipe, while
+`nix run .#just --list` fails with `unrecognised flag '--list'`.
+
+The dev shell also provides `just`, so `nix develop` followed by `just install`
+works too. Prefer `nix run .#just` when all you want is the recipe: the app is
+built from the default partition, while the dev shell pulls in the whole
+development input set behind it.
+
 That is equivalent to:
 
 ```bash
