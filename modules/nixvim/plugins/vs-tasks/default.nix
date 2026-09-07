@@ -1,0 +1,39 @@
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  # vs-tasks.nvim documentation
+  # See: https://github.com/EthanJWright/vs-tasks.nvim
+  extraPlugins = lib.mkIf (config.gmarlervim.tasks.tool == "vs-tasks") [
+    pkgs.vimPlugins.vs-tasks-nvim
+  ];
+
+  # Setup vs-tasks
+  plugins.lz-n.plugins = lib.mkIf (config.gmarlervim.tasks.tool == "vs-tasks") [
+    {
+      __unkeyed-1 = "vs-tasks-nvim";
+      lazy = false;
+      after.__raw = ''
+        function()
+          require("vstask").setup({
+            picker = "${config.gmarlervim.picker.tool}"
+          })
+        end
+      '';
+    }
+  ];
+
+  keymaps = lib.mkIf (config.gmarlervim.tasks.tool == "vs-tasks") [
+    {
+      mode = "n";
+      key = "<leader>RT";
+      action = "<cmd>VstaskViewTasks<CR>";
+      options = {
+        desc = "Find tasks";
+      };
+    }
+  ];
+}
