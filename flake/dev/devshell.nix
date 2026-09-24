@@ -32,7 +32,9 @@
         ])
       ) config.pre-commit.settings.enabledPackages;
 
-      packages = lib.unique (manualPackages ++ shellHookPackages);
+      packages = lib.unique (
+        [ config.pre-commit.settings.package ] ++ manualPackages ++ shellHookPackages
+      );
     in
     {
       devShells.default = pkgs.mkShell {

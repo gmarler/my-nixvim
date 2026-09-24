@@ -6,6 +6,7 @@ Noice = "Noice"
 Parm = "Parm"
 # Nixvim directives
 annote = "annote"
+format_annote = "format_annote"
 # Keymaps
 fo = "fo"
 aso = "aso"
@@ -13,6 +14,7 @@ ues = "ues"
 ue = "ue"
 ges = "ges"
 aas = "aas"
+bse = "bse"
 # Vim commands
 enew = "enew"
 iput = "iput"

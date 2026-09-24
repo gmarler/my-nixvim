@@ -4,6 +4,8 @@
   ...
 }:
 {
+  autoconfigure = true;
+
   # ALWAYS use the clipboard for ALL operations (instead of interacting with
   # the "+" and/or "*" registers explicitly)
   # Note: The basic clipboard setup below is overridden by vim.g.clipboard in globals
