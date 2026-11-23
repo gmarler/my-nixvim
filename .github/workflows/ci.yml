@@ -28,7 +28,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Install Nix
-        uses: cachix/install-nix-action@v31
+        uses: cachix/install-nix-action@v32
         with:
           extra_nix_config: |
             auto-optimise-store = true
@@ -57,7 +57,7 @@ jobs:
       - name: Check Nix flake inputs
         uses: DeterminateSystems/flake-checker-action@v13
       - name: Install Nix
-        uses: cachix/install-nix-action@v31
+        uses: cachix/install-nix-action@v32
         with:
           install_url: https://nixos.org/nix/install
           extra_nix_config: |
